@@ -20,3 +20,4 @@ rabbitmq-pika-flask==1.2.31
 jsonschema==4.17.3
 pytz
 injector
+cloudinary

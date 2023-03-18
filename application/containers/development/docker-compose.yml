@@ -10,6 +10,11 @@ x-common-slack-variables: &common-slack-variables
   SLACK_CLIENT_SECRET: ""
   SLACK_SIGNING_SECRET: ""
 
+x-common-cloudinary-variables: &common-cloudinary-variables
+  CLOUDINARY_CLOUD_NAME: ""
+  CLOUDINARY_API_KEY: ""
+  CLOUDINARY_API_SECRET: ""
+
 x-common-rabbitmq-variables: &common-rabbitmq-variables
   MQ_URL: amqp://guest:guest@rabbitmq:5672/%2F
   MQ_EXCHANGE: Pizza_Exchange
@@ -63,6 +68,7 @@ services:
       FLASK_RUN_PORT: "3000"
       FRONTEND_URI: "https://localhost"
       <<: *common-slack-variables
+      <<: *common-cloudinary-variables
     networks:
       - database-network
       - proxy-network

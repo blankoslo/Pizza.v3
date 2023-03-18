@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import sys
+import cloudinary
 
 from app.db import db, migrate
 from app.api import api, ma
@@ -12,6 +13,7 @@ from app.services.invitation_service import InvitationService
 from app.services.event_service import EventService
 from app.services.restaurant_service import RestaurantService
 from app.services.image_service import ImageService
+from app.services.slack_organization_service import SlackOrganizationService
 
 from flask import Flask
 from flask_smorest import Blueprint
@@ -80,6 +82,8 @@ def create_app(environment):
     restaurant_service = RestaurantService()
     invitation_service = InvitationService(app.logger, event_service, restaurant_service)
     image_service = ImageService()
+    slack_organization_service = SlackOrganizationService(app.logger)
+    injector.binder.bind(SlackOrganizationService, to=slack_organization_service)
     injector.binder.bind(EventService, to=event_service)
     injector.binder.bind(InvitationService, to=invitation_service)
     injector.binder.bind(RestaurantService, to=restaurant_service)
@@ -121,6 +125,14 @@ def create_app(environment):
 
     # Set up / register blueprints
     register_blueprints(api)
+
+    # Set up cloudinary
+    cloudinary.config(
+        cloud_name=app.config["CLOUDINARY_CLOUD_NAME"],
+        api_key=app.config["CLOUDINARY_API_KEY"],
+        api_secret=app.config["CLOUDINARY_API_SECRET"],
+        secure=True,
+    )
 
     return app
 
