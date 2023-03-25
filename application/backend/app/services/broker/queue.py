@@ -11,7 +11,8 @@ from app.services.broker.schemas.message import MessageSchema
 
 from app.services.broker.handlers.message_handler import MessageHandler
 
-@broker.queue(routing_key = os.environ["MQ_RPC_KEY"], exchange_type = ExchangeType.DIRECT, props_needed = ["correlation_id", "reply_to"])
+
+@broker.queue(routing_key = os.environ["MQ_RPC_KEY"], exchange_type=ExchangeType.DIRECT, props_needed=["correlation_id", "reply_to"])
 def rpc(routing_key, body, correlation_id, reply_to):
     logger = injector.get(logging.Logger)
     try:

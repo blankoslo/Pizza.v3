@@ -36,8 +36,8 @@ class InvitationService:
         return InvitationRepository.get_by_filter(filters={key: value}, team_id=team_id)
 
     def get_by_id(self, id, team_id):
-        invitation = InvitationRepository.get_by_id(id)
-        if invitation.event.slack_organization_id != team_id:
+        invitation = InvitationRepository.get_by_id(event_id=id[0], slack_id=id[1])
+        if invitation is None or invitation.event.slack_organization_id != team_id:
             return None
         return invitation
 

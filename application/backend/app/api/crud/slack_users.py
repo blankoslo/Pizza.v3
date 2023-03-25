@@ -40,5 +40,5 @@ class SlackUsersById(views.MethodView):
         slack_user_service = injector.get(SlackUserService)
         updated_slack_user = slack_user_service.update(slack_user_id=slack_user_id, data=update_data, team_id=current_user.slack_organization_id)
         if updated_slack_user is None:
-            abort(422, message = "User not found.")
+            abort(404, message = "User not found.")
         return updated_slack_user

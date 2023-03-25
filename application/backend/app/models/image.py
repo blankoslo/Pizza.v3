@@ -15,7 +15,7 @@ class Image(CrudMixin, db.Model):
   slack_organization_id = sa.Column(sa.String, sa.ForeignKey('slack_organizations.team_id'), nullable=False)
 
   def __repr__(self):
-      return "<Image(id={self.id!r})>".format(self=self)
+      return "<Image(id={self.cloudinary_id!r})>".format(self=self)
 
   @classmethod
   def get(cls, filters = None, order_by = None, page = None, per_page = None, team_id = None, session=db.session):

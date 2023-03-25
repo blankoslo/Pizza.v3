@@ -1,4 +1,4 @@
-import os
+from flask import current_app
 
 from app.services.broker.temp.RabbitMQ import RabbitMQ
 
@@ -20,4 +20,4 @@ class BrokerService:
             'type': type,
             'payload': response
         })
-        broker.send(message, os.environ["MQ_EVENT_KEY"], ExchangeType.DIRECT, 5, "v1.0.0")
+        broker.send(message, current_app.config["MQ_EVENT_KEY"], ExchangeType.DIRECT, 5, "v1.0.0")

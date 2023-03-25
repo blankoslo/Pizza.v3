@@ -1,0 +1,32 @@
+name: Build and Test
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, closed ]
+    branches:
+      - main
+    paths:
+      - 'application/backend/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'application/backend/**'
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.13
+      - name: Install dependencies
+        working-directory: application/backend
+        run: pip install -r requirements.txt
+      - name: Install test dependencies
+        working-directory: application/backend
+        run: pip install -r requirements-test.txt
+      - name: Run Pytest
+        working-directory: application/backend
+        run: pytest tests

@@ -4,7 +4,7 @@ from datetime import datetime
 
 from app.models.event import Event
 from app.models.restaurant import Restaurant
-from app.models.group import Group
+from app.repositories.group_repository import GroupRepository
 from app.repositories.invitation_repository import InvitationRepository
 from app.models.event_schema import EventSchema
 from app.services.broker.schemas.deleted_event_event import DeletedEventEventSchema
@@ -93,7 +93,7 @@ class EventService:
             return None
 
         if data.group_id is not None:
-            group = Group.get_by_id(data.group_id)
+            group = GroupRepository.get_by_id(data.group_id)
             if group.slack_organization_id != team_id:
                 return None
 
@@ -107,6 +107,11 @@ class EventService:
 
         old_time = event.time
         old_restaurant_name = event.restaurant.name
+
+        if 'restaurant_id' in data:
+            new_restaurant = Restaurant.get_by_id(data['restaurant_id'])
+            if new_restaurant.slack_organization_id != team_id:
+                return None
 
         updated_event = Event.update(event_id, data)
 

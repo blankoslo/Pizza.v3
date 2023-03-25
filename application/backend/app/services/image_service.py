@@ -18,6 +18,8 @@ class ImageService:
         image = Image.get_by_id(image_id)
         if image is not None and image.slack_organization_id == team_id:
             Image.delete(image_id)
+            return True
+        return False
 
     def add(self, data, team_id):
         image_schema = ImageSchema()

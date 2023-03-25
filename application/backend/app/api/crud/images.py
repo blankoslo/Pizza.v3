@@ -40,4 +40,6 @@ class ImagesById(views.MethodView):
     def delete(self, image_id):
         """Delete image"""
         image_service = injector.get(ImageService)
-        image_service.delete(image_id=image_id, team_id=current_user.slack_organization_id)
+        success = image_service.delete(image_id=image_id, team_id=current_user.slack_organization_id)
+        if not success:
+            abort(400, message="Something went wrong.")

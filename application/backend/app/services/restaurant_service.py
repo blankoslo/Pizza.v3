@@ -30,3 +30,5 @@ class RestaurantService:
         if restaurant is not None and restaurant.slack_organization_id == team_id:
             updated_restaurant = RestaurantSchema().load(data={"deleted": True}, instance=restaurant, partial=True)
             Restaurant.upsert(updated_restaurant)
+            return True
+        return False

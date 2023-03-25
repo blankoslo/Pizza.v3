@@ -41,5 +41,5 @@ class GroupUpdateSchema(SQLAlchemySchema):
     class Meta(GroupSchema.Meta):
         load_instance = False
 
-    name = fields.String(required=True)
-    members = fields.List(fields.String, required=True)
+    name = fields.String()
+    members = fields.List(fields.String)

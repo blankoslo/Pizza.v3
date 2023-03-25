@@ -48,7 +48,7 @@ class RestaurantsById(views.MethodView):
         restaurant_service = injector.get(RestaurantService)
         updated_restaurant = restaurant_service.update(restaurant_id=restaurant_id, data=update_data, team_id=current_user.slack_organization_id)
         if updated_restaurant is None:
-            abort(422, message = "Restaurant not found.")
+            abort(404, message = "Restaurant not found.")
         return updated_restaurant
 
     @bp.response(204)
@@ -56,4 +56,6 @@ class RestaurantsById(views.MethodView):
     def delete(self, restaurant_id):
         """Delete restaurant"""
         restaurant_service = injector.get(RestaurantService)
-        restaurant_service.delete(restaurant_id=restaurant_id, team_id=current_user.slack_organization_id)
+        success = restaurant_service.delete(restaurant_id=restaurant_id, team_id=current_user.slack_organization_id)
+        if not success:
+            abort(404, message="Restaurant not found.")

@@ -21,7 +21,7 @@ class Invitations(views.MethodView):
         return invitations
 
 @bp.route("/<event_id>")
-class InvitationsById(views.MethodView):
+class InvitationsByEventId(views.MethodView):
     @bp.response(200, InvitationResponseSchema(many=True))
     @jwt_required()
     def get(self, event_id):
@@ -30,7 +30,7 @@ class InvitationsById(views.MethodView):
         return invitation_service.get_by_filter(key="event_id", value=event_id, team_id=current_user.slack_organization_id)
 
 @bp.route("/<event_id>/<user_id>")
-class InvitationsById(views.MethodView):
+class InvitationsByEventAndUserId(views.MethodView):
     @bp.response(200, InvitationResponseSchema)
     @jwt_required()
     def get(self, event_id, user_id):
@@ -49,5 +49,5 @@ class InvitationsById(views.MethodView):
         invitation_service = injector.get(InvitationService)
         updated_invitation = invitation_service.update_invitation_status(event_id=event_id, user_id=user_id, rsvp=update_data['rsvp'], team_id=current_user.slack_organization_id)
         if updated_invitation is None:
-            abort(422, message = "Invitation not found.")
+            abort(404, message = "Invitation not found.")
         return updated_invitation
