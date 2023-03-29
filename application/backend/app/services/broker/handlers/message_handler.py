@@ -2,6 +2,7 @@ from marshmallow import Schema
 
 from app.services.broker import BrokerService
 
+
 class MessageHandler:
     handlers = {}
 

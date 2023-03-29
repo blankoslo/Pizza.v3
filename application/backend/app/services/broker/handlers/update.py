@@ -8,6 +8,7 @@ from app.services.injector import injector
 from app.services.invitation_service import InvitationService
 from app.services.slack_user_service import SlackUserService
 
+
 @MessageHandler.handle('update_invitation', UpdateInvitationRequestSchema, UpdateInvitationResponseSchema)
 def update_invitation(request: dict):
     logger = injector.get(logging.Logger)

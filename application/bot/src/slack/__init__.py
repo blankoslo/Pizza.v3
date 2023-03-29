@@ -136,6 +136,7 @@ def handle_rsvp_withdraw(ack, body, context):
             logger.warning("failed to withdraw invitation for %s", user_id)
             ba.send_pizza_invite_withdraw_failure(channel_id=channel_id, ts=ts, old_blocks=blocks, slack_client=client)
 
+
 def handle_file_share(event, say, token, client):
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:

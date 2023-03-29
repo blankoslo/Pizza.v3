@@ -1,5 +1,3 @@
-from datetime import datetime
-import os
 import logging
 
 from app.services.broker.handlers.message_handler import MessageHandler
@@ -15,6 +13,7 @@ from app.services.invitation_service import InvitationService
 from app.services.slack_user_service import SlackUserService
 from app.services.event_service import EventService
 from app.services.slack_organization_service import SlackOrganizationService
+
 
 @MessageHandler.handle('withdraw_invitation', WithdrawInvitationRequestSchema, WithdrawInvitationResponseSchema)
 def withdraw_invitation(request: dict):

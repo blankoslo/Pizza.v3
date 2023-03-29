@@ -7,6 +7,7 @@ from app.services.broker.schemas.create_image import CreateImageRequestSchema, C
 from app.services.injector import injector
 from app.services.image_service import ImageService
 
+
 @MessageHandler.handle('create_image', CreateImageRequestSchema, CreateImageResponseSchema)
 def create_image(request: dict):
     logger = injector.get(logging.Logger)

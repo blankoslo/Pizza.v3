@@ -11,7 +11,14 @@ broker = RabbitMQ()
 class BrokerService:
     @classmethod
     def respond(cls, response, reply_to, correlation_id):
-        broker.sync_send(response, reply_to, ExchangeType.DIRECT, 5, "v1.0.0", correlation_id=correlation_id)
+        broker.sync_send(
+            body=response,
+            routing_key=reply_to,
+            exchange_type=ExchangeType.DIRECT,
+            retries=5,
+            message_version="v1.0.0",
+            correlation_id=correlation_id
+        )
 
     @classmethod
     def publish(cls, type, response):
@@ -20,4 +27,10 @@ class BrokerService:
             'type': type,
             'payload': response
         })
-        broker.send(message, current_app.config["MQ_EVENT_KEY"], ExchangeType.DIRECT, 5, "v1.0.0")
+        broker.send(
+            body=message,
+            routing_key=current_app.config["MQ_EVENT_KEY"],
+            exchange_type=ExchangeType.DIRECT,
+            retries=5,
+            message_version="v1.0.0"
+        )

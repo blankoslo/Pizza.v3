@@ -20,4 +20,12 @@ class SlackOrganization(db.Model):
     restaurants = relationship("Restaurant", backref="slack_organization", cascade="all, delete-orphan")
     groups = relationship("Group", backref="slack_organization", cascade="all, delete-orphan")
 
+    def __eq__(self, other):
+        if not isinstance(other, SlackOrganization):
+            return False
+        return self.team_id == other.team_id and self.team_name == other.team_name \
+            and self.enterprise_id == other.enterprise_id and self.enterprise_name == other.enterprise_name \
+            and self.app_id == other.app_id and self.bot_user_id == other.bot_user_id \
+            and self.access_token == other.access_token and self.channel_id == other.channel_id
+
 

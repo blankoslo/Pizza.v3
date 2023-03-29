@@ -12,6 +12,7 @@ from app.services.injector import injector
 
 from app.models.enums import RSVP
 
+
 @MessageHandler.handle('get_unanswered_invitations', outgoing_schema = GetUnansweredInvitationsResponseSchema)
 def get_unanswered_invitations():
     invitation_service = injector.get(InvitationService)

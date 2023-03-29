@@ -14,6 +14,7 @@ from app.models.slack_user import SlackUser
 from app.models.group import Group
 from app.models.image import Image
 from sqlalchemy import text
+from unittest.mock import MagicMock
 
 database_name = "pizza"
 postgresql = factories.postgresql_proc(dbname=database_name)
@@ -51,11 +52,16 @@ def environment_variables(postgresql_url, monkeypatch):
     monkeypatch.setenv('SECRET_KEY', 'verySuperSecretKey')
 
 
+@pytest.fixture(autouse=True)
+def mock_broker(mocker, environment_variables):
+    broker_mock = MagicMock()
+    mocker.patch('app.application.broker', broker_mock)
+    mocker.patch('app.services.broker.broker', broker_mock)
+    return broker_mock
+
 
 @pytest.fixture
-def app(mocker, environment_variables):
-    mocker.patch('app.application.broker')
-    mocker.patch('app.services.broker.broker')
+def app(mock_broker):
     config = {
         "base": "app.config.Base",
         "test": "app.config.Test",
@@ -66,7 +72,6 @@ def app(mocker, environment_variables):
     from app.application import create_app
     app = create_app(config)
     return app
-
 
 @pytest.fixture
 def db(app):
@@ -281,6 +286,7 @@ def invitations(db, events, slack_users, slack_organizations):
 
     db.session.add(invitation1)
     db.session.add(invitation2)
+    db.session.add(invitation3)
     db.session.commit()
     return {
         slack_organizations[0].team_id: [invitation1, invitation2],

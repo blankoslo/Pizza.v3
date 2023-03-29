@@ -18,6 +18,12 @@ class Group(db.Model):
         back_populates="groups"
     )
 
+    def __eq__(self, other):
+        if not isinstance(other, Group):
+            return False
+
+        return self.id == other.id and self.name == other.name and self.slack_organization_id == other.slack_organization_id
+
     def __repr__(self):
         return "<Group(id={self.id!r})>".format(self=self)
 

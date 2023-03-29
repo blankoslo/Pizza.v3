@@ -31,6 +31,7 @@ class Test(Base):
     CLOUDINARY_CLOUD_NAME = 'dontCareCloudinaryCloudName'
     CLOUDINARY_API_KEY = 'dontCareCloudinaryApiKey'
     CLOUDINARY_API_SECRET = 'dontCareCloudinaryApiSecret'
+    DAYS_IN_ADVANCE_TO_INVITE = 10
 
 
 class Production(Base):

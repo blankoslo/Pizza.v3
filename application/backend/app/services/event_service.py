@@ -1,6 +1,7 @@
 import os
 import pytz
 from datetime import datetime
+from flask import current_app
 
 from app.models.event import Event
 from app.models.restaurant import Restaurant
@@ -13,7 +14,7 @@ from app.services.broker import BrokerService
 
 class EventService:
     def get_events_in_need_of_invitations(self):
-        days_in_advance_to_invite = int(os.environ["DAYS_IN_ADVANCE_TO_INVITE"])
+        days_in_advance_to_invite = current_app.config["DAYS_IN_ADVANCE_TO_INVITE"]
         return Event.get_events_in_need_of_invitations(days_in_advance_to_invite=days_in_advance_to_invite)
 
     def finalize_event_if_complete(self, event_id):

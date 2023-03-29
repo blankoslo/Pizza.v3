@@ -31,6 +31,13 @@ class SlackUser(CrudMixin, db.Model):
         sa.CheckConstraint(priority <= 10, name='check_priority_range_max'),
     )
 
+    def __eq__(self, other):
+        if not isinstance(other, SlackUser):
+            return False
+        return self.slack_id == other.slack_id and self.current_username == other.current_username \
+            and self.first_seen == other.first_seen and self.active == other.active and self.priority == other.priority \
+            and self.email == other.email and self.slack_organization_id == other.slack_organization_id
+
     @classmethod
     def get(cls, filters = None, order_by = None, page = None, per_page = None, team_id = None, session=db.session):
         query = cls.query

@@ -28,6 +28,13 @@ class Event(CrudMixin, db.Model):
         sa.CheckConstraint(people_per_event <= 100, name='check_people_per_event_max'),
     )
 
+    def __eq__(self, other):
+        if not isinstance(other, Event):
+            return False
+        return self.id == other.id and self.time == other.time and self.restaurant_id == other.restaurant_id \
+            and self.finalized == other.finalized and self.slack_organization_id == other.slack_organization_id \
+            and self.people_per_event == other.people_per_event and self.group_id == other.group_id
+
     @classmethod
     def get(cls, filters, order_by = None, page = None, per_page = None, team_id = None, session=db.session):
         query = session.query(cls)
