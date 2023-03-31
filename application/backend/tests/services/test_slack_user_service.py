@@ -41,7 +41,7 @@ class TestSlackUserServiceSuit:
         test_slack_users = SlackUser.query.all()
         assert len(test_slack_users) == 1
 
-    def test_update(self, slack_organizations, slack_users, slack_user_service):
+    def test_update(self, db, slack_organizations, slack_users, slack_user_service):
         team_id = slack_organizations[0].team_id
         slack_user = slack_users.get(team_id)[0]
 
@@ -55,7 +55,7 @@ class TestSlackUserServiceSuit:
         }
         slack_user_service.update(slack_user_id=slack_user.slack_id, data=update_data, team_id=team_id)
 
-        updated_slack_user = SlackUser.query.get(slack_user.slack_id)
+        updated_slack_user = db.session.get(SlackUser, slack_user.slack_id)
         assert updated_slack_user.current_username == "dontCareNewUsername"
         assert updated_slack_user.first_seen == date
         assert updated_slack_user.active is False

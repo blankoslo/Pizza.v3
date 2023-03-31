@@ -37,8 +37,9 @@ def get_unanswered_invitations():
 
     return {'invitations': response_data}
 
+
 @MessageHandler.handle('get_unanswered_invitations_on_finished_events_and_set_not_attending', outgoing_schema = GetUnansweredInvitationsResponseSchema)
-def get_unanswered_invitations():
+def get_unanswered_invitations_on_finished_events_and_set_not_attending():
     invitation_service = injector.get(InvitationService)
 
     invitations = invitation_service.get_unanswered_invitations_on_finished_events_and_set_not_attending()
@@ -61,8 +62,9 @@ def get_unanswered_invitations():
 
     return {'invitations': response_data}
 
+
 @MessageHandler.handle('get_invited_unanswered_user_ids', outgoing_schema = GetInvitedUnansweredUserIdsResponseSchema)
-def get_unanswered_invitations():
+def get_invited_unanswered_user_ids():
     slack_user_service = injector.get(SlackUserService)
     user_ids = slack_user_service.get_invited_unanswered_user_ids()
     response_data = [user_id[0] for user_id in user_ids]
@@ -88,8 +90,8 @@ def get_slack_installation(request: dict):
         response['enterprise_id'] = slack_organization.enterprise_id
     if slack_organization.enterprise_name:
         response['enterprise_name'] = slack_organization.enterprise_name
-
     return response
+
 
 @MessageHandler.handle('get_slack_organizations', outgoing_schema = GetSlackOrganizationsResponseSchema)
 def get_slack_organizations():

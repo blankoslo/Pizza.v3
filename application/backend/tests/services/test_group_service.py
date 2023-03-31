@@ -33,21 +33,22 @@ class TestGroupServiceSuit:
         test_events = Group.query.all()
         assert len(test_events) == 1
 
-    def test_update(self, slack_organizations, groups, slack_users, group_service):
+    def test_update(self, db, slack_organizations, groups, slack_users, group_service):
         team_id = slack_organizations[0].team_id
         group = groups.get(team_id)[0]
         slack_users = slack_users.get(team_id)
 
         group_service.update(group_id=group.id, data={'name': 'dontCareNameNew1', 'members': [u.slack_id for u in slack_users]}, team_id=team_id)
 
-        updated_group = Group.query.get(group.id)
+        updated_group = db.session.get(Group, group.id)
         assert updated_group.name == 'dontCareNameNew1'
         assert [u.slack_id for u in updated_group.members] == [u.slack_id for u in slack_users]
 
-    def test_delete(self, slack_organizations, groups, group_service):
+    def test_delete(self, db, slack_organizations, groups, group_service):
         team_id = slack_organizations[0].team_id
         group = groups.get(team_id)[0]
-        group_service.delete(group_id=group.id, team_id=team_id)
-        test_group = Group.query.get(group.id)
+        group_id = group.id
+        group_service.delete(group_id=group_id, team_id=team_id)
+        test_group = db.session.get(Group, group_id)
 
         assert test_group is None

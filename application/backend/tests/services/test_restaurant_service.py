@@ -37,7 +37,7 @@ class TestRestaurantServiceSuit:
         test_restaurants = Restaurant.query.all()
         assert len(test_restaurants) == 1
 
-    def test_update(self, slack_organizations, restaurants, restaurant_service):
+    def test_update(self, db, slack_organizations, restaurants, restaurant_service):
         team_id = slack_organizations[0].team_id
         restaurant = restaurants.get(team_id)[0]
 
@@ -49,7 +49,7 @@ class TestRestaurantServiceSuit:
         }
         restaurant_service.update(restaurant_id=restaurant.id, data=update_data, team_id=team_id)
 
-        updated_restaurant = Restaurant.query.get(restaurant.id)
+        updated_restaurant = db.session.get(Restaurant, restaurant.id)
         assert updated_restaurant.name == "dontCareNewName"
         assert updated_restaurant.link == "dontCareNewLink"
         assert updated_restaurant.tlf == "dontCareNewTlf"

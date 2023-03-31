@@ -60,8 +60,8 @@ class TestEventServiceSuit:
         event_service.finalize_event_if_complete(event1.id)
         event_service.finalize_event_if_complete(event2.id)
 
-        assert Event.query.get(event1.id).finalized == True
-        assert Event.query.get(event2.id).finalized == False
+        assert db.session.get(Event, event1.id).finalized is True
+        assert db.session.get(Event, event2.id).finalized is False
 
     def test_unfinalize_event(self, db, slack_organizations, restaurants, event_service):
         event1 = Event(
@@ -76,7 +76,7 @@ class TestEventServiceSuit:
 
         event_service.unfinalize_event(event1.id)
 
-        assert Event.query.get(event1.id).finalized == False
+        assert db.session.get(Event, event1.id).finalized is False
 
     def test_get(self, slack_organizations, events, event_service):
         team_id = slack_organizations[0].team_id
@@ -94,11 +94,11 @@ class TestEventServiceSuit:
         test_event = event_service.get_by_id(event_id=event.id, team_id=team_id)
         assert event == test_event
 
-    def test_delete(self, slack_organizations, events, event_service, mock_broker):
+    def test_delete(self, db, slack_organizations, events, event_service, mock_broker):
         team_id = slack_organizations[0].team_id
         event = events.get(team_id)[0]
         event_service.delete(event_id=event.id, team_id=team_id)
-        test_event = Event.query.get(event.id)
+        test_event = db.session.get(Event, event.id)
 
         assert test_event is None
         mock_broker.send.assert_called()
@@ -120,7 +120,7 @@ class TestEventServiceSuit:
         test_events = Event.query.all()
         assert len(test_events) == 1
 
-    def test_update(self, slack_organizations, events, groups, restaurants, mock_broker, event_service):
+    def test_update(self, db, slack_organizations, events, groups, restaurants, mock_broker, event_service):
         team_id = slack_organizations[0].team_id
         event = events.get(team_id)[0]
         group = groups.get(team_id)[0]
@@ -139,7 +139,7 @@ class TestEventServiceSuit:
             team_id=team_id
         )
 
-        updated_event = Event.query.get(event.id)
+        updated_event = db.session.get(Event, event.id)
         assert updated_event.people_per_event == 8
         assert updated_event.time == date
         assert updated_event.restaurant_id == restaurant.id

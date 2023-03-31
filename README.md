@@ -58,6 +58,19 @@ Infrastructure:
 * Bot-app: contains an attachement to the database, an attachement to the papertrail instance, an attachement to the Rabbitmq instance, the bot worker
 * Frontend-app: contains a nginx instance with the build files from the `public` folder
 
+## Tests
+### Backend
+The tests for this application were written using the pytest testing framework. The tests cover the blueprints, services, and broker handlers.
+
+To run the backend tests, navigate to the backend directory of the project and run the following command:
+```
+python3 -m pytest tests
+```
+Optionally you can add the options `-k [name of test suit or test function]` (to only run certain tests), `-s` (to show print statements) and `-v`/`-vv` (to make tests more verbose).
+
+### Bot
+TODO
+
 ## Contributing Guidelines
 
 Please follow these guidelines when contributing to this project:

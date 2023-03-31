@@ -52,11 +52,11 @@ class CrudMixin():
 
     @classmethod
     def get_by_id(cls, id, session=db.session):
-        return cls.query.get(id)
+        return session.get(cls, id)
     
     @classmethod
     def delete(cls, id, session=db.session):
-        obj = cls.query.get(id)
+        obj = session.get(cls, id)
         if obj != None:
             session.delete(obj)
             session.commit()
@@ -74,7 +74,7 @@ class CrudMixin():
 
     @classmethod
     def update(cls, id, update_data, session=db.session):
-        obj = cls.query.get(id)
+        obj = session.get(cls, id)
         for attr, value in update_data.items():
             setattr(obj, attr, value)
         session.commit()

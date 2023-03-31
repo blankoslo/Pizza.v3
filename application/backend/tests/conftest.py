@@ -1,5 +1,7 @@
 import pytest
 import os
+import pytz
+from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
 from pytest_postgresql import factories
@@ -13,11 +15,12 @@ from app.models.invitation import Invitation
 from app.models.slack_user import SlackUser
 from app.models.group import Group
 from app.models.image import Image
+from app.db import db as _db
 from sqlalchemy import text
-from unittest.mock import MagicMock
 
 database_name = "pizza"
 postgresql = factories.postgresql_proc(dbname=database_name)
+
 
 @pytest.fixture(scope='session')
 def postgresql_database(postgresql):
@@ -54,9 +57,10 @@ def environment_variables(postgresql_url, monkeypatch):
 
 @pytest.fixture(autouse=True)
 def mock_broker(mocker, environment_variables):
-    broker_mock = MagicMock()
+    broker_mock = mocker.MagicMock()
     mocker.patch('app.application.broker', broker_mock)
     mocker.patch('app.services.broker.broker', broker_mock)
+    mocker.patch('app.services.broker.queue.broker', broker_mock)
     return broker_mock
 
 
@@ -75,13 +79,13 @@ def app(mock_broker):
 
 @pytest.fixture
 def db(app):
-    db = SQLAlchemy(app=app)
-    db.session.execute(text('DROP SCHEMA public CASCADE'))
-    # create the public schema
-    db.session.execute(text('CREATE SCHEMA public'))
-    # commit the changes
-    db.session.commit()
-    return db
+    with app.app_context():
+        _db.session.execute(text('DROP SCHEMA public CASCADE'))
+        # create the public schema
+        _db.session.execute(text('CREATE SCHEMA public'))
+        # commit the changes
+        _db.session.commit()
+        return _db
 
 
 @pytest.fixture(autouse=True)
@@ -94,8 +98,20 @@ def migrate(app, db):
 
 @pytest.fixture
 def slack_organizations(app, db, migrate):
-    slack_organization1 = SlackOrganization(team_id="testSlackOrganizationId1", access_token="dontCareBotToken", channel_id="dontCareChannelId")
-    slack_organization2 = SlackOrganization(team_id="testSlackOrganizationId2", access_token="dontCareBotToken", channel_id="dontCareChannelId")
+    slack_organization1 = SlackOrganization(
+        team_id="testSlackOrganizationId1",
+        access_token="dontCareBotToken",
+        channel_id="dontCareChannelId",
+        app_id="dontCareAppId",
+        bot_user_id="dontCareBotUserId"
+    )
+    slack_organization2 = SlackOrganization(
+        team_id="testSlackOrganizationId2",
+        access_token="dontCareBotToken",
+        channel_id="dontCareChannelId",
+        app_id="dontCareAppId",
+        bot_user_id="dontCareBotUserId"
+    )
     db.session.add(slack_organization1)
     db.session.add(slack_organization2)
     db.session.commit()
@@ -241,21 +257,22 @@ def groups(db, slack_organizations, slack_users):
 
 @pytest.fixture
 def events(db, restaurants, groups, slack_organizations):
+    date = (datetime.now(pytz.timezone('Europe/Oslo')) + timedelta(days=1)).isoformat()
     event1 = Event(
-        time="2023-03-30T16:23:05.420Z",
+        time=date,
         restaurant_id=restaurants.get(slack_organizations[0].team_id)[0].id,
         people_per_event=5,
         slack_organization_id=slack_organizations[0].team_id,
         group_id=groups.get(slack_organizations[0].team_id)[0].id
     )
     event2 = Event(
-        time="2023-04-24T16:23:05.420Z",
+        time=date,
         restaurant_id=restaurants.get(slack_organizations[0].team_id)[0].id,
         people_per_event=5,
         slack_organization_id=slack_organizations[0].team_id
     )
     event3 = Event(
-        time="2023-04-24T16:23:05.420Z",
+        time=date,
         restaurant_id=restaurants.get(slack_organizations[1].team_id)[0].id,
         people_per_event=5,
         slack_organization_id=slack_organizations[1].team_id

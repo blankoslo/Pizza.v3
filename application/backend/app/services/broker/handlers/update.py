@@ -38,6 +38,7 @@ def update_invitation(request: dict):
 
     return {'success': result}
 
+
 @MessageHandler.handle('update_slack_user', UpdateSlackUserRequestSchema, UpdateSlackUserResponseSchema)
 def update_slack_user(request: dict):
     logger = injector.get(logging.Logger)

@@ -26,11 +26,11 @@ class TestImageServiceSuit:
         test_image = image_service.get_by_id(image_id=image.cloudinary_id, team_id=team_id)
         assert image == test_image
 
-    def test_delete(self, slack_organizations, images, image_service):
+    def test_delete(self, db, slack_organizations, images, image_service):
         team_id = slack_organizations[0].team_id
         image = images.get(team_id)[0]
         image_service.delete(image_id=image.cloudinary_id, team_id=team_id)
-        test_image = Image.query.get(image.cloudinary_id)
+        test_image = db.session.get(Image, image.cloudinary_id)
 
         assert test_image is None
 

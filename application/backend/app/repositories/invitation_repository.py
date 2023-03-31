@@ -48,7 +48,7 @@ class InvitationRepository(Invitation, CrudMixin):
 
     @classmethod
     def get_by_id(cls, event_id, slack_id, session=db.session):
-        return cls.query.get((event_id, slack_id))
+        return session.get(cls, (event_id, slack_id))
 
     @classmethod
     def get_attending_users(cls, event_id, session=db.session):

@@ -62,7 +62,7 @@ services:
       <<: *common-variables
       <<: *common-rabbitmq-variables
       SECRET_KEY: "V3ryS3cr3tK3y"
-      FLASK_ENV: "development"
+      FLASK_ENV: "production"
       FLASK_APP: "main.py"
       FLASK_RUN_HOST: "0.0.0.0"
       FLASK_RUN_PORT: "3000"
