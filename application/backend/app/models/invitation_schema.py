@@ -1,5 +1,5 @@
 from app.db import db
-from app.models.mixins import get_field, CrudMixin
+from app.models.mixins import get_field
 from app.models.enums import RSVP
 from marshmallow_enum import EnumField
 from app.models.event_schema import EventSchema

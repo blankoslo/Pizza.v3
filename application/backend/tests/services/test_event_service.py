@@ -97,8 +97,9 @@ class TestEventServiceSuit:
     def test_delete(self, db, slack_organizations, events, event_service, mock_broker):
         team_id = slack_organizations[0].team_id
         event = events.get(team_id)[0]
-        event_service.delete(event_id=event.id, team_id=team_id)
-        test_event = db.session.get(Event, event.id)
+        event_id = event.id
+        event_service.delete(event_id=event_id, team_id=team_id)
+        test_event = db.session.get(Event, event_id)
 
         assert test_event is None
         mock_broker.send.assert_called()

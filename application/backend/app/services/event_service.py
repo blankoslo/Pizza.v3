@@ -1,10 +1,9 @@
-import os
 import pytz
 from datetime import datetime
 from flask import current_app
 
-from app.models.event import Event
-from app.models.restaurant import Restaurant
+from app.repositories.event_repository import EventRepository
+from app.repositories.restaurant_repository import RestaurantRepository
 from app.repositories.group_repository import GroupRepository
 from app.repositories.invitation_repository import InvitationRepository
 from app.models.event_schema import EventSchema
@@ -12,13 +11,14 @@ from app.services.broker.schemas.deleted_event_event import DeletedEventEventSch
 from app.services.broker.schemas.updated_event_event import UpdatedEventEventSchema
 from app.services.broker import BrokerService
 
+
 class EventService:
     def get_events_in_need_of_invitations(self):
         days_in_advance_to_invite = current_app.config["DAYS_IN_ADVANCE_TO_INVITE"]
-        return Event.get_events_in_need_of_invitations(days_in_advance_to_invite=days_in_advance_to_invite)
+        return EventRepository.get_events_in_need_of_invitations(days_in_advance_to_invite=days_in_advance_to_invite)
 
     def finalize_event_if_complete(self, event_id):
-        event_ready_to_finalize = Event.get_event_by_id_if_ready_to_finalize(event_id=event_id)
+        event_ready_to_finalize = EventRepository.get_event_by_id_if_ready_to_finalize(event_id=event_id)
 
         if event_ready_to_finalize is not None:
             # Update event to be finalized
@@ -26,29 +26,29 @@ class EventService:
                 'finalized': True
             }
             updated_event = EventSchema().load(data=update_data, instance=event_ready_to_finalize, partial=True)
-            Event.upsert(updated_event)
+            EventRepository.upsert(updated_event)
             return True
         return False
 
     def unfinalize_event(self, event_id):
-        event = Event.get_by_id(id=event_id)
+        event = EventRepository.get_by_id(id=event_id)
         update_data = {
             'finalized': False
         }
         updated_invitation = EventSchema().load(data=update_data, instance=event, partial=True)
-        Event.upsert(updated_invitation)
+        EventRepository.upsert(updated_invitation)
 
     def get(self, filters, page, per_page, team_id):
-        return Event.get(filters = filters, page = page, per_page = per_page, team_id = team_id)
+        return EventRepository.get(filters = filters, page = page, per_page = per_page, team_id = team_id)
 
     def get_by_id(self, event_id, team_id = None):
-        event = Event.get_by_id(id=event_id)
+        event = EventRepository.get_by_id(id=event_id)
         if event is None or (team_id is not None and event.slack_organization_id != team_id):
             return None
         return event
 
     def delete(self, event_id, team_id):
-        event = Event.get_by_id(id=event_id)
+        event = EventRepository.get_by_id(id=event_id)
 
         if event is None or event.slack_organization_id != team_id or event.time < datetime.now(pytz.utc):
             return False
@@ -69,7 +69,7 @@ class EventService:
                 }
             slack_data.append(slack_data_entry)
 
-        Event.delete(event_id)
+        EventRepository.delete(event_id)
 
         queue_event_schema = DeletedEventEventSchema()
         queue_event = queue_event_schema.load({
@@ -88,7 +88,7 @@ class EventService:
     def add(self, data, team_id):
         data.slack_organization_id = team_id
 
-        restaurant = Restaurant.get_by_id(data.restaurant_id)
+        restaurant = RestaurantRepository.get_by_id(data.restaurant_id)
 
         if restaurant.slack_organization_id != team_id:
             return None
@@ -98,10 +98,10 @@ class EventService:
             if group.slack_organization_id != team_id:
                 return None
 
-        return Event.upsert(data)
+        return EventRepository.upsert(data)
 
     def update(self, event_id, data, team_id):
-        event = Event.get_by_id(id=event_id)
+        event = EventRepository.get_by_id(id=event_id)
 
         if event is None or event.slack_organization_id != team_id or event.time < datetime.now(pytz.utc):
             return None
@@ -110,11 +110,11 @@ class EventService:
         old_restaurant_name = event.restaurant.name
 
         if 'restaurant_id' in data:
-            new_restaurant = Restaurant.get_by_id(data['restaurant_id'])
+            new_restaurant = RestaurantRepository.get_by_id(data['restaurant_id'])
             if new_restaurant.slack_organization_id != team_id:
                 return None
 
-        updated_event = Event.update(event_id, data)
+        updated_event = EventRepository.update(event_id, data)
 
         attending_or_unanswered_users = [invitation.slack_id for invitation in InvitationRepository.get_attending_or_unanswered_invitations(event.id)]
         queue_event_schema = UpdatedEventEventSchema()

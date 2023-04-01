@@ -1,5 +1,5 @@
 from app.models.group_schema import GroupSchema
-from app.models.slack_user import SlackUser
+from app.repositories.slack_user_repository import SlackUserRepository
 from app.models.slack_user_schema import SlackUserSchema
 from app.repositories.group_repository import GroupRepository
 
@@ -15,7 +15,7 @@ class GroupService:
 
     def add(self, data, team_id):
         slack_users = []
-        verified_slack_users = SlackUser.query.filter(SlackUser.slack_id.in_(data['members'])).filter(SlackUser.slack_organization_id == team_id).all()
+        verified_slack_users = SlackUserRepository.get_all_users_in_list(user_id_list=data['members'], team_id=team_id)
 
         if len(verified_slack_users) != len(data['members']):
             return None
@@ -42,7 +42,7 @@ class GroupService:
 
         if 'members' in data:
             slack_users = []
-            for slack_user in SlackUser.query.filter(SlackUser.slack_id.in_(data['members'])).filter(SlackUser.slack_organization_id == team_id).all():
+            for slack_user in SlackUserRepository.get_all_users_in_list(user_id_list=data['members'], team_id=team_id):
                 dumped_slack_user = SlackUserSchema(exclude=['slack_organization']).dump(slack_user)
                 slack_users.append(dumped_slack_user)
             if len(slack_users) != len(data['members']):

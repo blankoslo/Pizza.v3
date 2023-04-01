@@ -1,6 +1,6 @@
 from oauthlib.oauth2 import WebApplicationClient
 from flask_jwt_extended import JWTManager
-from app.models.user import User
+from app.repositories.user_repository import UserRepository
 
 class AuthClient():
   client: WebApplicationClient
@@ -28,5 +28,5 @@ def user_identity_lookup(user):
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    user = User.get_by_id(identity)
+    user = UserRepository.get_by_id(identity)
     return user

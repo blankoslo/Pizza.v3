@@ -3,7 +3,7 @@ import json
 import os
 from flask import views, request, redirect, jsonify, current_app
 from flask_smorest import Blueprint, abort
-from app.models.user import User
+from app.repositories.user_repository import UserRepository
 from app.models.user_schema import UserSchema
 from app.auth import auth
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
@@ -34,7 +34,7 @@ class Auth(views.MethodView):
   @jwt_required(refresh=True)
   def post(self):
     identity = get_jwt_identity()
-    user = User.get_by_id(identity)
+    user = UserRepository.get_by_id(identity)
 
     json_user = UserSchema().dump(user)
     additional_claims = {
@@ -114,10 +114,10 @@ class Auth(views.MethodView):
                 return abort(403, message = "slack team id not found as a registered workspace.")
 
             
-            user = User.get_by_id(data["id"])
+            user = UserRepository.get_by_id(data["id"])
             if user is None:
                 user = UserSchema().load(data=data)
-                user.upsert(user)
+                UserRepository.upsert(user)
             
             json_user = UserSchema().dump(user)
             additional_claims = {

@@ -1,5 +1,5 @@
 from app.db import db
-from app.models.mixins import get_field, CrudMixin
+from app.models.mixins import get_field
 from app.models.image import Image
 from app.models.slack_user_schema import SlackUserSchema, SlackUserResponseSchema
 

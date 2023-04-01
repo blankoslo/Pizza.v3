@@ -1,5 +1,5 @@
 from app.db import db
-from app.models.mixins import get_field, CrudMixin
+from app.models.mixins import get_field
 from app.models.slack_user import SlackUser
 from app.models.slack_organization_schema import SlackOrganizationSchema
 
