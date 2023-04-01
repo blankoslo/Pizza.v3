@@ -1,6 +1,5 @@
 import requests
 import json
-import os
 from flask import views, request, redirect, jsonify, current_app
 from flask_smorest import Blueprint, abort
 from app.repositories.user_repository import UserRepository
@@ -13,21 +12,9 @@ from app.services.injector import injector
 bp = Blueprint("auth", "auth", url_prefix="/auth", description="Authentication")
 
 
-def get_slack_user_info(token):
-    response = requests.post("https://slack.com/api/users.identity", headers={"Authorization": f"Bearer {token}"})
-
-    if response.status_code == 200:
-        return response.json()
-    else:
-        abort(400, message=f"Failed to retrieve Slack user info: {response.json()['error']}")
-
 def get_slack_provider_cfg():
     return requests.get(current_app.config["SLACK_DISCOVERY_URL"]).json()
 
-@bp.route("/logout")
-class Auth(views.MethodView):
-  def get(self):
-    pass
 
 @bp.route("/refresh")
 class Auth(views.MethodView):
@@ -45,6 +32,7 @@ class Auth(views.MethodView):
     access_token = create_access_token(identity=user, additional_claims=additional_claims)
     return jsonify(access_token=access_token)
 
+
 @bp.route("/login")
 class Auth(views.MethodView):
     def get(self):
@@ -53,8 +41,7 @@ class Auth(views.MethodView):
 
         # Use library to construct the request for Google login and provide
         # scopes that let you retrieve user's profile from Google
-        base_url = os.environ.get("FRONTEND_URI").rstrip('/')
-        client_id = current_app.config["SLACK_CLIENT_ID"]
+        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         request_uri = auth.client.prepare_request_uri(
             authorization_endpoint,
             redirect_uri = f'{base_url}/login/callback',
@@ -64,10 +51,11 @@ class Auth(views.MethodView):
             'auth_url': request_uri
         })
 
+
 @bp.route("/login/callback")
 class Auth(views.MethodView):
     def get(self):
-        base_url = os.environ.get("FRONTEND_URI").rstrip('/')
+        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         code = request.args.get("code")
         authorization_response = f'{base_url}/login/callback?'
         for key in request.args.keys():

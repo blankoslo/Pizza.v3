@@ -29,7 +29,7 @@ class Slack(views.MethodView):
             'users:read.email',
             'commands'
         ]
-        frontend_base_url = os.environ.get("FRONTEND_URI").rstrip('/')
+        frontend_base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         callback_redirect_uri = f'{frontend_base_url}/slack/callback'
         client_id = current_app.config["SLACK_CLIENT_ID"]
         if client_id == None:
@@ -55,7 +55,7 @@ class Slack(views.MethodView):
             logger.warn("client_id or client_secret is None")
             return abort(500)
 
-        frontend_base_url = os.environ.get("FRONTEND_URI").rstrip('/')
+        frontend_base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         callback_redirect_uri = f'{frontend_base_url}/slack/callback'
 
         data = {
