@@ -1,5 +1,7 @@
 # pizza-app
 
+![Infrastructure Diagram](https://github.com//blankoslo/Pizza.v2/blob/main/README/infrastructure.png?raw=true)
+
 ## Slack App Bot setup
 1. Go to `https://api.slack.com/apps/`
 2. Click the `Create New App` button
