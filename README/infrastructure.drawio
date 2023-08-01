@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-08-01T11:14:31.269Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="9_Q4VdEtLAmRNheMWDAH" version="21.6.6" type="device">
+<mxfile host="app.diagrams.net" modified="2023-08-01T11:28:09.257Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="5zCtCaqhzcekVW79jSKi" version="21.6.6" type="device">
   <diagram name="Page-1" id="2OMuT4pyXOBQIO0vSho9">
     <mxGraphModel dx="3430" dy="1593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -28,7 +28,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="m-_rIXt_uiu-tLf1JnKL-17" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Backend Server (Python)&lt;br&gt;&lt;/font&gt;" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/generic_server.svg;" vertex="1" parent="m-_rIXt_uiu-tLf1JnKL-5">
+        <mxCell id="m-_rIXt_uiu-tLf1JnKL-17" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Backend Server (Python - Flask/Gunicorn)&lt;br&gt;&lt;/font&gt;" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/generic_server.svg;" vertex="1" parent="m-_rIXt_uiu-tLf1JnKL-5">
           <mxGeometry x="830" y="304" width="89.6" height="160" as="geometry" />
         </mxCell>
         <mxCell id="m-_rIXt_uiu-tLf1JnKL-18" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;PostgresSQL&lt;/font&gt;" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/database_server.svg;" vertex="1" parent="m-_rIXt_uiu-tLf1JnKL-5">
