@@ -14,7 +14,7 @@ from app.services.broker import BrokerService
 
 class EventService:
     def get_events_in_need_of_invitations(self):
-        days_in_advance_to_invite = current_app.config["DAYS_IN_ADVANCE_TO_INVITE"]
+        days_in_advance_to_invite = int(current_app.config["DAYS_IN_ADVANCE_TO_INVITE"])
         return EventRepository.get_events_in_need_of_invitations(days_in_advance_to_invite=days_in_advance_to_invite)
 
     def finalize_event_if_complete(self, event_id):
