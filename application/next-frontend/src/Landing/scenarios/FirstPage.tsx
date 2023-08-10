@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Hello from '@/Landing/assets/illustrations/hello.svg'
-// import { inter, spaceGoretsk } from "@/_app"
 
 const FirstPage = () => {
     return (
