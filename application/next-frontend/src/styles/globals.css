@@ -31,42 +31,11 @@ body {
 }
 
 /* index.tsx */
-.root {
-    /* @apply bg-blue-300 h-[741px]; */
-    background: turquoise;
-    height: 741px;
-    display: flex;
-    justify-content: center;
-}
-
-.wrapper {
-    width: 80%;
-    display: flex;
-}
-
-.text-container {
-    /* display: flex; */
-    /* flex: 1; */
-    /* flex-direction: column; */
-    /* width: 40%; */
-    /* margin: auto */
-}
-
 .main-text {
-    /* color: #181818;
-    font-family: Space Grotesk;
-    font-size: 60px;
-    line-height: 68px;
-    margin-bottom: 19px; */
+    font-family: Space Grotesk; /* must configure somehow */
+    line-height: 68px; /* found no equivalent in tailwind */
 }
 
 .sub-text {
-    /* color: #000;
-    font-family: Inter;
-    font-size: 20px;
-    line-height: 28px; */
-}
-
-.firstpage-img {
-    /* margin: auto */
+    font-family: Inter; /* same as above */
 }
