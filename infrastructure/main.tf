@@ -12,7 +12,7 @@ module "production" {
   source = "./system"
 
   heroku_team_name = var.heroku_team_name
-  hostname = "bot.blank.pizza"
+  hostname = "pizzabot.app"
   prefix = var.prefix
   environment = "prod"
   CLOUDAMQP_PLAN = "cloudamqp:tiger"
@@ -40,8 +40,8 @@ module "production" {
   HOURS_BETWEEN_REMINDERS = 4
   REPLY_DEADLINE_IN_HOURS = 24
   FLASK_ENV = "production"
-  BACKEND_URI = "api.bot.blank.pizza"
-  FRONTEND_URI = "bot.blank.pizza"
+  BACKEND_URI = "api.pizzabot.app"
+  FRONTEND_URI = "pizzabot.app"
 }
 
 # Add production apps to pipeline under production stage
