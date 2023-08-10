@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg';
-import { AddToSlackButton } from './components/AddToSlackButton';
+import Image from 'next/image'
+import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg'
+import { AddToSlackButton } from './components/AddToSlackButton'
 
 const Header = () => {
     return (
@@ -16,7 +16,7 @@ const Header = () => {
                 <AddToSlackButton />
             </nav>
         </>
-    );
-};
+    )
+}
 
-export { Header };
+export { Header }
