@@ -32,31 +32,40 @@ body {
 
 /* index.tsx */
 .root {
-    @apply flex bg-green-400 justify-around h-[741px];
+    /* @apply bg-blue-300 h-[741px]; */
+    background: turquoise;
+    height: 741px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 80%;
+    display: flex;
 }
 
 .text-container {
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    margin: auto
+    /* display: flex; */
+    /* flex: 1; */
+    /* flex-direction: column; */
+    /* margin: auto */
 }
 
 .main-text {
-    color: #181818;
+    /* color: #181818;
     font-family: Space Grotesk;
     font-size: 60px;
     line-height: 68px;
-    margin-bottom: 19px;
+    margin-bottom: 19px; */
 }
 
 .sub-text {
-    color: #000;
+    /* color: #000;
     font-family: Inter;
     font-size: 20px;
-    line-height: 28px;
+    line-height: 28px; */
 }
 
 .firstpage-img {
-    margin: auto
+    /* margin: auto */
 }
