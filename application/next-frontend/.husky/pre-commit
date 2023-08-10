@@ -1,4 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-(cd application/next-frontend && node_modules/.bin/lint-staged)
+if ! git diff --cached --exit-code -s application/next-frontend
+then
+	echo "Files changed in next-frontend"
+	cd application/next-frontend
+	npm run lint
+	cd ../..
+fi
