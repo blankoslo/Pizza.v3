@@ -24,13 +24,3 @@ body {
     background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
     min-height: 100vh;
 }
-
-/* index.tsx */
-.main-text {
-    /* font-family: Space Grotesk; */
-    line-height: 68px; /* found no equivalent in tailwind */
-}
-
-.sub-text {
-    font-family: Inter; /* same as above */
-}
