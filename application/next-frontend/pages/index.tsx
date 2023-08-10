@@ -1,5 +1,5 @@
-import { Landing } from '@/Landing';
-import { Header } from '@/Landing/scenarios/Header';
+import { Landing } from '@/Landing'
+import { Header } from '@/Landing/scenarios/Header'
 
 export default function Home() {
     return (
@@ -7,5 +7,5 @@ export default function Home() {
             <Header />
             <Landing />
         </div>
-    );
+    )
 }

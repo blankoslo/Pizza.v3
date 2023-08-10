@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Space+Grotesk:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,4 +28,35 @@ body {
 /* tailwind composables */
 .header {
     @apply fixed top-0 h-24 bg-green-400 w-full flex;
+}
+
+/* index.tsx */
+.root {
+    @apply flex bg-green-400 justify-around h-[741px];
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: auto
+}
+
+.main-text {
+    color: #181818;
+    font-family: Space Grotesk;
+    font-size: 60px;
+    line-height: 68px;
+    margin-bottom: 19px;
+}
+
+.sub-text {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.firstpage-img {
+    margin: auto
 }

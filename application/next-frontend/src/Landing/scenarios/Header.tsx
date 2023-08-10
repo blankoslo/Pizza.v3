@@ -3,7 +3,7 @@ const Header = () => {
         <nav className="header">
             <div>Hallos</div>
         </nav>
-    );
-};
+    )
+}
 
-export { Header };
+export { Header }

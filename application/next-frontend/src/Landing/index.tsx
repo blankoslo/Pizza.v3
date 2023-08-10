@@ -1,5 +1,11 @@
-const Landing = () => {
-    return <main className="mt-24">winke</main>;
-};
+import { FirstPage } from './scenarios/FirstPage'
 
-export { Landing };
+const Landing = () => {
+    return (
+        <>
+            <FirstPage />
+        </>
+    )
+}
+
+export { Landing }
