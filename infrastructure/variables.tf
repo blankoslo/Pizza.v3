@@ -1,7 +1,7 @@
 variable "prefix" {
   description = "High-level name of this configuration, used as a resource name prefix"
   type = string
-  default = "pizzabot-v2"
+  default = "pizzabot-v3"
 }
 
 variable "heroku_api_key" {
