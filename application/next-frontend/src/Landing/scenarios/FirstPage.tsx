@@ -6,7 +6,7 @@ const FirstPage = () => {
         <div className="flex h-fit justify-center bg-teal-400 pb-12">
             <div className="flex w-4/5">
                 <div className="flex w-1/2 flex-col">
-                    <div className="font-spaceGrotesk mb-5 text-6xl text-gray-900 leading-[4rem]">
+                    <div className="mb-5 font-spaceGrotesk text-6xl leading-[4rem] text-gray-900">
                         The sexiest bot for socialising teams on slack through Pizza..
                     </div>
 
