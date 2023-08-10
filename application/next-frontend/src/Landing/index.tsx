@@ -1,11 +1,11 @@
-import { FirstPage } from './scenarios/FirstPage';
+import { FirstPage } from './scenarios/FirstPage'
 
 const Landing = () => {
     return (
         <>
             <FirstPage />
         </>
-    );
-};
+    )
+}
 
-export { Landing };
+export { Landing }
