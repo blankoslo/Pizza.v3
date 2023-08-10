@@ -25,14 +25,9 @@ body {
     min-height: 100vh;
 }
 
-/* tailwind composables */
-.header {
-    @apply fixed top-0 h-24 bg-green-400 w-full flex;
-}
-
 /* index.tsx */
 .main-text {
-    font-family: Space Grotesk; /* must configure somehow */
+    /* font-family: Space Grotesk; */
     line-height: 68px; /* found no equivalent in tailwind */
 }
 
