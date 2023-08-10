@@ -22,7 +22,7 @@
 body {
     color: rgb(var(--foreground-rgb));
     background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-    min-height: 150vh;
+    min-height: 100vh;
 }
 
 /* tailwind composables */
@@ -48,6 +48,7 @@ body {
     /* display: flex; */
     /* flex: 1; */
     /* flex-direction: column; */
+    /* width: 40%; */
     /* margin: auto */
 }
 
