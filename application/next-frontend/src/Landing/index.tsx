@@ -1,11 +1,7 @@
 import { FirstPage } from './scenarios/FirstPage'
 
 const Landing = () => {
-    return (
-        <>
-            <FirstPage />
-        </>
-    )
+    return <FirstPage />
 }
 
 export { Landing }
