@@ -1,0 +1,12 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier", "tailwindcss"],
+    "extends": [
+        "next/core-web-vitals",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:prettier/recommended",
+        "plugin:tailwindcss/recommended"
+    ],
+    "ignorePatterns": [".idea/*", "dist/*", "public/*", "node_modules/*", ".prettierrc.js", "webpack.*.js"]
+}
