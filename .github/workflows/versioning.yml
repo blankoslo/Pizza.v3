@@ -26,7 +26,7 @@ jobs:
         run: npm run build:production
         working-directory: application/frontend
         env:
-          BACKEND_URI: https://api.pizzabot.app
+          BACKEND_URI: https://www.api.pizzabot.app
       - name: Remove build gitignore
         run: rm public/.gitignore
         working-directory: application/frontend
