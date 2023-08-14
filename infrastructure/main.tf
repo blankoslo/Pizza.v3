@@ -40,7 +40,7 @@ module "production" {
   HOURS_BETWEEN_REMINDERS = 4
   REPLY_DEADLINE_IN_HOURS = 24
   FLASK_ENV = "production"
-  BACKEND_URI = "www.api.pizzabot.app"
+  BACKEND_URI = "api.www.pizzabot.app"
   FRONTEND_URI = "www.pizzabot.app"
 }
 
