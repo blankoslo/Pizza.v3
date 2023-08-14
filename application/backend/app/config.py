@@ -24,7 +24,7 @@ class Base(object):
 
 class Test(Base):
     DEBUG = True
-    FRONTEND_URI = 'localhost'
+    FRONTEND_URI = 'localhost:4434'
     SLACK_CLIENT_ID = 'dontCareSlackClientId'
     SLACK_CLIENT_SECRET = 'dontCareSlackClientSecret'
     MQ_EVENT_QUEUE = 'dontCareMqEventQueue'
