@@ -1,0 +1,3 @@
+.header {
+    @apply fixed h-32 bg-teal-400 w-full px-12 top-0;
+}
