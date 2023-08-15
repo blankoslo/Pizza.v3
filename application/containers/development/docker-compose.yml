@@ -38,6 +38,21 @@ services:
       - backend
     networks:
       - proxy-network
+  next-frontend:
+    build:
+      context: ../../
+      dockerfile: containers/development/Dockerfile.next-frontend
+    expose:
+      - 4000
+    volumes:
+      - ../../next-frontend:/srv/next-frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_PORT=0
+    depends_on:
+      - backend
+    networks:
+      - proxy-network
   backend:
     build:
       context: ../../
@@ -135,12 +150,14 @@ services:
       dockerfile: Dockerfile.nginx
     depends_on:
       - frontend
+      - next-frontend
       - backend
     networks:
       - proxy-network
     ports:
       - 8000:80
       - 4434:443
+      - 4000:4000
 
 networks:
   database-network:
