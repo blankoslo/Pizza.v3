@@ -42,7 +42,7 @@ def refresh_cookie(response):
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=2))
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
         if target_timestamp > exp_timestamp:
             identity = get_jwt_identity()
             user = UserRepository.get_by_id(identity)
