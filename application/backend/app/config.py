@@ -17,9 +17,11 @@ class Base(object):
     OPENAPI_SWAGGER_UI_PATH = "/swagger"
     # The following is equivalent to OPENAPI_SWAGGER_UI_VERSION = '3.19.5'
     OPENAPI_SWAGGER_UI_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.19.5/"
-    # JWT
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
+    # JWT TODO: JWT_SECRET_KEY ?
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
+    JWT_TOKEN_LOCATION = ["headers", "cookies"]
+    JWT_COOKIE_SECURE = True
 
 
 class Test(Base):
