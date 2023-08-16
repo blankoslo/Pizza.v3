@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 const AddToSlackButton = () => {
     const router = useRouter()
     const downloadUrl =
-        'https://slack.com/oauth/v2/authorize?client_id=5700090634854.5710019688532&scope=channels:history,files:read,im:history,channels:join,channels:read,channels:manage,groups:read,chat:write,im:write,users:read,users:read.email,commands&user_scope='
+        'https://slack.com/oauth/v2/authorize?client_id=5747545588581.5774194036784&scope=channels:history,channels:read,channels:join,channels:manage,groups:read,chat:write,files:read,im:history,im:write,users:read,users:read.email,commands&user_scope='
 
     const pushDownload = () => {
         router.push(downloadUrl)
