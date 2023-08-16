@@ -51,7 +51,6 @@ def refresh_cookie(response):
                 # TODO handle roles
                 "user": {**json_user, "roles": []}
             }
-            print("\n\nRefreshing cookie :)))\n\n")
             access_token = create_access_token(
                 identity=user, additional_claims=additional_claims)
             set_access_cookies(response, access_token)
