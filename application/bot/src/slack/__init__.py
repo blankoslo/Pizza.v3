@@ -13,11 +13,13 @@ from src.api.bot_api import BotApi, BotApiConfiguration
 from src.injector import injector
 from src.slack.installation_store import BrokerInstallationStore
 from src.api.slack_api import SlackApi
+from src.i18n import Translator
 
 slack_signing_secret = os.environ["SLACK_SIGNING_SECRET"]
 client_id = os.environ["SLACK_CLIENT_ID"],
 client_secret = os.environ["SLACK_CLIENT_SECRET"],
 slack_app_token = os.environ["SLACK_APP_TOKEN"]
+
 
 slack_app = App(
     signing_secret=slack_signing_secret,
@@ -138,11 +140,12 @@ def handle_rsvp_withdraw(ack, body, context):
 
 
 def handle_file_share(event, say, token, client):
+    translator = injector.get(Translator)
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:
         files = event['files']
         with injector.get(BotApi) as ba:
-            ba.send_slack_message(channel_id=channel, text=u'Takk for fil! 🤙', slack_client=client)
+            ba.send_slack_message(channel_id=channel, text=translator.translate("thanksForFile"), slack_client=client)
             headers = {u'Authorization': u'Bearer %s' % token}
             for file in files:
                 r = requests.get(
@@ -163,6 +166,7 @@ def handle_file_share(event, say, token, client):
 
 @slack_app.command("/set-pizza-channel")
 def handle_some_command(ack, body, say, context):
+    translator = injector.get(Translator)
     ack()
     with injector.get(BotApi) as ba:
         team_id = body["team_id"]
@@ -172,13 +176,14 @@ def handle_some_command(ack, body, say, context):
         if channel_id is None:
             ba.send_slack_message(
                 channel_id=message_channel_id,
-                text='Noe gikk galt. Klarte ikke å sette Pizza kanal',
+                text=translator.translate("pizzaChannelError"),
                 slack_client=client
             )
         else:
             ba.send_slack_message(
                 channel_id=channel_id,
-                text='Pizza kanal er nå satt til <#%s>' % channel_id,
+                text=translator.translate("pizzaChannelConfirm", channel_id=channel_id),
+                # text='Pizza kanal er nå satt til <#%s>' % channel_id,
                 slack_client=client
             )
 
