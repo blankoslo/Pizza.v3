@@ -14,6 +14,7 @@ from src.injector import injector, singleton
 from src.broker.amqp_connection import AmqpConnection
 from src.broker.amqp_connection_pool import AmqpConnectionPool
 from src.broker.handlers import on_message
+from src.i18n import Translator
 
 
 def setup_logger():
@@ -57,6 +58,10 @@ def main():
         locale.setlocale(locale.LC_ALL, "nb_NO.utf8")
     except:
         logger.warning("Missing locale nb_NO.utf8 on server")
+
+    # set up translator
+    translator = Translator(language_folder="./src/lang")
+    injector.binder.bind(Translator, to=translator, scope=singleton)
 
     # Set up rabbitmq
     setup_connection_pool()
