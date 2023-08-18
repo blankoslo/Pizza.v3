@@ -183,7 +183,6 @@ def handle_some_command(ack, body, say, context):
             ba.send_slack_message(
                 channel_id=channel_id,
                 text=translator.translate("pizzaChannelConfirm", channel_id=channel_id),
-                # text='Pizza kanal er nå satt til <#%s>' % channel_id,
                 slack_client=client
             )
 

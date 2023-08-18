@@ -37,7 +37,6 @@ class BotApi:
         self.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("botWelcome"),
-            #text="Hei! Jeg er pizzabot. Hvis dere vil endre hvilke kanal jeg bruker så kan dere gå inn i riktig kanal og bruke kommandoen '/set-pizza-channel'. Hvis kanalen er privat må dere legge meg til først.",
             slack_client=slack_client
         )
 
@@ -134,7 +133,6 @@ class BotApi:
                 slack_client.send_slack_message(
                     channel_id=invitation['slack_id'],
                     text=self.translator.translate("eventReminder")
-                    #text="Hei du! Jeg hørte ikke noe mer? Er du gira?"
                 )
                 was_updated = self.client.update_invitation(
                     slack_id=invitation['slack_id'],
@@ -163,7 +161,6 @@ class BotApi:
         slack_client.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("eventFinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"), booker=booker, payer=payer)
-            #text="Halloi! %s! Dere skal spise 🍕 på %s, %s. %s booker bord, og %s legger ut for maten. Blank betaler!" % (ids_string, restaurant_name, timestamp.strftime("%A %d. %B kl %H:%M"), booker, payer)
         )
 
     def send_event_unfinalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
@@ -177,7 +174,6 @@ class BotApi:
         slack_client.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("eventUnfinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
-            #text="Halloi! %s! Hvis den som meldte seg av besøket til  %s  %s skulle betale eller booke så må nesten en av dere andre sørge for det. I mellomtiden letes det etter en erstatter." % (ids_string, restaurant_name, timestamp.strftime("%A %d. %B kl %H:%M"))
         )
         # Invite more users for the event
         self.invite_multiple_if_needed()
@@ -188,7 +184,6 @@ class BotApi:
         slack_client.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("userWithdrawAfterFinalization", user_id=user, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
-            #text="Halloi! <@%s> meldte seg nettopp av besøket til %s %s." % (user_id, restaurant_name, timestamp.strftime("%A %d. %B kl %H:%M"))
         )
         # Invite more users for the event
         self.invite_multiple_if_needed()
@@ -227,7 +222,6 @@ class BotApi:
                     slack_client.send_slack_message(
                         channel_id=invitation['slack_id'],
                         text=self.translator.translate("autoReplyNoAttending")
-                        # text="Neivel, da antar jeg du ikke kan/gidder. Håper du blir med neste gang! 🤞"
                     )
                     self.logger.info("%s didn't answer. Setting RSVP to not attending." % invitation['slack_id'])
                 else:
@@ -319,7 +313,6 @@ class BotApi:
             slack_client.send_slack_message(
                 channel_id=slack_id,
                 text=self.translator.translate("unfinalizedEventCancelled", restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
-                #text="Halloi! Besøket til %s, %s har blitt kansellert. Sorry!" % (restaurant_name, time.strftime("%A %d. %B kl %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -332,7 +325,6 @@ class BotApi:
         slack_client.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("finalizedEventCancelled", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
-            #text="Halloi! %s! Besøket til %s, %s har blitt kansellert. Sorry!" % (ids_string, restaurant_name, time.strftime("%A %d. %B kl %H:%M"),)
         )
         # Update invitation message - remove buttons and tell user it has been cancelled
         for slack_user_data in slack_data:
@@ -353,7 +345,6 @@ class BotApi:
             slack_client.send_slack_message(
                 channel_id=slack_id,
                 text=self.translator.translate("unfinalizedEventUpdate", old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B kl %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
-                #text="Halloi! Besøket til %s, %s har blit endret til %s, %s." % (old_restaurant_name, old_time.strftime("%A %d. %B kl %H:%M"), restaurant_name, time.strftime("%A %d. %B kl %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -364,7 +355,6 @@ class BotApi:
         slack_client.send_slack_message(
             channel_id=channel_id,
             text=self.translator.translate("finalizedEventUpdate", user_ids=ids_string, old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B kl %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
-            #text="Halloi! %s! Besøket til %s, %s har blit endret til %s, %s." % (ids_string, old_restaurant_name, old_time.strftime("%A %d. %B kl %H:%M"), restaurant_name, time.strftime("%A %d. %B kl %H:%M"))
         )
 
     def send_slack_message(self, channel_id, text, slack_client, blocks=None, thread_ts=None):
@@ -375,7 +365,6 @@ class BotApi:
 
     def send_pizza_invite(self, channel_id, event_id, place, datetime, deadline, slack_client):
         top_level_title_text = self.translator.translate("topLevelPizzaInvitation", restaurant_name=place, time_stamp=datetime)
-        # top_level_title_text = f"Pizzainvitasjon: {place}, {datetime}"
         blocks = [
             {
                 "type": "header",
@@ -389,7 +378,6 @@ class BotApi:
                 "text": {
                     "type": "plain_text",
                     "text": self.translator.translate("pizzaInvitationBody", restaurant_name=place, time_stamp=datetime, deadline=deadline)
-                    #"text": f"Du er invitert til :pizza: på {place}, {datetime}. Pls svar innen {deadline} timer :pray:. Kan du?"
                 }
             },
             {
