@@ -19,6 +19,8 @@ export const httpClient = (token?: string): AxiosInstance => {
 
     if (cookie) {
         headers['X-CSRF-TOKEN'] = cookie;
+    } else if (token) {
+        headers.Authorization = `Bearer ${token}`;
     }
 
     return axios.create({
