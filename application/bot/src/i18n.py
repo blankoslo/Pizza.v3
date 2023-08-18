@@ -28,13 +28,11 @@ class Translator:
             self.logger.warn(f"Unvalid locale: {locale}, fallback to default locale: {self.locale}")
 
     def translate(self, key, **kwargs): 
-        self.logger.warn(key, self.locale)
-        self.logger.warn(self.data)
         if key in self.data[self.locale]:
             text = self.data[self.locale][key]
             return Template(text).safe_substitute(**kwargs)
         else:
-            self.logger.info(f"The key '{key}' does not match any text. Defaults text to key")
+            self.logger.warn(f"The key '{key}' does not match any text. Defaults text to key")
             return key
 
 
