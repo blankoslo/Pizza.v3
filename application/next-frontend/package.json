@@ -19,6 +19,7 @@
         "@hookform/resolvers": "^3.2.0",
         "@mui/material": "^5.14.5",
         "autoprefixer": "10.4.14",
+        "jwt-decode": "^3.1.2",
         "next": "13.4.13",
         "postcss": "8.4.27",
         "react": "18.2.0",

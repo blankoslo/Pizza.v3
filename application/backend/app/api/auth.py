@@ -41,6 +41,7 @@ class Auth(views.MethodView):
 
         # Use library to construct the request for Google login and provide
         # scopes that let you retrieve user's profile from Google
+        # TODO: Use frontend uri where the get request came from
         base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         request_uri = auth.client.prepare_request_uri(
             authorization_endpoint,
