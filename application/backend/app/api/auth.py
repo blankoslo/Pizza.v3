@@ -39,9 +39,11 @@ class Auth(views.MethodView):
         slack_provider_cfg = get_slack_provider_cfg()
         authorization_endpoint = slack_provider_cfg["authorization_endpoint"]
 
+        base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        base_url = base_url.rstrip("/")
+
         # Use library to construct the request for Google login and provide
         # scopes that let you retrieve user's profile from Google
-        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         request_uri = auth.client.prepare_request_uri(
             authorization_endpoint,
             redirect_uri = f'{base_url}/login/callback',
@@ -55,7 +57,9 @@ class Auth(views.MethodView):
 @bp.route("/login/callback")
 class Auth(views.MethodView):
     def get(self):
-        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
+        base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        base_url = base_url.rstrip("/")
+
         code = request.args.get("code")
         authorization_response = f'{base_url}/login/callback?'
         for key in request.args.keys():

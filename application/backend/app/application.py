@@ -112,8 +112,11 @@ def create_app(environment):
     if app.config["ENV"] == "production":
         origins = [FRONTEND_URI]
         resources_origins = {"origins": origins}
-    elif app.config["ENV"] == "development" or app.config["ENV"] == "test":
+    elif app.config["ENV"] == "development":
         origins = ["https://localhost:4434"]
+        resources_origins = {"origins": origins}
+    elif app.config["ENV"] == "test":
+        origins = ["https://localhost:4000"]
         resources_origins = {"origins": origins}
     CORS(
         app,
