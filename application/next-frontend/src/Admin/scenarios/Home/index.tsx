@@ -1,5 +1,5 @@
 import EventCard from '../Events'
-import RestaurantCard from '../Restaurants'
+import RestaurantCard from 'Admin/scenarios/Restaurants'
 import UserCard from '../Users'
 
 const Home = () => {

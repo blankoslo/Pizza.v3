@@ -1,4 +1,4 @@
-import CardComponent from '../components/CardComponent'
+import CardComponent from 'Admin/components/CardComponent'
 
 interface SlackUser {
     name: string
