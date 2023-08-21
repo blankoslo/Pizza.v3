@@ -6,10 +6,6 @@ interface ModalContextType {
     closeModal: () => void
 }
 
-interface ModalContextProps {
-    children: React.ReactNode
-}
-
 const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
 export const useModal = () => {
@@ -20,7 +16,7 @@ export const useModal = () => {
     return context
 }
 
-export const ModalProvider: React.FC<ModalContextProps> = ({ children }) => {
+export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const openModal = () => {

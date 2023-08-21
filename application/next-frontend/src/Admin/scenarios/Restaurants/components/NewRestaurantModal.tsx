@@ -18,7 +18,7 @@ const validationSchema = z.object({
     address: z.string().optional(),
 })
 
-const NewRestaurantModal: React.FC = () => {
+const NewRestaurantModal = () => {
     const {
         register,
         handleSubmit,

@@ -19,7 +19,7 @@ interface FormData {
 
 const today = new Date()
 
-const CreateEventCard: React.FC = () => {
+const CreateEventCard = () => {
     const methods = useForm({
         resolver: zodResolver(validationSchema),
         defaultValues: {
