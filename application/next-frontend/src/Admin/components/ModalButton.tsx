@@ -1,4 +1,4 @@
-import { useModal } from '../context/ModelContext'
+import { useModal } from 'Admin/context/ModelContext'
 
 const ModalButton = ({ buttonText, children }: { buttonText: string; children: React.ReactNode }) => {
     const { isModalOpen, openModal, closeModal } = useModal()
@@ -27,4 +27,4 @@ const ModalButton = ({ buttonText, children }: { buttonText: string; children: R
     )
 }
 
-export default ModalButton
+export { ModalButton }

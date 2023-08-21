@@ -15,4 +15,4 @@ const CardComponent = ({
     )
 }
 
-export default CardComponent
+export { CardComponent }

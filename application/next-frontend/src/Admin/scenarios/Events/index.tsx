@@ -1,7 +1,7 @@
-import ModalButton from '../../components/ModalButton'
-import { ModalProvider } from '../../context/ModelContext'
-import CreateEventCard from './scenarios/CreateEventCard'
-import CardComponent from '../../components/CardComponent'
+import { ModalButton } from 'Admin/components/ModalButton'
+import { ModalProvider } from 'Admin/context/ModelContext'
+import { CreateEventCard } from './components/CreateEventCard'
+import { CardComponent } from 'Admin/components/CardComponent'
 
 const Events = () => {
     return (
@@ -18,4 +18,4 @@ const Events = () => {
     )
 }
 
-export default Events
+export { Events }

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
-import { useModal } from '../../../context/ModelContext'
+import { useModal } from 'Admin/context/ModelContext'
 
 type Restaurant = {
     name: string
@@ -18,7 +18,7 @@ const validationSchema = z.object({
     address: z.string().optional(),
 })
 
-const NewRestaurantModal: React.FC = () => {
+const NewRestaurantModal = () => {
     const {
         register,
         handleSubmit,
@@ -83,4 +83,4 @@ const NewRestaurantModal: React.FC = () => {
     )
 }
 
-export default NewRestaurantModal
+export { NewRestaurantModal }
