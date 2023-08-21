@@ -1,11 +1,6 @@
 import { useModal } from '../context/ModelContext'
 
-interface ModalButtonProps {
-    buttonText: string
-    children: React.ReactNode
-}
-
-const ModalButton: React.FC<ModalButtonProps> = ({ buttonText, children }) => {
+const ModalButton = ({ buttonText, children }: { buttonText: string; children: React.ReactNode }) => {
     const { isModalOpen, openModal, closeModal } = useModal()
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
