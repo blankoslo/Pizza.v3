@@ -1,4 +1,4 @@
-import { baseUrl } from '@/Admin/auth'
+import { baseUrl } from '@/api/utils'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
