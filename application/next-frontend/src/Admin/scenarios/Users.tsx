@@ -1,4 +1,5 @@
 import { CardComponent } from 'Admin/components/CardComponent'
+import useUsers from '@/api/useUsers'
 
 interface SlackUser {
     name: string
@@ -23,6 +24,9 @@ const slackUserList: SlackUser[] = [
 ]
 
 const Users = () => {
+    const { users } = useUsers()
+    console.log(users)
+
     return (
         <CardComponent title="People" className="w-1/4">
             {slackUserList.map((user) => (
