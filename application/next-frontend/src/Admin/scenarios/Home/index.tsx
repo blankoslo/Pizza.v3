@@ -1,15 +1,15 @@
-import EventCard from '../Events'
-import RestaurantCard from 'Admin/scenarios/Restaurants'
-import UserCard from '../Users'
+import { Events } from 'Admin/scenarios/Events'
+import { Restaurants } from 'Admin/scenarios/Restaurants'
+import { Users } from 'Admin/scenarios/Users'
 
 const Home = () => {
     return (
         <div className="mt-20 flex flex-wrap justify-center space-x-10 font-mono text-lg">
-            <RestaurantCard />
-            <UserCard />
-            <EventCard />
+            <Restaurants />
+            <Users />
+            <Events />
         </div>
     )
 }
 
-export default Home
+export { Home }

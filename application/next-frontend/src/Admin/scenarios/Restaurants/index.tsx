@@ -1,6 +1,6 @@
-import NewRestaurantModal from './components/NewRestaurantModal'
-import CardComponent from 'Admin/components/CardComponent'
-import ModalButton from 'Admin/components/ModalButton'
+import { NewRestaurantModal } from './components/NewRestaurantModal'
+import { CardComponent } from 'Admin/components/CardComponent'
+import { ModalButton } from 'Admin/components/ModalButton'
 import { ModalProvider } from 'Admin/context/ModelContext'
 
 interface Restaurant {
@@ -41,4 +41,4 @@ const Restaurants = () => {
     )
 }
 
-export default Restaurants
+export { Restaurants }

@@ -83,4 +83,4 @@ const NewRestaurantModal = () => {
     )
 }
 
-export default NewRestaurantModal
+export { NewRestaurantModal }

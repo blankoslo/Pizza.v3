@@ -27,4 +27,4 @@ const ModalButton = ({ buttonText, children }: { buttonText: string; children: R
     )
 }
 
-export default ModalButton
+export { ModalButton }

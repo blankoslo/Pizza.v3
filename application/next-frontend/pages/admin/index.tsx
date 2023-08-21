@@ -1,4 +1,4 @@
-import Home from 'Admin/scenarios/Home'
+import { Home } from 'Admin/scenarios/Home'
 
 const Adminpage = () => {
     return (

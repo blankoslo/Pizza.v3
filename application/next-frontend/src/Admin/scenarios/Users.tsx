@@ -1,4 +1,4 @@
-import CardComponent from 'Admin/components/CardComponent'
+import { CardComponent } from 'Admin/components/CardComponent'
 
 interface SlackUser {
     name: string
@@ -36,4 +36,4 @@ const Users = () => {
     )
 }
 
-export default Users
+export { Users }

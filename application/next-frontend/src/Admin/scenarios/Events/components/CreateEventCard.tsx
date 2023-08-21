@@ -88,4 +88,4 @@ const CreateEventCard = () => {
     )
 }
 
-export default CreateEventCard
+export { CreateEventCard }
