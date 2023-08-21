@@ -14,12 +14,19 @@
         "*.{js,jsx,ts,tsx}": "eslint --cache --fix --ignore-path .eslintignore"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@hookform/resolvers": "^3.2.0",
+        "@mui/material": "^5.14.5",
         "autoprefixer": "10.4.14",
         "next": "13.4.13",
         "postcss": "8.4.27",
         "react": "18.2.0",
+        "react-datepicker": "^4.16.0",
         "react-dom": "18.2.0",
-        "tailwindcss": "3.3.3"
+        "react-hook-form": "^7.45.4",
+        "tailwindcss": "3.3.3",
+        "zod": "^3.22.2"
     },
     "devDependencies": {
         "@types/node": "20.4.9",
