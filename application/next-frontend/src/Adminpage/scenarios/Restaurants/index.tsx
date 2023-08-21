@@ -1,6 +1,6 @@
-import NewRestaurantModal from './scenarios/NewRestaurantModal'
-import CardComponent from '../../components/CardComponent'
-import ModalButton from '../../components/ModalButton'
+import NewRestaurantModal from './components/NewRestaurantModal'
+import CardComponent from '../Home/components/CardComponent'
+import ModalButton from '../Home/components/ModalButton'
 import { ModalProvider } from '../../context/ModelContext'
 
 interface Restaurant {
