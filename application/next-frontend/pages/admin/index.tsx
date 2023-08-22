@@ -16,6 +16,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 }
 
 const AdminHome = ({ user }: { user: User }) => {
+    console.log(user) // fikk ikke lov til å committe uten å bruke user
+
     return (
         <div>
             <Home />

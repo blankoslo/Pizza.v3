@@ -9,12 +9,14 @@ export interface ApiUser {
     email?: string
 }
 
-export default function useUsers() {
+const useUsers = () => {
     const { data, error, isLoading } = useAuthedSWR<ApiUser[]>('/users')
 
     return {
-        users: data,
+        data,
         isLoading,
-        isError: error,
+        error,
     }
 }
+
+export default useUsers
