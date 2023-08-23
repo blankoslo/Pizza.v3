@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 x-common-variables: &common-variables
   PYTHONUNBUFFERED: 1
@@ -38,6 +38,21 @@ services:
       - backend
     networks:
       - proxy-network
+  next-frontend:
+    build:
+      context: ../../
+      dockerfile: containers/development/Dockerfile.next-frontend
+    expose:
+      - 4000
+    volumes:
+      - ../../next-frontend:/srv/next-frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_PORT=0
+    depends_on:
+      - backend
+    networks:
+      - proxy-network
   backend:
     build:
       context: ../../
@@ -59,16 +74,19 @@ services:
       DB_PASSWD: "postgres"
       DB_PORT: "5432"
       DAYS_IN_ADVANCE_TO_INVITE: 10
-      <<: *common-variables
-      <<: *common-rabbitmq-variables
       SECRET_KEY: "V3ryS3cr3tK3y"
       FLASK_ENV: "production"
       FLASK_APP: "main.py"
       FLASK_RUN_HOST: "0.0.0.0"
       FLASK_RUN_PORT: "3000"
-      FRONTEND_URI: "https://localhost"
-      <<: *common-slack-variables
-      <<: *common-cloudinary-variables
+      FRONTEND_URI: "https://localhost:4434"
+      <<:
+        [
+          *common-slack-variables,
+          *common-variables,
+          *common-rabbitmq-variables,
+          *common-cloudinary-variables,
+        ]
     networks:
       - database-network
       - proxy-network
@@ -80,9 +98,8 @@ services:
     volumes:
       - ../../bot:/srv/bot
     environment:
-      <<: *common-variables
-      <<: *common-rabbitmq-variables
-      <<: *common-slack-variables
+      <<:
+        [*common-variables, *common-rabbitmq-variables, *common-slack-variables]
       REPLY_DEADLINE_IN_HOURS: 24
       HOURS_BETWEEN_REMINDERS: 4
     restart: always
@@ -96,7 +113,7 @@ services:
       - rabbitmq_network
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
+    container_name: "rabbitmq"
     ports:
       - 5672:5672
       - 15672:15672
@@ -131,14 +148,16 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.nginx
-    depends_on: 
+    depends_on:
       - frontend
+      - next-frontend
       - backend
     networks:
       - proxy-network
     ports:
-      - 80:80
-      - 443:443
+      - 8000:80
+      - 4434:443
+      - 4000:4000
 
 networks:
   database-network:

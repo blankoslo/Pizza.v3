@@ -6,7 +6,7 @@ import cloudinary
 
 from app.db import db, migrate
 from app.api import api, ma
-from app.auth import auth, jwt
+from app.auth import auth, jwt, refresh_cookie
 from app.services.broker import broker
 from app.services.injector import injector
 from app.services.invitation_service import InvitationService
@@ -104,14 +104,19 @@ def create_app(environment):
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        response = refresh_cookie(response)
         return response
+
 
     # Set up CORS
     if app.config["ENV"] == "production":
         origins = [FRONTEND_URI]
         resources_origins = {"origins": origins}
-    elif app.config["ENV"] == "development" or app.config["ENV"] == "test":
-        origins = ["https://localhost"]
+    elif app.config["ENV"] == "development":
+        origins = ["https://localhost:4434"]
+        resources_origins = {"origins": origins}
+    elif app.config["ENV"] == "test":
+        origins = ["https://localhost:4000"]
         resources_origins = {"origins": origins}
     CORS(
         app,

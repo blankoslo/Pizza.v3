@@ -1,16 +1,16 @@
-name: Build and Test
+name: Backend
 on:
   pull_request:
-    types: [ opened, synchronize, reopened, closed ]
+    types: [opened, synchronize, reopened, closed]
     branches:
       - main
     paths:
-      - 'application/backend/**'
+      - "application/backend/**"
   push:
     branches:
       - main
     paths:
-      - 'application/backend/**'
+      - "application/backend/**"
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

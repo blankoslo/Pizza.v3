@@ -5,7 +5,7 @@ from flask_smorest import Blueprint, abort
 from app.repositories.user_repository import UserRepository
 from app.models.user_schema import UserSchema
 from app.auth import auth
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, set_access_cookies
 from app.services.slack_organization_service import SlackOrganizationService
 from app.services.injector import injector
 
@@ -39,9 +39,11 @@ class Auth(views.MethodView):
         slack_provider_cfg = get_slack_provider_cfg()
         authorization_endpoint = slack_provider_cfg["authorization_endpoint"]
 
+        base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        base_url = base_url.rstrip("/")
+
         # Use library to construct the request for Google login and provide
         # scopes that let you retrieve user's profile from Google
-        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
         request_uri = auth.client.prepare_request_uri(
             authorization_endpoint,
             redirect_uri = f'{base_url}/login/callback',
@@ -55,7 +57,9 @@ class Auth(views.MethodView):
 @bp.route("/login/callback")
 class Auth(views.MethodView):
     def get(self):
-        base_url = current_app.config["FRONTEND_URI"].rstrip('/')
+        base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        base_url = base_url.rstrip("/")
+
         code = request.args.get("code")
         authorization_response = f'{base_url}/login/callback?'
         for key in request.args.keys():
@@ -114,5 +118,7 @@ class Auth(views.MethodView):
             }
             access_token = create_access_token(identity=user, additional_claims=additional_claims)
             refresh_token = create_refresh_token(identity=user, additional_claims=additional_claims)
-            return jsonify(access_token=access_token, refresh_token=refresh_token)
+            response = jsonify(access_token=access_token, refresh_token=refresh_token)
+            set_access_cookies(response, access_token)
+            return response
         return abort(401, message = "User email not available or not verified by Slack.")

@@ -7,10 +7,19 @@ import { RefreshJWT } from './AuthService';
 
 const baseUrl = process.env.BACKEND_URI ? `${process.env.BACKEND_URI.replace(/\/+$/, '')}/api` : '/api';
 
+function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift();
+}
+
 export const httpClient = (token?: string): AxiosInstance => {
     const headers: AxiosRequestHeaders = {};
+    const cookie = getCookie('csrf_access_token');
 
-    if (token) {
+    if (cookie) {
+        headers['X-CSRF-TOKEN'] = cookie;
+    } else if (token) {
         headers.Authorization = `Bearer ${token}`;
     }
 

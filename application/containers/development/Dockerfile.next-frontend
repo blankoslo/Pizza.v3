@@ -1,0 +1,5 @@
+FROM node:20
+
+WORKDIR /srv/next-frontend
+
+CMD npm cache verify && npm install && npm run dev
