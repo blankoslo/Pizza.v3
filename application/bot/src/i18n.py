@@ -45,6 +45,8 @@ class Translator:
             return key
 
     def format_timestamp(self, timestamp):
-        return pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+         return pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+       
+       
 
 

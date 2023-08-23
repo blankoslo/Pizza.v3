@@ -96,7 +96,7 @@ class BotApi:
                 channel_id=user_id,
                 event_id=str(event_id),
                 place=restaurant_name,
-                datetime=timestamp.strftime("%A %d. %B kl %H:%M"),
+                datetime=timestamp.strftime("%A %d. %B %H:%M"),
                 deadline=self.REPLY_DEADLINE_IN_HOURS,
                 slack_client = slack_client
             )
@@ -160,7 +160,7 @@ class BotApi:
         # Send the finalization Slack message
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("eventFinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"), booker=booker, payer=payer)
+            text=self.translator.translate("eventFinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B %H:%M"), booker=booker, payer=payer)
         )
 
     def send_event_unfinalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
@@ -174,7 +174,7 @@ class BotApi:
         # Send message that the event unfinalized
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("eventUnfinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
+            text=self.translator.translate("eventUnfinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B %H:%M"))
         )
         # Invite more users for the event
         self.invite_multiple_if_needed()
@@ -187,7 +187,7 @@ class BotApi:
         # Send message that the user withdrew
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("userWithdrawAfterFinalization", user_id=user_id, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
+            text=self.translator.translate("userWithdrawAfterFinalization", user_id=user_id, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B %H:%M"))
         )
         # Invite more users for the event
         self.invite_multiple_if_needed()
@@ -316,7 +316,7 @@ class BotApi:
             # Send the user a message that the event has been cancelled
             slack_client.send_slack_message(
                 channel_id=slack_id,
-                text=self.translator.translate("unfinalizedEventCancelled", restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
+                text=self.translator.translate("unfinalizedEventCancelled", restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -328,7 +328,7 @@ class BotApi:
         self.logger.info("finalized event got cancelled for users %s" % ", ".join(slack_user_ids))
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("finalizedEventCancelled", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
+            text=self.translator.translate("finalizedEventCancelled", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B %H:%M"))
         )
         # Update invitation message - remove buttons and tell user it has been cancelled
         for slack_user_data in slack_data:
@@ -348,7 +348,7 @@ class BotApi:
         for slack_id in slack_ids:
             slack_client.send_slack_message(
                 channel_id=slack_id,
-                text=self.translator.translate("unfinalizedEventUpdate", old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B kl %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
+                text=self.translator.translate("unfinalizedEventUpdate", old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B  %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -358,7 +358,7 @@ class BotApi:
         self.logger.info("finalized event got updated for users %s" % ", ".join(slack_ids))
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("finalizedEventUpdate", user_ids=ids_string, old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B kl %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B kl %H:%M"))
+            text=self.translator.translate("finalizedEventUpdate", user_ids=ids_string, old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B  %H:%M"))
         )
 
     def send_slack_message(self, channel_id, text, slack_client, blocks=None, thread_ts=None):
