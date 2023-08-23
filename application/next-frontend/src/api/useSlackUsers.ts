@@ -1,6 +1,6 @@
 import { useAuthedSWR } from './utils'
 
-export interface ApiUser {
+export interface SlackUser {
     active: boolean
     priority: number
     slack_id: string
@@ -9,8 +9,8 @@ export interface ApiUser {
     email?: string
 }
 
-const useUsers = () => {
-    const { data, error, isLoading } = useAuthedSWR<ApiUser[]>('/users')
+const useSlackUsers = () => {
+    const { data, error, isLoading } = useAuthedSWR<SlackUser[]>('/users')
 
     return {
         data,
@@ -19,4 +19,4 @@ const useUsers = () => {
     }
 }
 
-export default useUsers
+export default useSlackUsers
