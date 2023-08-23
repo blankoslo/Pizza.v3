@@ -88,8 +88,7 @@ class BotApi:
         restaurant_name = event['restaurant_name']
 
         # timestamp (timestamp) is converted to UTC timestamp by psycopg2
-        # Convert timestamp to Norwegian timestamp
-        # timestamp = pytz.utc.localize(event_time.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=event_time)
         for user_id in invited_users:
             slack_message = self.send_pizza_invite(
@@ -147,8 +146,7 @@ class BotApi:
 
     def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
         self.logger.info("Finalizing event %s %s", timestamp, restaurant_name)
-        # Convert timestamp to Norwegian timestamp
-        # timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=timestamp)
         # Create slack @-id-strings
         users = ['<@%s>' % user for user in slack_ids]
@@ -165,8 +163,7 @@ class BotApi:
 
     def send_event_unfinalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
         self.logger.info("Unfinalizing event %s %s", timestamp, restaurant_name)
-        # Convert timestamp to Norwegian timestamp
-        # timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=timestamp)
         # Create slack @-id-strings
         users = ['<@%s>' % user for user in slack_ids]
