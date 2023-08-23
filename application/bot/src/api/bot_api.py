@@ -21,7 +21,7 @@ class BotApi:
     def __init__(self, config: BotApiConfiguration, logger: logging.Logger):
         self.REPLY_DEADLINE_IN_HOURS = int(os.environ["REPLY_DEADLINE_IN_HOURS"])
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
-        self.logger = logger
+        self.logger: logging.Logger = logger
         self.translator: Translator = injector.get(Translator)
 
     def __enter__(self):

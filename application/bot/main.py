@@ -47,7 +47,6 @@ def setup_consumption_queue_listener():
 def main():
     # Set up injector
     api_config = BotApiConfiguration()
-    # api_config = BotApiConfiguration(pytz.timezone('Europe/Oslo'))
     injector.binder.bind(BotApiConfiguration, to=api_config)
 
     # Set up logging

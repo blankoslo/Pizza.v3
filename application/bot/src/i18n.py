@@ -7,7 +7,6 @@ from string import Template
 import pytz
 
 
-supported_format = ["json"]
 
 #valid timezones can be found here
 #https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568 
@@ -16,11 +15,14 @@ lang_timezone_map = {
     "en": "Europe/London"
 }
 
+supported_format = ["json"]
+
+
 class Translator:
     def __init__(self, language_folder="./lang", default_locale="en") -> None:
         self.data = {}
         self.locale = default_locale
-        self.logger = injector.get(logging.Logger)
+        self.logger: logging.Logger = injector.get(logging.Logger)
         self.timezone = lang_timezone_map[self.locale]
 
 
