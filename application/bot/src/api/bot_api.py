@@ -13,17 +13,16 @@ import logging
 from src.i18n import Translator
 
 class BotApiConfiguration:
-    def __init__(self, timezone):
-        self.timezone = timezone
+    def __init__(self):
+        pass
 
 class BotApi:
     @inject
     def __init__(self, config: BotApiConfiguration, logger: logging.Logger):
         self.REPLY_DEADLINE_IN_HOURS = int(os.environ["REPLY_DEADLINE_IN_HOURS"])
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
-        self.timezone = config.timezone
         self.logger = logger
-        self.translator = injector.get(Translator)
+        self.translator: Translator = injector.get(Translator)
 
     def __enter__(self):
         self.client = injector.get(BrokerClient)
@@ -90,8 +89,8 @@ class BotApi:
 
         # timestamp (timestamp) is converted to UTC timestamp by psycopg2
         # Convert timestamp to Norwegian timestamp
-        timestamp = pytz.utc.localize(event_time.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
-
+        # timestamp = pytz.utc.localize(event_time.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        timestamp = self.translator.format_timestamp(timestamp=event_time)
         for user_id in invited_users:
             slack_message = self.send_pizza_invite(
                 channel_id=user_id,
@@ -149,7 +148,8 @@ class BotApi:
     def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
         self.logger.info("Finalizing event %s %s", timestamp, restaurant_name)
         # Convert timestamp to Norwegian timestamp
-        timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        # timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        timestamp = self.translator.format_timestamp(timestamp=timestamp)
         # Create slack @-id-strings
         users = ['<@%s>' % user for user in slack_ids]
         ids_string = ", ".join(users)
@@ -166,7 +166,8 @@ class BotApi:
     def send_event_unfinalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
         self.logger.info("Unfinalizing event %s %s", timestamp, restaurant_name)
         # Convert timestamp to Norwegian timestamp
-        timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        # timestamp = pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)
+        timestamp = self.translator.format_timestamp(timestamp=timestamp)
         # Create slack @-id-strings
         users = ['<@%s>' % user for user in slack_ids]
         ids_string = ", ".join(users)
@@ -180,10 +181,13 @@ class BotApi:
 
     def send_user_withdrew_after_finalization(self, user_id, timestamp, restaurant_name, channel_id, slack_client):
         self.logger.info("User %s withdrew from event %s %s", user_id, timestamp, restaurant_name)
+
+        timestamp=self.translator.format_timestamp(timestamp=timestamp)
+
         # Send message that the user withdrew
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("userWithdrawAfterFinalization", user_id=user, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
+            text=self.translator.translate("userWithdrawAfterFinalization", user_id=user_id, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B kl %H:%M"))
         )
         # Invite more users for the event
         self.invite_multiple_if_needed()
