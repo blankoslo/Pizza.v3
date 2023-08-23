@@ -26,5 +26,6 @@
     "invalidatedEventCacelled": "Arrangementet har blitt avlyst.",
     "invitationExpired":"Invitasjonen er utløpt.",
     "inviteWithdrawn": "Du har meldt deg av. Ok 😕",
-    "inviteWithdrawnFailure":"Arrangementet er over. Avmelding er ikke mulig."
+    "inviteWithdrawnFailure":"Arrangementet er over. Avmelding er ikke mulig.",
+    "adminPanelURLCommand": "Adminpanelet kan du finne her: <$adminPanelURL | Adminpanel>"
 }

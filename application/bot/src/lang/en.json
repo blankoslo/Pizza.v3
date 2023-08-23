@@ -26,6 +26,7 @@
     "invalidatedEventCancelled": "The event has been canceled.",
     "invitationExpired": "The invitation has expired.",
     "inviteWithdrawn": "You've withdrawn. Ok 😕",
-    "inviteWithdrawnFailure": "The pizza event is over. Withdrawal is not possible."
+    "inviteWithdrawnFailure": "The pizza event is over. Withdrawal is not possible.",
+    "adminPanelURLCommand": "The admin panel can be found here: <$adminPanelURL | Admin panel>"
 }
 
