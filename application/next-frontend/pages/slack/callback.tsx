@@ -1,41 +1,41 @@
-import { baseUrl } from '@/Admin/auth'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+    const code = query.code
     if (!query.code || typeof query.code !== 'string')
         return { redirect: { destination: '/', permanent: false }, props: {} }
 
-    return { props: { code: query.code } }
+    const res = await fetch(`http://backend:3000/api/slack/callback`, {
+        method: 'POST',
+        body: JSON.stringify({ code: code }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).catch((err) => {
+        console.log(err)
+        throw err
+    })
+
+    return { props: { success: res.ok } }
 }
 
-const SlackInstallCallback = ({ code }: { code: string }) => {
+const SlackInstallCallback = ({ success }: { success: boolean }) => {
     const router = useRouter()
+    if (!success) {
+        return (
+            <div>
+                <h1>Error adding to workspace </h1>
+                <button onClick={() => router.push('/')}>Try again</button>
+            </div>
+        )
+    }
 
-    useEffect(() => {
-        const test = async () => {
-            const res = await fetch(`${baseUrl}/slack/callback`, {
-                method: 'POST',
-                body: JSON.stringify({ code }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).catch((error) => {
-                router.push('/landing')
-            })
-            if (!res?.ok) {
-                return
-            }
-            router.push('/login')
-        }
-        if (code) test()
-    }, [])
-
-    if (!code) router.push('/landing')
     return (
         <div>
-            <h1>Loading</h1>
+            <h1>Bot added to workspace! </h1>
+            <h2>Login to administrate the bot </h2>
+            <button onClick={() => router.push('/login')}>Go to login</button>
         </div>
     )
 }
