@@ -12,13 +12,9 @@ from src.injector import injector
 import logging
 from src.i18n import Translator
 
-class BotApiConfiguration:
-    def __init__(self):
-        pass
-
 class BotApi:
     @inject
-    def __init__(self, config: BotApiConfiguration, logger: logging.Logger):
+    def __init__(self, logger: logging.Logger):
         self.REPLY_DEADLINE_IN_HOURS = int(os.environ["REPLY_DEADLINE_IN_HOURS"])
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
         self.logger: logging.Logger = logger
