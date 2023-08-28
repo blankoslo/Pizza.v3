@@ -1,10 +1,7 @@
 import locale
 import threading
-import pytz
 import logging
 import sys
-
-from src.api.bot_api import BotApiConfiguration
 
 from src.scheduler import scheduler
 
@@ -46,12 +43,13 @@ def setup_consumption_queue_listener():
 
 def main():
     # Set up injector
-    api_config = BotApiConfiguration(pytz.timezone('Europe/Oslo'))
-    injector.binder.bind(BotApiConfiguration, to=api_config)
-
     # Set up logging
     logger = setup_logger()
     injector.binder.bind(logging.Logger, to=logger, scope=singleton)
+
+    # set up translator
+    translator = Translator(language_folder="./src/lang")
+    injector.binder.bind(Translator, to=translator, scope=singleton)
 
     # Try setting locale
     try:
@@ -59,14 +57,10 @@ def main():
     except:
         logger.warning("Missing locale nb_NO.utf8 on server")
 
-    # set up translator
-    translator = Translator(language_folder="./src/lang")
-    injector.binder.bind(Translator, to=translator, scope=singleton)
-
     # Set up rabbitmq
     setup_connection_pool()
     setup_consumption_queue_listener()
-
+    
     # start scheduler
     scheduler.start()
 
