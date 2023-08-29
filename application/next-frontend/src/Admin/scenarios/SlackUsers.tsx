@@ -3,7 +3,6 @@ import useSlackUsers from '@/api/useSlackUsers'
 
 const SlackUsers = () => {
     const { data, isLoading, error } = useSlackUsers()
-    console.log(data)
 
     if (isLoading) {
         return (

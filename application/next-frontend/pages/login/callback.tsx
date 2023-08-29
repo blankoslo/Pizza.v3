@@ -17,12 +17,9 @@ const LoginCallback = ({ code }: InferGetServerSidePropsType<typeof getServerSid
         if (code)
             fetch(`${baseUrl}/auth/login/callback?code=${code}`)
                 .then((res) => {
-                    console.log(res)
-
                     router.push('/admin')
                 })
                 .catch((error) => {
-                    console.log(error)
                     router.push('/login')
                 })
     }, [])
