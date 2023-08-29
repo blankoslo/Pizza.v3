@@ -9,7 +9,7 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from slack_bolt.oauth.oauth_settings import OAuthSettings
 from slack_sdk.oauth.state_store import FileOAuthStateStore
 
-from src.api.bot_api import BotApi, BotApiConfiguration
+from src.api.bot_api import BotApi
 from src.injector import injector
 from src.slack.installation_store import BrokerInstallationStore
 from src.api.slack_api import SlackApi
