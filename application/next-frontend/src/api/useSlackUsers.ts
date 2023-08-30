@@ -10,13 +10,7 @@ export interface SlackUser {
 }
 
 const useSlackUsers = () => {
-    const { data, error, isLoading } = useAuthedSWR<SlackUser[]>('/users')
-
-    return {
-        data,
-        isLoading,
-        error,
-    }
+    return useAuthedSWR<SlackUser[]>('/users')
 }
 
 export default useSlackUsers

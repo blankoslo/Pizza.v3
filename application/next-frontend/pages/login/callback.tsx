@@ -22,7 +22,7 @@ const LoginCallback = ({ code }: InferGetServerSidePropsType<typeof getServerSid
                 .catch(() => {
                     router.push('/login')
                 })
-    }, [])
+    }, [code, router])
 
     if (!code) router.push('/login')
     return (
