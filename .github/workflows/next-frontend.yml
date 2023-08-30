@@ -12,6 +12,23 @@ on:
     paths:
       - "application/next-frontend/**"
 jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Set up Node 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: "npm"
+          cache-dependency-path: application/next-frontend/package-lock.json
+      - name: Install dependencies
+        working-directory: application/next-frontend
+        run: npm ci
+      - name: Build
+        working-directory: application/next-frontend
+        run: npm run lint
   build:
     runs-on: ubuntu-latest
     steps:
