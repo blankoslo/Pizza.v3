@@ -16,10 +16,10 @@ const LoginCallback = ({ code }: InferGetServerSidePropsType<typeof getServerSid
     useEffect(() => {
         if (code)
             fetch(`${baseUrl}/auth/login/callback?code=${code}`)
-                .then((res) => {
+                .then(() => {
                     router.push('/admin')
                 })
-                .catch((error) => {
+                .catch(() => {
                     router.push('/login')
                 })
     }, [])

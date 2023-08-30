@@ -12,18 +12,18 @@ const SlackUsers = () => {
         )
     }
 
-    if (!data || data.length == 0) {
+    if (error) {
         return (
             <CardComponent title="People" className="w-1/4">
-                No users found.
+                Failed to load users due to the following error: {error?.info.msg}
             </CardComponent>
         )
     }
 
-    if (error) {
+    if (!data || data.length == 0) {
         return (
             <CardComponent title="People" className="w-1/4">
-                Failed to load users, due to the following error: {error?.info.msg}
+                No users found.
             </CardComponent>
         )
     }
