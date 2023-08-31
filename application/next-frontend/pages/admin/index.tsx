@@ -18,6 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 const AdminHome = ({ user }: { user: User }) => {
     return (
         <div>
+            <h1>{user.name} logged in as admin</h1>
             <Home />
         </div>
     )

@@ -1,4 +1,4 @@
-import { baseUrl } from '@/Admin/auth'
+import { baseUrl } from '@/api/utils'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -16,13 +16,13 @@ const LoginCallback = ({ code }: InferGetServerSidePropsType<typeof getServerSid
     useEffect(() => {
         if (code)
             fetch(`${baseUrl}/auth/login/callback?code=${code}`)
-                .then((res) => {
+                .then(() => {
                     router.push('/admin')
                 })
-                .catch((error) => {
+                .catch(() => {
                     router.push('/login')
                 })
-    }, [])
+    }, [code, router])
 
     if (!code) router.push('/login')
     return (

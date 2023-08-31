@@ -1,4 +1,4 @@
-import { baseUrl } from '@/Admin/auth'
+import { baseUrl } from '@/api/utils'
 
 const Login = () => {
     const login = async () => {
