@@ -1,6 +1,6 @@
 import { serversideApiUri } from '@/api/endpoints'
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async ({ query, res }) => {
     const code = query.code
@@ -23,14 +23,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
 }
 
 const LoginCallback = () => {
-    const router = useRouter()
     return (
-        <div>
-            <h1>An unknown error occured when logging in. </h1>
-            <div>
-                <h1>Error adding to workspace </h1>
-                <button onClick={() => router.push('/login')}>Try again</button>
-            </div>
+        <div className="flex w-full flex-col justify-center gap-8">
+            <h1 className="text-center text-xl font-bold">Unknown error occured! </h1>
+            <h2 className="text-center font-bold">Try logging in again </h2>
+            <Link href={'/login'} className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300">
+                Go to login
+            </Link>
         </div>
     )
 }

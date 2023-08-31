@@ -7,9 +7,11 @@ const Login = () => {
         if (redirectURL) window.location.replace(redirectURL)
     }
     return (
-        <div>
-            <h1>Login Page </h1>
-            <button onClick={login}>Login</button>
+        <div className="flex w-full flex-col justify-center gap-8">
+            <h1 className="text-center text-xl font-bold">Login Page </h1>
+            <button className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300" onClick={login}>
+                Login
+            </button>
         </div>
     )
 }
