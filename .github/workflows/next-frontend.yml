@@ -11,6 +11,10 @@ on:
       - main
     paths:
       - "application/next-frontend/**"
+
+env:
+  NEXT_PUBLIC_BACKEND_URI: http://dummyurl:8080
+
 jobs:
   linting:
     runs-on: ubuntu-latest

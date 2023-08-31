@@ -1,12 +1,12 @@
+import { serversideApiUri } from '@/api/endpoints'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const code = query.code
-    if (!query.code || typeof query.code !== 'string')
-        return { redirect: { destination: '/', permanent: false }, props: {} }
+    if (!query.code || typeof query.code !== 'string') return { props: { success: false } }
 
-    const res = await fetch(`http://backend:3000/api/slack/callback`, {
+    const res = await fetch(`${serversideApiUri}/slack/callback`, {
         method: 'POST',
         body: JSON.stringify({ code: code }),
         headers: {
