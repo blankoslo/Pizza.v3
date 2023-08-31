@@ -1,15 +1,14 @@
 import Image from 'next/image'
 import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg'
 import { AddToSlackButton } from './components/AddToSlackButton'
-import { baseUrl } from '@/Admin/auth'
+import { clientsideApiUri } from '@/api/endpoints'
 
 const Header = () => {
     const addToSlack = async () => {
-        const res = await fetch(baseUrl + '/slack/install', { method: 'GET' }).then((res) => res.json())
+        const res = await fetch(clientsideApiUri + '/slack/install', { method: 'GET' }).then((res) => res.json())
         const redirectURL = res.redirect_url
-        console.log(redirectURL)
 
-        if (redirectURL) window.location.replace(redirectURL)
+        if (redirectURL) window.location.assign(redirectURL)
     }
     return (
         <>

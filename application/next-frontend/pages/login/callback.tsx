@@ -7,10 +7,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
 
     const response = await fetch(`http://backend:3000/api/auth/login/callback?code=${code}`).catch((err) => {
         console.log(err)
-        throw err
     })
 
-    if (!response.ok) {
+    if (!response?.ok) {
         return { redirect: { destination: '/login', permanent: false }, props: {} }
     }
 

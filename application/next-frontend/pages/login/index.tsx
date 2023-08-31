@@ -1,8 +1,8 @@
-import { baseUrl } from '@/api/utils'
+import { clientsideApiUri } from '@/api/endpoints'
 
 const Login = () => {
     const login = async () => {
-        const res = await fetch(baseUrl + '/auth/login', { method: 'GET' }).then((res) => res.json())
+        const res = await fetch(clientsideApiUri + '/auth/login', { method: 'GET' }).then((res) => res.json())
         const redirectURL = res.auth_url
         if (redirectURL) window.location.replace(redirectURL)
     }
