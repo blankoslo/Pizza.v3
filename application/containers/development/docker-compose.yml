@@ -47,7 +47,6 @@ services:
     volumes:
       - ../../next-frontend:/srv/next-frontend
     environment:
-      - NEXT_PUBLIC_BACKEND_URI=http://backend:3000
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
       - WATCHPACK_POLLING=true
