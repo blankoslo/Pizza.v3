@@ -5,15 +5,15 @@ x-common-variables: &common-variables
   PYTHONPATH: /srv/bot
 
 x-common-slack-variables: &common-slack-variables
-  SLACK_APP_TOKEN: ""
-  SLACK_CLIENT_ID: ""
-  SLACK_CLIENT_SECRET: ""
-  SLACK_SIGNING_SECRET: ""
+  SLACK_APP_TOKEN: "${SLACK_APP_TOKEN}"
+  SLACK_CLIENT_ID: "${SLACK_CLIENT_ID}"
+  SLACK_CLIENT_SECRET: "${SLACK_CLIENT_SECRET}"
+  SLACK_SIGNING_SECRET: "${SLACK_SIGNING_SECRET}"
 
 x-common-cloudinary-variables: &common-cloudinary-variables
-  CLOUDINARY_CLOUD_NAME: ""
-  CLOUDINARY_API_KEY: ""
-  CLOUDINARY_API_SECRET: ""
+  CLOUDINARY_CLOUD_NAME: "${CLOUDINARY_CLOUD_NAME}"
+  CLOUDINARY_API_KEY: "${CLOUDINARY_API_KEY}"
+  CLOUDINARY_API_SECRET: "${CLOUDINARY_API_SECRET}"
 
 x-common-rabbitmq-variables: &common-rabbitmq-variables
   MQ_URL: amqp://guest:guest@rabbitmq:5672/%2F
@@ -49,6 +49,8 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
+      - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_BACKEND_URI="${BACKEND_URI}"
     depends_on:
       - backend
     networks:
@@ -79,7 +81,7 @@ services:
       FLASK_APP: "main.py"
       FLASK_RUN_HOST: "0.0.0.0"
       FLASK_RUN_PORT: "3000"
-      FRONTEND_URI: "https://localhost:4434"
+      FRONTEND_URI: "${FRONTEND_URI}"
       <<:
         [
           *common-slack-variables,
