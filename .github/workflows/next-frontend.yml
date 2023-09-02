@@ -12,9 +12,6 @@ on:
     paths:
       - "application/next-frontend/**"
 
-env:
-  NEXT_PUBLIC_BACKEND_URI: http://dummyurl:8080
-
 jobs:
   linting:
     runs-on: ubuntu-latest
@@ -36,6 +33,8 @@ jobs:
       - name: Typechecking
         working-directory: application/next-frontend
         run: npm run typecheck
+
+  # Test that the project compiles
   build:
     runs-on: ubuntu-latest
     steps:
@@ -53,3 +52,6 @@ jobs:
       - name: Build
         working-directory: application/next-frontend
         run: npm run build
+        env:
+          # Prevents the build from failing, but doesn't do anything when testing build
+          NEXT_PUBLIC_BACKEND_URI: http://somerandomurl.test
