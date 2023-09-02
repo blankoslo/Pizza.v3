@@ -8,10 +8,11 @@
         "start": "next start -p 4000",
         "lint": "next lint --max-warnings 0",
         "fix": "next lint --fix",
+        "typecheck": "tsc --noEmit --incremental false --pretty",
         "prepare": "cd ../../ && husky install ./application/next-frontend/.husky"
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx}": "eslint --cache --fix --ignore-path .eslintignore"
+        "*.{js,jsx,ts,tsx}": ["prettier --write", "eslint --max-warnings 0"]
     },
     "dependencies": {
         "@emotion/react": "^11.11.1",
