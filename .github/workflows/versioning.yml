@@ -27,6 +27,7 @@ jobs:
         working-directory: application/frontend
         env:
           BACKEND_URI: https://api.www.pizzabot.app
+          NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app # This is required for next-frontend when production ready
       - name: Remove build gitignore
         run: rm public/.gitignore
         working-directory: application/frontend

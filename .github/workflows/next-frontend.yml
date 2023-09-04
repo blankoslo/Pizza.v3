@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - "application/next-frontend/**"
+
 jobs:
   linting:
     runs-on: ubuntu-latest
@@ -26,9 +27,14 @@ jobs:
       - name: Install dependencies
         working-directory: application/next-frontend
         run: npm ci
-      - name: Build
+      - name: Linting
         working-directory: application/next-frontend
         run: npm run lint
+      - name: Typechecking
+        working-directory: application/next-frontend
+        run: npm run typecheck
+
+  # Test that the project compiles
   build:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +52,6 @@ jobs:
       - name: Build
         working-directory: application/next-frontend
         run: npm run build
+        env:
+          # Prevents the build from failing, but doesn't do anything when testing build
+          NEXT_PUBLIC_BACKEND_URI: http://somerandomurl.test

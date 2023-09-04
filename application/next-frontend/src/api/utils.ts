@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import { clientsideApiUri } from './endpoints'
 
 export type FetcherError = {
     statusCode: number
@@ -14,8 +15,6 @@ const getCookie = (name: string) => {
     if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift()
 }
 
-export const baseUrl = process.env.BACKEND_URI ? `${process.env.BACKEND_URI.replace(/\/+$/, '')}/api` : '/api'
-
 export const authedFetcher = async <Data>(endpoint: URL) => {
     const headers = new Headers()
     const cookie = getCookie('csrf_access_token')
@@ -25,7 +24,7 @@ export const authedFetcher = async <Data>(endpoint: URL) => {
     }
 
     headers.set('Content-Type', 'application/json')
-    const res = await fetch(baseUrl + endpoint, { headers })
+    const res = await fetch(clientsideApiUri + endpoint, { headers })
 
     if (!res.ok) {
         const info = await res.json()
