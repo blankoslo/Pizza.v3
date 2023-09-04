@@ -5,6 +5,7 @@ if ! git diff --cached --exit-code -s application/next-frontend
 then
 	echo "Files changed in next-frontend"
 	cd application/next-frontend
-	npm run lint
+	npx lint-staged 
+	npm run typecheck
 	cd ../..
 fi

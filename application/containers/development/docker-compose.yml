@@ -50,7 +50,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
       - WATCHPACK_POLLING=true
-      - NEXT_PUBLIC_BACKEND_URI="${BACKEND_URI}"
+      - NEXT_PUBLIC_BACKEND_URI=${BACKEND_URI}
     depends_on:
       - backend
     networks:

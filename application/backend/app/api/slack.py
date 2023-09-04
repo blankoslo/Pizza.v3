@@ -30,7 +30,7 @@ class Slack(views.MethodView):
             'commands'
         ]
 
-        frontend_base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        frontend_base_url = current_app.config["FRONTEND_URI"]
         frontend_base_url = frontend_base_url.rstrip("/")
 
         callback_redirect_uri = f'{frontend_base_url}/slack/callback'
@@ -58,7 +58,7 @@ class Slack(views.MethodView):
             logger.warn("client_id or client_secret is None")
             return abort(500)
 
-        frontend_base_url = request.host_url if request.host_url is not None else current_app.config["FRONTEND_URI"]
+        frontend_base_url = current_app.config["FRONTEND_URI"]
         frontend_base_url = frontend_base_url.rstrip("/")
         
         callback_redirect_uri = f'{frontend_base_url}/slack/callback'

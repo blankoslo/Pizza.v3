@@ -1,15 +1,28 @@
-import { baseUrl } from '@/api/utils'
+import { clientsideApiUri } from '@/api/endpoints'
+import { useState } from 'react'
 
 const Login = () => {
-    const login = async () => {
-        const res = await fetch(baseUrl + '/auth/login', { method: 'GET' }).then((res) => res.json())
-        const redirectURL = res.auth_url
-        if (redirectURL) window.location.replace(redirectURL)
+    const [errorMsg, setErrorMsg] = useState<string>()
+
+    const loginRedirect = async () => {
+        try {
+            const res = await fetch(clientsideApiUri + '/auth/login')
+            if (!res.ok) throw new Error()
+
+            const redirectURL = (await res.json()).auth_url
+            if (redirectURL) window.location.assign(redirectURL)
+            else throw new Error()
+        } catch (err) {
+            setErrorMsg('Something went wrong when logging inn through Slack.')
+        }
     }
     return (
-        <div>
-            <h1>Login Page </h1>
-            <button onClick={login}>Login</button>
+        <div className="flex w-full flex-col justify-center gap-8">
+            <h1 className="text-center text-xl font-bold">Login Page </h1>
+            <button className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300" onClick={loginRedirect}>
+                Login
+            </button>
+            {errorMsg && <h2 className="text-center font-bold text-red-400">{`${errorMsg} Try logging in again.`}</h2>}
         </div>
     )
 }

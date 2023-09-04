@@ -1,8 +1,15 @@
 import Image from 'next/image'
 import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg'
 import { AddToSlackButton } from './components/AddToSlackButton'
+import { clientsideApiUri } from '@/api/endpoints'
 
 const Header = () => {
+    const addToSlack = async () => {
+        const res = await fetch(clientsideApiUri + '/slack/install', { method: 'GET' }).then((res) => res.json())
+        const redirectURL = res.redirect_url
+
+        if (redirectURL) window.location.assign(redirectURL)
+    }
     return (
         <>
             <div className="header !static"></div>
@@ -13,7 +20,7 @@ const Header = () => {
                 <div>
                     <button className="p-4 font-bold hover:bg-gray-300">About us</button>
                 </div>
-                <AddToSlackButton />
+                <AddToSlackButton onClick={addToSlack} />
             </nav>
         </>
     )
