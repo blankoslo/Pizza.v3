@@ -8,7 +8,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
         return { props: { errorMsg: 'Could not get login information from Slack.' } }
 
     const response = await fetch(`${serversideApiUri}/auth/login/callback?code=${code}`).catch((err) => {
-        console.log(err)
+        console.error(err)
     })
 
     if (!response?.ok) {
