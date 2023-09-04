@@ -13,6 +13,11 @@ export interface SlackUser extends BaseSlackUser {
     email?: string
 }
 
+export interface BaseUser {
+    active: boolean
+    priority: number
+}
+
 const useSlackUsers = () => {
     const endpoint = '/users'
 
