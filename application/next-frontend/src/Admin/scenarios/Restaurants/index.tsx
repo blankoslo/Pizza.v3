@@ -2,35 +2,25 @@ import { NewRestaurantModal } from './components/NewRestaurantModal'
 import { CardComponent } from 'Admin/components/CardComponent'
 import { ModalButton } from 'Admin/components/ModalButton'
 import { ModalProvider } from 'Admin/context/ModelContext'
-
-interface Restaurant {
-    name: string
-    address?: string
-    url?: string
-    id: string
-}
-
-// Sample restaurant data
-const restaurantList: Restaurant[] = [
-    {
-        name: 'Example Restaurant 1',
-        id: '1',
-    },
-    {
-        name: 'Example Restaurant 2',
-        id: '2',
-    },
-]
+import useRestaurants from '@/api/useRestaurants'
 
 const Restaurants = () => {
+    const { data, isLoading, error } = useRestaurants()
+
     return (
         <CardComponent title="Places" className=" w-1/4">
-            {restaurantList.map((restaurant) => (
-                <div key={restaurant.id} className="flex items-center justify-between py-2">
-                    <p>{restaurant.name}</p>
-                    <button>&times;</button>
-                </div>
-            ))}
+            {isLoading
+                ? 'Loading...'
+                : error
+                ? `Failed to load users due to the following error: ${error?.info.msg}`
+                : !data || data.length == 0
+                ? 'No restaurants found.'
+                : data.map((restaurant) => (
+                      <div key={restaurant.id} className="flex items-center justify-between py-2">
+                          <p>{restaurant.name}</p>
+                          <button>&times;</button>
+                      </div>
+                  ))}
 
             <ModalProvider>
                 <ModalButton buttonText="Add More">
