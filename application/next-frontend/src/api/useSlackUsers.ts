@@ -1,4 +1,4 @@
-import { useAuthedSWR } from './utils'
+import { useAuthedSWR, useMutater } from './utils'
 
 export interface SlackUser {
     active: boolean
@@ -10,7 +10,34 @@ export interface SlackUser {
 }
 
 const useSlackUsers = () => {
-    return useAuthedSWR<SlackUser[]>('/users')
+    const endpoint = '/users'
+
+    const { data, isLoading, error, mutate } = useAuthedSWR<SlackUser[]>(endpoint)
+
+    const { put } = useMutater()
+
+    const updateUser = (updatedUser: SlackUser) => {
+        //for some reason the backend only accepts the active property
+        const updatedUserActiveStatus = { active: updatedUser.active }
+
+        try {
+            mutate(
+                async () => {
+                    const user = await put(endpoint + '/' + updatedUser.slack_id, updatedUserActiveStatus)
+                    const filteredData = data?.filter((user) => user.slack_id !== updatedUser.slack_id)
+                    return [...filteredData!, user]
+                },
+                {
+                    rollbackOnError: true,
+                    throwOnError: true,
+                },
+            )
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    return { data, isLoading, error, updateUser }
 }
 
 export default useSlackUsers

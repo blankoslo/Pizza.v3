@@ -10,9 +10,11 @@ export type FetcherError = {
 }
 
 const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`
-    const parts = value.split(`; ${name}=`)
-    if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift()
+    if (typeof window !== 'undefined') {
+        const value = `; ${document.cookie}`
+        const parts = value.split(`; ${name}=`)
+        if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift()
+    }
 }
 
 export const authedFetcher = async <Data>(endpoint: URL) => {
@@ -35,13 +37,43 @@ export const authedFetcher = async <Data>(endpoint: URL) => {
     return res.json() as Data
 }
 
-export const useAuthedSWR = <Data>(endpoint: string) => {
-    const fetchedData = useSWR<Data, FetcherError>(endpoint, authedFetcher)
+export const useAuthedSWR = <AuthedSWR>(endpoint: string) => {
+    const { data, isLoading, error, mutate } = useSWR<AuthedSWR, FetcherError>(endpoint, authedFetcher)
     const router = useRouter()
 
-    if (fetchedData.error?.statusCode === 401 || fetchedData.error?.statusCode === 403) {
-        router.push('/login')
+    if (error) {
+        if (error.statusCode === 401 || error.statusCode == 403) {
+            router.push('/login')
+        }
     }
 
-    return fetchedData
+    return { data, isLoading, error, mutate }
+}
+
+export const useMutater = () => {
+    const headers = new Headers()
+    const cookie = getCookie('csrf_access_token')
+
+    if (cookie) {
+        headers.set('X-CSRF-TOKEN', cookie)
+    }
+
+    headers.set('Content-Type', 'application/json')
+    headers.set('Accept', 'application/json')
+
+    const put = async <Data>(endpoint: string, body: any) => {
+        const res = await fetch(clientsideApiUri + endpoint, {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(body),
+        })
+        if (!res.ok) {
+            const info = await res.json()
+            const err: FetcherError = { statusCode: res.status, info }
+            throw err
+        }
+        return res.json() as Data
+    }
+
+    return { put }
 }
