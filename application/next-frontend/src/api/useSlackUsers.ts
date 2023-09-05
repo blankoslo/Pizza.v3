@@ -24,8 +24,11 @@ const useSlackUsers = () => {
             mutate(
                 async () => {
                     const user = await put(endpoint + '/' + updatedUser.slack_id, updatedUserActiveStatus)
-                    const filteredData = data?.filter((user) => user.slack_id !== updatedUser.slack_id)
-                    return [...filteredData!, user]
+
+                    if (data) {
+                        const filteredData = data?.filter((user) => user.slack_id !== updatedUser.slack_id)
+                        return [...filteredData, user]
+                    }
                 },
                 {
                     rollbackOnError: true,
