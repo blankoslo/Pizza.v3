@@ -16,8 +16,11 @@ class LMDB:
     def get(self, key):
         with self.env.begin() as txn:
             value = txn.get(key.encode('utf-8'))
-            if value is not None:
-                value = value.decode('utf-8')
+            value = value.decode('utf-8')
+
+            if value == "null":
+                return None
+            
         return value
 
     def delete(self, key):
