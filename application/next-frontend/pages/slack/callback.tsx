@@ -13,14 +13,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
             'Content-Type': 'application/json',
         },
     }).catch((err) => {
-        console.log(err)
-        throw err
+        console.error(err)
     })
 
-    return { props: { success: res.ok } }
+    return { props: { success: res?.ok } }
 }
 
-const SlackInstallCallback = ({ success }: { success: boolean }) => {
+const SlackInstallCallback = ({ success }: { success?: boolean }) => {
     if (!success) {
         return (
             <div className="flex w-full flex-col justify-center gap-8">
