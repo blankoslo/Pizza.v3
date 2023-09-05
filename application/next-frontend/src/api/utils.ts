@@ -61,7 +61,7 @@ export const useMutater = () => {
     headers.set('Content-Type', 'application/json')
     headers.set('Accept', 'application/json')
 
-    const put = async <Data>(endpoint: string, body: Object) => {
+    const put = async <Data>(endpoint: string, body: object) => {
         const res = await fetch(clientsideApiUri + endpoint, {
             method: 'PUT',
             headers: headers,
