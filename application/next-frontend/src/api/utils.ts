@@ -17,28 +17,9 @@ const getCookie = (name: string) => {
     }
 }
 
-export const authedFetcher = async <Data>(endpoint: URL) => {
-    const headers = new Headers()
-    const cookie = getCookie('csrf_access_token')
-
-    if (cookie) {
-        headers.set('X-CSRF-TOKEN', cookie)
-    }
-
-    headers.set('Content-Type', 'application/json')
-    const res = await fetch(clientsideApiUri + endpoint, { headers })
-
-    if (!res.ok) {
-        const info = await res.json()
-        const err: FetcherError = { statusCode: res.status, info }
-        throw err
-    }
-
-    return res.json() as Data
-}
-
-export const useAuthedSWR = <AuthedSWR>(endpoint: string) => {
-    const { data, isLoading, error, mutate } = useSWR<AuthedSWR, FetcherError>(endpoint, authedFetcher)
+export const useAuthedSWR = <Data>(endpoint: string) => {
+    const { get } = mutater()
+    const { data, isLoading, error, mutate } = useSWR<Data, FetcherError>(endpoint, get)
     const router = useRouter()
 
     if (error) {
@@ -50,7 +31,7 @@ export const useAuthedSWR = <AuthedSWR>(endpoint: string) => {
     return { data, isLoading, error, mutate }
 }
 
-export const useMutater = () => {
+const configureHeaders = () => {
     const headers = new Headers()
     const cookie = getCookie('csrf_access_token')
 
@@ -61,19 +42,51 @@ export const useMutater = () => {
     headers.set('Content-Type', 'application/json')
     headers.set('Accept', 'application/json')
 
-    const put = async <Data>(endpoint: string, body: object) => {
-        const res = await fetch(clientsideApiUri + endpoint, {
-            method: 'PUT',
-            headers: headers,
-            body: JSON.stringify(body),
-        })
-        if (!res.ok) {
-            const info = await res.json()
-            const err: FetcherError = { statusCode: res.status, info }
-            throw err
-        }
-        return res.json() as Data
+    return headers
+}
+
+const fetchData = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', body?: object) => {
+    const options: RequestInit = {
+        method: method,
+        headers: configureHeaders(),
+    }
+    if (body) options.body = JSON.stringify(body)
+
+    return await fetch(clientsideApiUri + endpoint, options)
+}
+
+const handleHttpResponse = async <Data>(res: Response) => {
+    if (!res.ok) {
+        const info = await res.json()
+        const err = { statusCode: res.status, info }
+        throw err
+    }
+    return res.json() as Data
+}
+
+export const mutater = () => {
+    /**
+     * Should not be used directly, but through the useAuthedSWR hook
+     */
+    const get = async <Data>(endpoint: string) => {
+        const res = await fetchData(endpoint, 'GET')
+        return handleHttpResponse<Data>(res)
     }
 
-    return { put }
+    const put = async (endpoint: string, body: object) => {
+        const res = await fetchData(endpoint, 'PUT', body)
+        return handleHttpResponse(res)
+    }
+
+    const post = async (endpoint: string, body: object) => {
+        const res = await fetchData(endpoint, 'POST', body)
+        return handleHttpResponse(res)
+    }
+
+    const del = async (endpoint: string) => {
+        const res = await fetchData(endpoint, 'DELETE')
+        return await handleHttpResponse(res)
+    }
+
+    return { get, put, post, del }
 }
