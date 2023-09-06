@@ -19,14 +19,16 @@ const useRestaurants = () => {
         try {
             mutate(
                 async () => {
-                    const restaurant = await post(`${endpoint}/${newRestaurant.name}`, newRestaurant)
+                    const restaurant = await post(endpoint, newRestaurant)
                     if (data) {
                         return [...data, restaurant]
                     }
                 },
                 {
+                    // optimisticData: [...data, restaurant],
                     rollbackOnError: true,
-                    throwOnError: true,
+                    populateCache: true,
+                    revalidate: false,
                 },
             )
         } catch (e) {
