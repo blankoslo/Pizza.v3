@@ -25,18 +25,22 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: application/next-frontend
+      - name: Remove build gitignore
+        run: rm ./build/.gitignore
+        working-directory: application/next-frontend
       - name: Build bundle
         run: npm run build
         working-directory: application/next-frontend
         env:
           BACKEND_URI: https://api.www.pizzabot.app
           NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app
-      - name: Remove build gitignore
-        run: ls -a && rm build/.gitignore
+      - name: NGINX static file
+        run: touch ./build/.static && ls -a ./build
         working-directory: application/next-frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated Build
+          commit_options: "--no-verify"
           branch: test-build
           push_options: "--force"
           create_branch: true
