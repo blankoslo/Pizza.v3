@@ -17,23 +17,9 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: "0"
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-      - name: Install dependencies
-        run: npm install
-        working-directory: application/next-frontend
-      - name: Build bundle
-        run: npm run build
-        working-directory: application/next-frontend
-        env:
-          BACKEND_URI: https://api.www.pizzabot.app
-          NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app
-      - name: Remove build gitignore
-        run: rm build/.gitignore
-        working-directory: application/next-frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Automated Build
+          commit_message: Automated Versioning
           branch: build
           push_options: "--force"
           create_branch: true
