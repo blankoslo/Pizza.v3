@@ -15,13 +15,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
         return { props: { errorMsg: 'Something went wrong when logging inn through Slack.' } }
     }
 
-    console.log(response.headers)
-
-    let cookie = response.headers.get('set-cookie')
+    const cookie = response.headers.get('set-cookie')
     if (!cookie) return { props: { errorMsg: 'Login credentials were not set correctly.' } }
-
-    cookie = cookie.replace('HttpOnly; ', `HttpOnly; Domain=www.pizzabot.app; `)
-    console.log(cookie)
 
     res.setHeader('set-cookie', cookie)
     return { redirect: { destination: '/admin', permanent: false }, props: {} }

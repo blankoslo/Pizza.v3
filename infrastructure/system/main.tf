@@ -67,6 +67,7 @@ resource "heroku_config" "endpoints" {
     vars = {
         FRONTEND_URI = "https://${var.FRONTEND_URI}"
         BACKEND_URI = var.BACKEND_URI
+        DOMAIN = var.FRONTEND_URI
     }
 }
 
