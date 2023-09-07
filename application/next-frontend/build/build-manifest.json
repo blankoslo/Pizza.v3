@@ -1,0 +1,61 @@
+{
+  "polyfillFiles": [
+    "static/chunks/polyfills-78c92fac7aa8fdd8.js"
+  ],
+  "devFiles": [],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [
+    "static/C-RuVw5bwfYL_YO6WMJWS/_buildManifest.js",
+    "static/C-RuVw5bwfYL_YO6WMJWS/_ssgManifest.js"
+  ],
+  "rootMainFiles": [],
+  "pages": {
+    "/": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/chunks/pages/index-1d15e8c8234220ea.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/css/58686a562b6e0e46.css",
+      "static/chunks/pages/_app-01c53222414c46ec.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/chunks/pages/_error-54de1933a164a1ff.js"
+    ],
+    "/admin": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/css/7ac8cb26da507440.css",
+      "static/chunks/pages/admin-d340c5d9e865ce48.js"
+    ],
+    "/login": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/chunks/pages/login-afdccfd2a7d0a7c1.js"
+    ],
+    "/login/callback": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/chunks/664-339c0d1773136295.js",
+      "static/chunks/pages/login/callback-c1d40097c8585078.js"
+    ],
+    "/slack/callback": [
+      "static/chunks/webpack-39b58cdee44b899c.js",
+      "static/chunks/framework-7a7e500878b44665.js",
+      "static/chunks/main-370f533ac04afdbc.js",
+      "static/chunks/664-339c0d1773136295.js",
+      "static/chunks/pages/slack/callback-a2546dbb05411da6.js"
+    ]
+  },
+  "ampFirstPages": []
+}

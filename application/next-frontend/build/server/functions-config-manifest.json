@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "functions": {
+    "/admin": {},
+    "/login/callback": {},
+    "/slack/callback": {}
+  }
+}
