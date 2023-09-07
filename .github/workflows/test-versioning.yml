@@ -1,4 +1,4 @@
-name: Bump version
+name: Test bump version
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
@@ -16,8 +16,12 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: "0"
-      - name: Set up Node.js
+      - name: Set up Node 20.x
         uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: "npm"
+          cache-dependency-path: application/next-frontend/package-lock.json
       - name: Install dependencies
         run: npm install
         working-directory: application/next-frontend
@@ -28,7 +32,7 @@ jobs:
           BACKEND_URI: https://api.www.pizzabot.app
           NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app
       - name: Remove build gitignore
-        run: rm build/.gitignore
+        run: ls -a && rm build/.gitignore
         working-directory: application/next-frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
