@@ -13,7 +13,7 @@
 /out/
 
 # include build directory for deployment
-!build/
+build/
 
 # misc
 .DS_Store
