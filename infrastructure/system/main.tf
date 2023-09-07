@@ -122,7 +122,7 @@ resource "heroku_build" "frontend" {
   buildpacks = ["https://github.com/dokku/heroku-buildpack-nginx"]
 
   source {
-    path = "../application/frontend/public"
+    path = "../application/next-frontend/build"
   }
 }
 
