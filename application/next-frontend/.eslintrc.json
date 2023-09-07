@@ -8,5 +8,5 @@
         "plugin:prettier/recommended",
         "plugin:tailwindcss/recommended"
     ],
-    "ignorePatterns": [".idea/*", "dist/*", "public/*", "node_modules/*", ".prettierrc.js", "webpack.*.js", ".next/*"]
+    "ignorePatterns": [".idea/*", "dist/*", "build/*", "public/*", "node_modules/*", ".prettierrc.js", "webpack.*.js", ".next/*"]
 }

@@ -1,10 +1,9 @@
-name: Bump version
+name: Test bump version
 on:
   pull_request:
-    types:
-      - closed
+    types: [opened, synchronize, reopened, closed]
     branches:
-      - main
+      - test-build
     paths:
       - application/**
       - infrastructure/**
@@ -17,10 +16,17 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: "0"
-      - name: Set up Node.js
+      - name: Set up Node 20.x
         uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: "npm"
+          cache-dependency-path: application/next-frontend/package-lock.json
       - name: Install dependencies
         run: npm install
+        working-directory: application/next-frontend
+      - name: Remove build gitignore
+        run: rm ./build/.gitignore
         working-directory: application/next-frontend
       - name: Build bundle
         run: npm run build
@@ -28,28 +34,13 @@ jobs:
         env:
           BACKEND_URI: https://api.www.pizzabot.app
           NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app
-      - name: Remove build gitignore
-        run: rm build/.gitignore
+      - name: NGINX static file
+        run: touch ./build/.static && ls -a ./build
         working-directory: application/next-frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated Build
-          branch: build
+          commit_options: "--no-verify"
+          branch: test-build
           push_options: "--force"
           create_branch: true
-
-  create-tag:
-    needs: build
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: build
-          fetch-depth: "0"
-
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.55.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BRANCH: build
