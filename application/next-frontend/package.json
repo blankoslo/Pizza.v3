@@ -2,10 +2,13 @@
     "name": "next-frontend",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": ">=20.x"
+    },
     "scripts": {
         "dev": "next dev -p 4000",
         "build": "next build",
-        "start": "next start -p 4000",
+        "start": "next start -p $PORT",
         "lint": "next lint --max-warnings 0",
         "fix": "next lint --fix",
         "typecheck": "tsc --noEmit --incremental false --pretty",

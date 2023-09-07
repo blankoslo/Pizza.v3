@@ -35,9 +35,9 @@ jobs:
         env:
           BACKEND_URI: https://api.www.pizzabot.app
           NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app
-      - name: NGINX static file
-        run: touch ./build/.static && ls -a ./build
-        working-directory: application/next-frontend
+#      - name: NGINX static file
+#        run: touch ./build/.static && ls -a ./build
+#        working-directory: application/next-frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated Build
