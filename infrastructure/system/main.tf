@@ -89,7 +89,7 @@ resource "heroku_app" "frontend" {
   }
 
   config_vars = {
-    "NEXT_PUBLIC_BACKEND_URI" = var.BACKEND_URI
+    "NEXT_PUBLIC_BACKEND_URI" = var.NEXT_PUBLIC_BACKEND_URI
   }
 }
 

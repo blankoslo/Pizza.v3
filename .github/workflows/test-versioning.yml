@@ -39,10 +39,10 @@ jobs:
 #        run: touch ./build/.static && ls -a ./build
 #        working-directory: application/next-frontend
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Automated Build
-          commit_options: "--no-verify"
-          branch: test-build
-          push_options: "--force"
-          create_branch: true
+#      - uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: Automated Build
+#          commit_options: "--no-verify"
+#          branch: test-build
+#          push_options: "--force"
+#          create_branch: true
