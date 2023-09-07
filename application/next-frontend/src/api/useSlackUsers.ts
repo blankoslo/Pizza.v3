@@ -1,4 +1,5 @@
-import { useAuthedSWR, mutater } from './utils'
+import { apiRequestHelper } from './utils'
+import { useAuthedSWR } from './useAuthedSWR'
 
 export interface SlackUser {
     active: boolean
@@ -19,7 +20,7 @@ const useSlackUsers = () => {
 
     const { data, isLoading, error, mutate } = useAuthedSWR<SlackUser[]>(endpoint)
 
-    const { put } = mutater()
+    const { put } = apiRequestHelper()
 
     const updateUser = (updatedUser: SlackUser) => {
         const updatedBaseUSer: BaseUser = { active: updatedUser.active, priorty: updatedUser.priority }
@@ -29,7 +30,7 @@ const useSlackUsers = () => {
                 const user = await put(endpoint + '/' + updatedUser.slack_id, updatedBaseUSer)
 
                 if (data) {
-                    const filteredData = data?.filter((user) => user.slack_id !== updatedUser.slack_id)
+                    const filteredData = data?.filter((user: SlackUser) => user.slack_id !== updatedUser.slack_id)
                     return [...filteredData, user]
                 }
             })
