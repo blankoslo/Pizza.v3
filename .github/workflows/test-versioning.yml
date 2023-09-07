@@ -38,6 +38,7 @@ jobs:
 #      - name: NGINX static file
 #        run: touch ./build/.static && ls -a ./build
 #        working-directory: application/next-frontend
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated Build
