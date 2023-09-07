@@ -120,7 +120,6 @@ resource "heroku_build" "bot" {
 
 resource "heroku_build" "frontend" {
   app_id = heroku_app.frontend.id
-  #buildpacks = ["https://github.com/dokku/heroku-buildpack-nginx"]
 
   source {
     path = "../application/next-frontend"

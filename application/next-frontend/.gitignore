@@ -12,9 +12,6 @@
 /.next/
 /out/
 
-# include build directory for deployment
-build/
-
 # misc
 .DS_Store
 *.pem
