@@ -39,25 +39,23 @@ const fetchData = async <Data>(endpoint: string, method: 'GET' | 'POST' | 'PUT' 
     return res.json() as Data
 }
 
-export const apiRequestHelper = () => {
+export const apiRequestHelper = {
     /**
      * Should not be used directly, but through the useAuthedSWR hook
      */
-    const get = async <Data>(endpoint: string) => {
+    get: async <Data>(endpoint: string) => {
         return await fetchData<Data>(endpoint, 'GET')
-    }
+    },
 
-    const put = async (endpoint: string, body: object) => {
-        return await fetchData(endpoint, 'PUT', body)
-    }
+    put: async <Data>(endpoint: string, body: object) => {
+        return await fetchData<Data>(endpoint, 'PUT', body)
+    },
 
-    const post = async (endpoint: string, body: object) => {
-        return await fetchData(endpoint, 'POST', body)
-    }
+    post: async <Data>(endpoint: string, body: object) => {
+        return await fetchData<Data>(endpoint, 'POST', body)
+    },
 
-    const del = async (endpoint: string) => {
-        return await fetchData(endpoint, 'DELETE')
-    }
-
-    return { get, put, post, del }
+    del: async <Data>(endpoint: string) => {
+        return await fetchData<Data>(endpoint, 'DELETE')
+    },
 }

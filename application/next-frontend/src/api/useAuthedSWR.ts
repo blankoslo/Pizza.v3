@@ -10,8 +10,7 @@ export type FetcherError = {
 }
 
 export const useAuthedSWR = <Data>(endpoint: string) => {
-    const { get } = apiRequestHelper()
-    const { data, isLoading, error, mutate } = useSWR<Data, FetcherError>(endpoint, get)
+    const { data, isLoading, error, mutate } = useSWR<Data, FetcherError>(endpoint, apiRequestHelper.get)
     const router = useRouter()
 
     if (error) {

@@ -20,18 +20,21 @@ const useSlackUsers = () => {
 
     const { data, isLoading, error, mutate } = useAuthedSWR<SlackUser[]>(endpoint)
 
-    const { put } = apiRequestHelper()
+    const { put } = apiRequestHelper
 
     const updateUser = (updatedUser: SlackUser) => {
-        const updatedBaseUSer: BaseUser = { active: updatedUser.active, priorty: updatedUser.priority }
+        const updatedBaseUser: BaseUser = { active: updatedUser.active, priorty: updatedUser.priority }
 
         try {
             mutate(async () => {
-                const user = await put(endpoint + '/' + updatedUser.slack_id, updatedBaseUSer)
+                const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
 
                 if (data) {
-                    const filteredData = data?.filter((user: SlackUser) => user.slack_id !== updatedUser.slack_id)
-                    return [...filteredData, user]
+                    const updatedData = data.map((oldUser) => {
+                        if (user.slack_id === oldUser.slack_id) return user
+                        return oldUser
+                    })
+                    return updatedData
                 }
             })
         } catch (e) {
