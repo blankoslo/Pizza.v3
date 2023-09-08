@@ -4,7 +4,7 @@ import { useAuthedSWR } from './utils'
 
 export interface Event {
     id: string
-    date: Date
+    date: string
     finalized: boolean
     restaurant?: Restaurant
     peoplePerEvent: number
@@ -13,17 +13,15 @@ export interface Event {
 const useEvents = () => {
     const endpoint = '/events'
     const { data, mutate } = useAuthedSWR<Event[]>(endpoint)
-    //const { post } = apiRequestHelper()
+    const { post } = apiRequestHelper
 
     const addEvent = async (newEvent: Event) => {
-        const eventsData = data || []
-
         try {
-            await mutate([...eventsData, newEvent], {
-                optimisticData: [...eventsData, newEvent],
-                rollbackOnError: true,
-                // Make the API request to add the new event here (You need to implement this)
-            })
+            const createdEvent = await post<Event>(endpoint, newEvent)
+
+            if (data) {
+                mutate([...data, createdEvent], { rollbackOnError: true, revalidate: false }) // revalidate flag to false?
+            }
         } catch (e) {
             console.error(e)
         }
