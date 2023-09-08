@@ -12,7 +12,7 @@ export interface SlackUser {
 
 export interface BaseUser {
     active: boolean
-    priorty: number
+    priority: number
 }
 
 const useSlackUsers = () => {
@@ -23,7 +23,7 @@ const useSlackUsers = () => {
     const { put } = apiRequestHelper
 
     const updateUser = (updatedUser: SlackUser) => {
-        const updatedBaseUser: BaseUser = { active: updatedUser.active, priorty: updatedUser.priority }
+        const updatedBaseUser: BaseUser = { active: updatedUser.active, priority: updatedUser.priority }
 
         try {
             mutate(async () => {
