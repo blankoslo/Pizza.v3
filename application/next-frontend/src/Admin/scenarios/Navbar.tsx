@@ -1,26 +1,20 @@
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { User } from '../types/User'
 
-const Navbar = () => {
-    const navbar = [
-        { name: 'Home', link: '/admin' },
-        { name: 'About', link: '/admin/about' },
-        { name: 'Pictures', link: '/admin/pictures' },
-    ]
+const Navbar = ({ user }: { user: User }) => {
+    const router = useRouter()
 
+    const logout = async () => {
+        const res = await fetch('/auth/logout') // TODO: change to apihelper delete method
+
+        if (res.ok) router.push('/login')
+    }
     return (
-        <div className="overflow-hidden bg-teal-400 text-gray-700">
-            <ul className="flex items-center space-x-6 p-4">
-                {navbar.map((entry) => (
-                    <li className="m-3 cursor-pointer" key={entry.name}>
-                        <Link
-                            href={entry.link}
-                            className="text-lg font-bold transition duration-300 hover:text-gray-500"
-                        >
-                            {entry.name}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+        <div className="flex w-full items-center gap-4 overflow-hidden bg-teal-400 px-8 py-4 text-gray-700">
+            <div className="flex-1">Logged in as {user.name}</div>
+            <button className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300" onClick={logout}>
+                Logout
+            </button>
         </div>
     )
 }
