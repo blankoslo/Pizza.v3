@@ -1,5 +1,5 @@
 import { CardComponent } from 'Admin/components/CardComponent'
-import useSlackUsers from '@/api/useSlackUsers'
+import { useSlackUsers } from '@/api/useSlackUsers'
 
 const SlackUsers = () => {
     const { data, isLoading, error } = useSlackUsers()
