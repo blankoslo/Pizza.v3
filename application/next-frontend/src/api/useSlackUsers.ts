@@ -20,13 +20,13 @@ const useSlackUsers = () => {
 
     const { put } = apiRequestHelper
 
-    const updateUser = (updatedUser: SlackUser) => {
-        const updatedBaseUser: BaseSlackUser = { active: updatedUser.active, priority: updatedUser.priority }
+    const updateUser = (userToUpdate: SlackUser) => {
+        const updatedBaseUser: BaseSlackUser = { active: !userToUpdate.active, priority: userToUpdate.priority }
 
         try {
             mutate(
                 async () => {
-                    const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
+                    const user = await put<SlackUser>(endpoint + '/' + userToUpdate.slack_id, updatedBaseUser)
 
                     if (data) {
                         // Update cache
@@ -40,7 +40,7 @@ const useSlackUsers = () => {
                 {
                     populateCache: true,
                     rollbackOnError: true,
-                    revalidate: true,
+                    revalidate: false, //dont revalidate since cache is updated
                 },
             )
         } catch (e) {
