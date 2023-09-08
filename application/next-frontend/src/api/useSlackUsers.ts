@@ -24,18 +24,25 @@ const useSlackUsers = () => {
         const updatedBaseUser: BaseSlackUser = { active: updatedUser.active, priority: updatedUser.priority }
 
         try {
-            mutate(async () => {
-                const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
+            mutate(
+                async () => {
+                    const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
 
-                if (data) {
-                    // Update cache
-                    const updatedData = data.map((oldUser) => {
-                        if (user.slack_id === oldUser.slack_id) return user
-                        return oldUser
-                    })
-                    return updatedData
-                }
-            })
+                    if (data) {
+                        // Update cache
+                        const updatedData = data.map((oldUser) => {
+                            if (user.slack_id === oldUser.slack_id) return user
+                            return oldUser
+                        })
+                        return updatedData
+                    }
+                },
+                {
+                    populateCache: true,
+                    rollbackOnError: true,
+                    revalidate: true,
+                },
+            )
         } catch (e) {
             console.error(e)
         }
