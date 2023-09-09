@@ -1,21 +1,14 @@
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
 import { clientsideApiUri } from './endpoints'
 
-export type FetcherError = {
-    statusCode: number
-    info: {
-        msg: string
+const getCookie = (name: string) => {
+    if (typeof window !== 'undefined') {
+        const value = `; ${document.cookie}`
+        const parts = value.split(`; ${name}=`)
+        if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift()
     }
 }
 
-const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`
-    const parts = value.split(`; ${name}=`)
-    if (parts && parts.length === 2) return parts.pop()?.split(';')?.shift()
-}
-
-export const authedFetcher = async <Data>(endpoint: URL) => {
+const configureHeaders = () => {
     const headers = new Headers()
     const cookie = getCookie('csrf_access_token')
 
@@ -24,24 +17,45 @@ export const authedFetcher = async <Data>(endpoint: URL) => {
     }
 
     headers.set('Content-Type', 'application/json')
-    const res = await fetch(clientsideApiUri + endpoint, { headers })
+    headers.set('Accept', 'application/json')
+
+    return headers
+}
+
+const fetchData = async <Data>(endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', body?: object) => {
+    const options: RequestInit = {
+        method: method,
+        headers: configureHeaders(),
+    }
+    if (body) options.body = JSON.stringify(body)
+
+    const res = await fetch(clientsideApiUri + endpoint, options)
 
     if (!res.ok) {
         const info = await res.json()
-        const err: FetcherError = { statusCode: res.status, info }
+        const err = { statusCode: res.status, info }
         throw err
     }
-
     return res.json() as Data
 }
 
-export const useAuthedSWR = <Data>(endpoint: string) => {
-    const fetchedData = useSWR<Data, FetcherError>(endpoint, authedFetcher)
-    const router = useRouter()
+export const apiRequestHelper = {
+    /**
+     * Should not be used directly, but through the useAuthedSWR hook
+     */
+    get: async <Data>(endpoint: string) => {
+        return await fetchData<Data>(endpoint, 'GET')
+    },
 
-    if (fetchedData.error?.statusCode === 401 || fetchedData.error?.statusCode === 403) {
-        router.push('/login')
-    }
+    put: async <Data>(endpoint: string, body: object) => {
+        return await fetchData<Data>(endpoint, 'PUT', body)
+    },
 
-    return fetchedData
+    post: async <Data>(endpoint: string, body: object) => {
+        return await fetchData<Data>(endpoint, 'POST', body)
+    },
+
+    del: async <Data>(endpoint: string) => {
+        return await fetchData<Data>(endpoint, 'DELETE')
+    },
 }

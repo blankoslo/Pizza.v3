@@ -1,4 +1,4 @@
-import { useAuthedSWR } from './utils'
+import { useAuthedSWR } from './useAuthedSWR'
 
 export interface Restaurant {
     name: string
