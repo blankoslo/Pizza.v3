@@ -8,7 +8,7 @@ const Restaurants = () => {
     const { data, isLoading, error } = useRestaurants()
 
     return (
-        <CardComponent title="Places" className=" w-1/4">
+        <CardComponent title="Places">
             {isLoading
                 ? 'Loading...'
                 : error

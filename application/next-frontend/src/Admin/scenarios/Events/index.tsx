@@ -5,7 +5,7 @@ import { CardComponent } from 'Admin/components/CardComponent'
 
 const Events = () => {
     return (
-        <CardComponent title="Dates" className="w-1/4">
+        <CardComponent title="Dates">
             <div className="flex items-center justify-center border-2 border-black bg-gray-300 py-2 text-center font-bold uppercase">
                 [Occurance placeholder]
             </div>
