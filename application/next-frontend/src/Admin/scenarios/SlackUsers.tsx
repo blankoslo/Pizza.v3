@@ -1,45 +1,40 @@
 import { CardComponent } from 'Admin/components/CardComponent'
 import { useSlackUsers } from '@/api/useSlackUsers'
+import { Switch } from '@mui/material'
 
 const SlackUsers = () => {
     const { data, isLoading, error, updateUser } = useSlackUsers()
 
     if (isLoading) {
-        return (
-            <CardComponent title="People" className="w-1/4">
-                Loading...
-            </CardComponent>
-        )
+        return <CardComponent title="People">Loading...</CardComponent>
     }
 
     if (error) {
         return (
-            <CardComponent title="People" className="w-1/4">
+            <CardComponent title="People">
                 Failed to load users due to the following error: {error?.info.msg}
             </CardComponent>
         )
     }
 
     if (!data || data.length == 0) {
-        return (
-            <CardComponent title="People" className="w-1/4">
-                No users found.
-            </CardComponent>
-        )
+        return <CardComponent title="People">No users found.</CardComponent>
     }
 
     return (
-        <CardComponent title="People" className="w-1/4">
+        <CardComponent title="People">
             {data.map((slackUser) => (
                 <div key={slackUser.slack_id} className="flex items-center justify-between py-2">
-                    <div
-                        onClick={() => updateUser(slackUser)}
-                        className={`h-10 w-10 cursor-pointer overflow-hidden rounded-full border border-black ${
-                            slackUser.active ? 'bg-green-400' : 'bg-red-400'
-                        }`}
-                    ></div>
+                    <Switch
+                        checked={slackUser.active}
+                        onChange={() => {
+                            console.log(slackUser)
+                            updateUser(slackUser)
+                        }}
+                        color="success"
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
                     <p className="ml-3">{slackUser.current_username}</p>
-                    <button className="ml-auto">&times;</button>
                 </div>
             ))}
         </CardComponent>
