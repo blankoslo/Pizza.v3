@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useModal } from 'Admin/context/ModelContext'
-import useEvents from '@/api/useEvents'
+import useEvents, { Event } from '@/api/useEvents'
 
 const validationSchema = z.object({
     dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
@@ -30,11 +30,17 @@ const CreateEventCard = () => {
     })
     const { handleSubmit } = methods
     const { closeModal } = useModal()
-    const { data, addEvent } = useEvents()
+    const { addEvent } = useEvents()
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
-        addEvent(data)
+        const event: Event = {
+            id: '1', // need a function to generate an ID
+            date: data.dateTime.toISOString(),
+            restaurantId: '2',
+            peoplePerEvent: data.participants,
+        }
+        console.log(event)
+        addEvent(event)
         closeModal()
     }
 

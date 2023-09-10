@@ -1,12 +1,10 @@
-import { Restaurant } from './useRestaurants'
-import { useAuthedSWR } from './utils'
-// import { apiRequestHelper } from './utils' -> in another branch rn
+import { useAuthedSWR } from './useAuthedSWR'
+import { apiRequestHelper } from './utils'
 
 export interface Event {
     id: string
     date: string
-    finalized: boolean
-    restaurant?: Restaurant
+    restaurantId: string
     peoplePerEvent: number
 }
 
@@ -20,7 +18,7 @@ const useEvents = () => {
             const createdEvent = await post<Event>(endpoint, newEvent)
 
             if (data) {
-                mutate([...data, createdEvent], { rollbackOnError: true, revalidate: false }) // revalidate flag to false?
+                mutate([...data, createdEvent], { rollbackOnError: true, revalidate: false }) // local data contains the newly created event.
             }
         } catch (e) {
             console.error(e)
