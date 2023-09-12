@@ -31,7 +31,7 @@ const useSlackUsers = () => {
 
                 if (data) {
                     const updatedData = data.map((oldUser) => {
-                        if (user.slack_id === oldUser.slack_id) return user
+                        if (user && user.slack_id === oldUser.slack_id) return user
                         return oldUser
                     })
                     return updatedData

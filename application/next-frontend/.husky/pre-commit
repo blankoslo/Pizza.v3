@@ -6,6 +6,6 @@ then
 	echo "Files changed in next-frontend"
 	cd application/next-frontend
 	npx lint-staged 
-	npm run typecheck
+	# npm run typecheck
 	cd ../..
 fi

@@ -5,7 +5,7 @@ import { ModalProvider } from 'Admin/context/ModelContext'
 import { useRestaurants } from '@/api/useRestaurants'
 
 const Restaurants = () => {
-    const { data, isLoading, error } = useRestaurants()
+    const { data, isLoading, error, delRestaurant } = useRestaurants()
 
     return (
         <CardComponent title="Places" className=" w-1/4">
@@ -15,10 +15,10 @@ const Restaurants = () => {
                 ? `Failed to load users due to the following error: ${error?.info.msg}`
                 : !data || data.length == 0
                 ? 'No restaurants found.'
-                : data.map((restaurant, index) => (
-                      <div key={index} className="flex items-center justify-between py-2">
+                : data.map((restaurant) => (
+                      <div key={restaurant.id} className="flex items-center justify-between py-2">
                           <p>{restaurant.name}</p>
-                          <button>&times;</button>
+                          <button onClick={() => delRestaurant(restaurant.id)}>&times;</button>
                       </div>
                   ))}
 
