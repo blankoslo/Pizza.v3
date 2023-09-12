@@ -6,7 +6,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useModal } from 'Admin/context/ModelContext'
-import useEvents, { Event } from '@/api/useEvents'
+import { Event, useEvents } from '@/api/useEvents'
+import useRestaurants from '@/api/useRestaurants'
+import { toast } from 'react-toastify'
 
 const validationSchema = z.object({
     dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
@@ -31,17 +33,30 @@ const CreateEventCard = () => {
     const { handleSubmit } = methods
     const { closeModal } = useModal()
     const { addEvent } = useEvents()
+    const { data: restaurantData } = useRestaurants()
+
+    const findRestauarant = () => {
+        if (restaurantData === undefined || restaurantData.length === 0) {
+            toast.warn('A restaurant have to be added in order to create an event')
+            return
+        }
+
+        const randomIndex = Math.floor(Math.random() * restaurantData.length)
+        return restaurantData[randomIndex]
+    }
 
     const onSubmit = (data: FormData) => {
-        const event: Event = {
-            id: '1', // need a function to generate an ID
-            date: data.dateTime.toISOString(),
-            restaurantId: '2',
-            peoplePerEvent: data.participants,
+        const restaurant = findRestauarant()
+
+        if (restaurant) {
+            const event: Event = {
+                date: data.dateTime.toISOString(),
+                restaurantId: restaurant.id,
+                peoplePerEvent: data.participants,
+            }
+            addEvent(event)
+            closeModal()
         }
-        console.log(event)
-        addEvent(event)
-        closeModal()
     }
 
     return (
