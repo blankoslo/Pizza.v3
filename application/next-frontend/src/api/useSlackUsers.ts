@@ -1,4 +1,4 @@
-import { apiRequestHelper } from './utils'
+import { apiRequestHelper, cacheFormatHelper } from './utils'
 import { useAuthedSWR } from './useAuthedSWR'
 
 export interface SlackUser {
@@ -19,8 +19,8 @@ const useSlackUsers = () => {
     const endpoint = '/users'
 
     const { data, isLoading, error, mutate } = useAuthedSWR<SlackUser[]>(endpoint)
-
     const { put } = apiRequestHelper
+    const { updateInCache } = cacheFormatHelper
 
     const updateUser = (updatedUser: SlackUser) => {
         const updatedBaseUser: BaseUser = { active: updatedUser.active, priority: updatedUser.priority }
@@ -28,14 +28,7 @@ const useSlackUsers = () => {
         try {
             mutate(async () => {
                 const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
-
-                if (data) {
-                    const updatedData = data.map((oldUser) => {
-                        if (user.slack_id === oldUser.slack_id) return user
-                        return oldUser
-                    })
-                    return updatedData
-                }
+                return updateInCache(data, user, (user) => user.slack_id)
             })
         } catch (e) {
             console.error(e)

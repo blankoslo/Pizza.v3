@@ -59,3 +59,26 @@ export const apiRequestHelper = {
         return await fetchData<Data>(endpoint, 'DELETE')
     },
 }
+
+export const cacheFormatHelper = {
+    updateInCache: <T>(data: T[] | undefined, updatedItem: T, keySelector: (item: T) => string): T[] | undefined => {
+        if (data) {
+            const updatedData = data.map((oldItem) => {
+                if (keySelector(updatedItem) === keySelector(oldItem)) return updatedItem
+                return oldItem
+            })
+            return updatedData
+        }
+    },
+    removeFromCache: <T>(data: T[] | undefined, removedItem: T, keySelector: (item: T) => string): T[] | undefined => {
+        if (data) {
+            return data.filter((item) => keySelector(item) === keySelector(removedItem))
+        }
+    },
+
+    addToCache: <T>(data: T[] | undefined, addedItem: T): T[] | undefined => {
+        if (data) {
+            return [...data, addedItem]
+        }
+    },
+}
