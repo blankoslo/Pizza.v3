@@ -27,10 +27,7 @@ const SlackUsers = () => {
                 <div key={slackUser.slack_id} className="flex items-center justify-between py-2">
                     <Switch
                         checked={slackUser.active}
-                        onChange={() => {
-                            console.log(slackUser)
-                            updateUser(slackUser)
-                        }}
+                        onChange={() => updateUser(slackUser)}
                         color="success"
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
