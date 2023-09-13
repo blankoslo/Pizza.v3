@@ -67,6 +67,7 @@ resource "heroku_config" "endpoints" {
     vars = {
         FRONTEND_URI = "https://${var.FRONTEND_URI}"
         BACKEND_URI = var.BACKEND_URI
+        DOMAIN = var.FRONTEND_URI
     }
 }
 
@@ -89,7 +90,7 @@ resource "heroku_app" "frontend" {
   }
 
   config_vars = {
-    "NGINX_DEFAULT_REQUEST" = "index.html"
+    "NEXT_PUBLIC_BACKEND_URI" = var.NEXT_PUBLIC_BACKEND_URI
   }
 }
 
@@ -119,10 +120,9 @@ resource "heroku_build" "bot" {
 
 resource "heroku_build" "frontend" {
   app_id = heroku_app.frontend.id
-  buildpacks = ["https://github.com/dokku/heroku-buildpack-nginx"]
 
   source {
-    path = "../application/frontend/public"
+    path = "../application/next-frontend"
   }
 }
 

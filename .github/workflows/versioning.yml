@@ -10,36 +10,22 @@ on:
       - infrastructure/**
       - .github/workflows/versioning.yml
 jobs:
-  build:
+  commit-version:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
           fetch-depth: "0"
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-      - name: Install dependencies
-        run: npm install
-        working-directory: application/frontend
-      - name: Build bundle
-        run: npm run build:production
-        working-directory: application/frontend
-        env:
-          BACKEND_URI: https://api.www.pizzabot.app
-          NEXT_PUBLIC_BACKEND_URI: https://api.www.pizzabot.app # This is required for next-frontend when production ready
-      - name: Remove build gitignore
-        run: rm public/.gitignore
-        working-directory: application/frontend
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Automated Build
+          commit_message: Automated Versioning
           branch: build
           push_options: "--force"
           create_branch: true
 
   create-tag:
-    needs: build
+    needs: commit-version
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3

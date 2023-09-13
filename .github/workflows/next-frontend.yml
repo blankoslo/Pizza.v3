@@ -35,7 +35,7 @@ jobs:
         run: npm run typecheck
 
   # Test that the project compiles
-  build:
+  test-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code

@@ -6,7 +6,7 @@ if (!process.env.NEXT_PUBLIC_BACKEND_URI) throw new Error('Missing enviroment va
  * In dev mode, api is routed through nginx with path /api
  */
 export const clientsideApiUri =
-    process.env.NODE_ENV === 'development' ? '/api' : process.env.NEXT_PUBLIC_BACKEND_URI.replace(/\/+$/, '')
+    process.env.NODE_ENV === 'development' ? '/api' : process.env.NEXT_PUBLIC_BACKEND_URI.replace(/\/+$/, '') + '/api'
 
 /**
  * For use in serverside functionality.

@@ -41,6 +41,7 @@ module "production" {
   REPLY_DEADLINE_IN_HOURS = 24
   FLASK_ENV = "production"
   BACKEND_URI = "api.www.pizzabot.app"
+  NEXT_PUBLIC_BACKEND_URI = "https://api.www.pizzabot.app"
   FRONTEND_URI = "www.pizzabot.app"
 }
 

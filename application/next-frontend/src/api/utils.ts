@@ -26,6 +26,7 @@ const fetchData = async <Data>(endpoint: string, method: 'GET' | 'POST' | 'PUT' 
     const options: RequestInit = {
         method: method,
         headers: configureHeaders(),
+        credentials: 'include',
     }
     if (body) options.body = JSON.stringify(body)
 
