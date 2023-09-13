@@ -72,7 +72,7 @@ export const cacheFormatHelper = {
     },
     removeFromCache: <T>(data: T[] | undefined, removedItem: T, keySelector: (item: T) => string): T[] | undefined => {
         if (data) {
-            return data.filter((item) => keySelector(item) === keySelector(removedItem))
+            return data.filter((item) => keySelector(item) !== keySelector(removedItem))
         }
     },
 
