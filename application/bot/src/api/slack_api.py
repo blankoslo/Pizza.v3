@@ -14,8 +14,8 @@ class SlackApi:
             raise ValueError("Either 'client' or 'token' must be provided.")
         self.logger = injector.get(logging.Logger)
 
-    def get_slack_users(self):
-        first_page = self.client.users_list()
+    def get_slack_users(self, channel_id: str):
+        first_page = self.client.conversations_members(channel=channel_id)
 
         if not first_page["ok"]:
             self.logger(first_page["error"])
@@ -24,12 +24,12 @@ class SlackApi:
         members = first_page["members"]
 
         # Continue to loop over pages to find the default channel
-        next_cursor = first_page["response_metadata"]["next_cursor"]
+        """ next_cursor = first_page["response_metadata"]["next_cursor"]
         while next_cursor != "":
             page = self.client.conversations_list(cursor=next_cursor)
             next_cursor = page["response_metadata"]["next_cursor"]
 
-            members = members.extend(page["members"])
+            members = members.extend(page["members"]) """
 
         return members
 

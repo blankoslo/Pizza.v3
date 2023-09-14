@@ -279,8 +279,13 @@ class BotApi:
             self.sync_users_from_organization(team_id=slack_organization['team_id'], bot_token=slack_organization['bot_token'])
 
     def sync_users_from_organization(self, team_id, bot_token):
+        installation_info = self.client.get_slack_installation(team_id=team_id)
+        if installation_info is None or 'channel_id' not in installation_info:
+            self.logger.error("Failed to sync users in workspace %s" % team_id)
+            return
+        channel_id = installation_info['channel_id']
         slack_client = SlackApi(token=bot_token)
-        all_slack_users = slack_client.get_slack_users()
+        all_slack_users = slack_client.get_slack_users(channel_id=channel_id)
         slack_users = slack_client.get_real_users(all_slack_users)
         response = self.client.update_slack_user(slack_users)
 
