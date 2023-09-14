@@ -286,7 +286,6 @@ class BotApi:
         channel_id = installation_info['channel_id']
         slack_client = SlackApi(token=bot_token)
         all_slack_users = slack_client.get_channel_users(channel_id=channel_id)
-        print(all_slack_users)
         slack_users = slack_client.get_real_users(all_slack_users)
         response = self.client.update_slack_user(slack_users)
 
