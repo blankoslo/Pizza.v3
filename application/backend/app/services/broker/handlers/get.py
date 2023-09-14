@@ -81,7 +81,8 @@ def get_slack_installation(request: dict):
         'team_id': slack_organization.team_id,
         'app_id': slack_organization.app_id,
         'bot_user_id': slack_organization.bot_user_id,
-        'access_token': slack_organization.access_token
+        'access_token': slack_organization.access_token,
+        'channel_id': slack_organization.channel_id,
     }
 
     if slack_organization.team_name:
