@@ -9,3 +9,4 @@ class SetSlackChannelRequestSchema(Schema):
 class SetSlackChannelResponseSchema(Schema):
     success = fields.Boolean(required=True)
     old_channel_id = fields.Str()
+    scheduled_events_count = fields.Integer()
