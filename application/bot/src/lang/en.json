@@ -1,6 +1,7 @@
 {
     "thanksForFile": "Thanks for the file! 🤙",
     "pizzaChannelError": "Something went wrong. Couldn't set Pizza channel.",
+    "pizzaChannelErrorScheduledEvents": "There are $count scheduled events in the previous pizza channel. Please cancel them in the admin panel before switching channel.",
     "pizzaChannelConfirm": "Pizza channel has now been set to <#$channel_id>",
     "botWelcome": "Hello! I'm the pizza bot. If you want to change the channel I use, you can go to the appropriate channel and use the command '/set-pizza-channel'. If the channel is private, you need to add me first.",
     "eventReminder": "Hey there! I didn't hear any more from you. Are you comming?",
