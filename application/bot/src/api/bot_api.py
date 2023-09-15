@@ -50,13 +50,32 @@ class BotApi:
         join_success = slack_client.join_channel(channel_id)
         # If we were unable to join the channel
         if not join_success:
-            self.logger.error("Was unable to join channel %s", channel_id)
-            return
-
+            self.logger.error("Was unable to join channel %s in team: %s", channel_id, team_id)
+            return None
+        
         # Send a rpc message to set the channel
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
 
         if not set_channel_response['success']:
+            # If error is that there are scheduled events
+            if 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
+                self.send_slack_message(
+                    channel_id=channel_id,
+                    text=self.translator.translate(
+                        "pizzaChannelErrorScheduledEvents", 
+                        count=set_channel_response['scheduled_events_count']
+                    ),
+                    slack_client=slack_client
+                )
+            else:
+                self.send_slack_message(
+                    channel_id=channel_id,
+                    text=self.translator.translate("pizzaChannelError"),
+                    slack_client=slack_client
+                )
+                self.logger.error("Was unable to join channel %s", channel_id)
+            # Leave the channel we joined after sending the error message to slack
+            leave_success = slack_client.leave_channel(channel_id)
             return None
 
         # Leave channel if old and new channel isnt the same

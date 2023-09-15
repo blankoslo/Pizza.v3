@@ -173,13 +173,7 @@ def handle_some_command(ack, body, say, context):
         message_channel_id = body["channel_id"]
         client = SlackApi(client=context["client"])
         channel_id = ba.join_channel(client, team_id, message_channel_id)
-        if channel_id is None:
-            ba.send_slack_message(
-                channel_id=message_channel_id,
-                text=translator.translate("pizzaChannelError"),
-                slack_client=client
-            )
-        else:
+        if channel_id is not None:
             ba.send_slack_message(
                 channel_id=channel_id,
                 text=translator.translate("pizzaChannelConfirm", channel_id=channel_id),
