@@ -115,7 +115,6 @@ def set_slack_channel(request: dict):
         response['old_channel_id'] = old_channel_id
     if scheduled_events_count:
         response['scheduled_events_count'] = scheduled_events_count
-        response['success'] = False
 
     return response
 

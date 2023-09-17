@@ -36,6 +36,8 @@ class BotApi:
         )
 
     def join_channel(self, slack_client, team_id, channel_id=None):
+        new_installation = channel_id is None
+
         # Get default channel if non is given
         if channel_id is None:
             default_channel = slack_client.get_default_channel()
@@ -57,26 +59,29 @@ class BotApi:
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
 
         if not set_channel_response['success']:
-            # If error is that there are scheduled events
-            if 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
-                self.send_slack_message(
-                    channel_id=channel_id,
-                    text=self.translator.translate(
-                        "pizzaChannelErrorScheduledEvents", 
-                        count=set_channel_response['scheduled_events_count']
-                    ),
-                    slack_client=slack_client
-                )
-            else:
-                self.send_slack_message(
-                    channel_id=channel_id,
-                    text=self.translator.translate("pizzaChannelError"),
-                    slack_client=slack_client
-                )
-                self.logger.error("Was unable to join channel %s", channel_id)
+            self.send_slack_message(
+                channel_id=channel_id,
+                text=self.translator.translate("pizzaChannelError"),
+                slack_client=slack_client
+            )
+            self.logger.error("Was unable to join channel %s", channel_id)
             # Leave the channel we joined after sending the error message to slack
             leave_success = slack_client.leave_channel(channel_id)
             return None
+    
+        # If there are scheduled events
+        elif not new_installation and 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
+            self.send_slack_message(
+                channel_id=channel_id,
+                text=self.translator.translate(
+                    "pizzaChannelErrorScheduledEvents", 
+                    count=set_channel_response['scheduled_events_count']
+                ),
+                slack_client=slack_client
+            )
+            leave_success = slack_client.leave_channel(channel_id)
+            return None
+        
 
         # Leave channel if old and new channel isnt the same
         # they can be the same if someone reinstall the app
@@ -86,7 +91,6 @@ class BotApi:
             if not leave_success:
                 self.logger.error("Was unable to leave channel %s", channel_id)
 
-        # return channel
         return channel_id
 
     def invite_multiple_if_needed(self):
