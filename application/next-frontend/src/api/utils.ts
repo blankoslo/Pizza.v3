@@ -38,9 +38,11 @@ const fetchData = async <Data>(endpoint: string, method: 'GET' | 'POST' | 'PUT' 
         throw err
     }
 
-    if (method !== 'DELETE') {
-        return res.json() as Data
+    if (res.status == 204) {
+        return {} as Data
     }
+
+    return res.json() as Data
 }
 
 export const apiRequestHelper = {
