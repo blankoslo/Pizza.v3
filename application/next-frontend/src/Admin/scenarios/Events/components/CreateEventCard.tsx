@@ -6,9 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useModal } from 'Admin/context/ModelContext'
-import { Event, useEvents } from '@/api/useEvents'
+import { ApiEventPost, useEvents } from '@/api/useEvents'
 import useRestaurants from '@/api/useRestaurants'
-import { toast } from 'react-toastify'
 
 const validationSchema = z.object({
     dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
@@ -37,7 +36,6 @@ const CreateEventCard = () => {
 
     const findRestauarant = () => {
         if (restaurantData === undefined || restaurantData.length === 0) {
-            toast.warn('A restaurant have to be added in order to create an event')
             return
         }
 
@@ -49,10 +47,10 @@ const CreateEventCard = () => {
         const restaurant = findRestauarant()
 
         if (restaurant) {
-            const event: Event = {
-                date: data.dateTime.toISOString(),
-                restaurantId: restaurant.id,
-                peoplePerEvent: data.participants,
+            const event: ApiEventPost = {
+                time: data.dateTime.toISOString(),
+                restaurant_id: restaurant.id,
+                people_per_event: data.participants,
             }
             addEvent(event)
             closeModal()
