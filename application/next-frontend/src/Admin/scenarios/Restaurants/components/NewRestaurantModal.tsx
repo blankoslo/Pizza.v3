@@ -3,13 +3,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useModal } from 'Admin/context/ModelContext'
-
-type Restaurant = {
-    name: string
-    link?: string
-    tlf?: string
-    address?: string
-}
+import { useRestaurants, Restaurant } from '@/api/useRestaurants'
 
 const validationSchema = z.object({
     name: z.string().min(1, { message: 'Name required' }),
@@ -26,6 +20,7 @@ const NewRestaurantModal = () => {
     } = useForm({ resolver: zodResolver(validationSchema) })
 
     const { closeModal } = useModal()
+    const { addRestaurant } = useRestaurants()
 
     const validateForm = (data: Restaurant) => {
         const newRestaurant: Restaurant = {
@@ -40,7 +35,7 @@ const NewRestaurantModal = () => {
         if (data.address !== '') {
             newRestaurant.address = data.address
         }
-        console.log(newRestaurant)
+        addRestaurant(newRestaurant)
         closeModal()
     }
 
