@@ -37,6 +37,11 @@ const fetchData = async <Data>(endpoint: string, method: 'GET' | 'POST' | 'PUT' 
         const err = { statusCode: res.status, info }
         throw err
     }
+
+    if (res.status == 204) {
+        return {} as Data
+    }
+
     return res.json() as Data
 }
 

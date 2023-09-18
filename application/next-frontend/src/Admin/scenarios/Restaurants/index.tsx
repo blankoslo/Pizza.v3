@@ -2,10 +2,10 @@ import { NewRestaurantModal } from './components/NewRestaurantModal'
 import { CardComponent } from 'Admin/components/CardComponent'
 import { ModalButton } from 'Admin/components/ModalButton'
 import { ModalProvider } from 'Admin/context/ModelContext'
-import useRestaurants from '@/api/useRestaurants'
+import { useRestaurants } from '@/api/useRestaurants'
 
 const Restaurants = () => {
-    const { data, isLoading, error } = useRestaurants()
+    const { data, isLoading, error, delRestaurant } = useRestaurants()
 
     return (
         <CardComponent title="Places">
@@ -18,7 +18,7 @@ const Restaurants = () => {
                 : data.map((restaurant) => (
                       <div key={restaurant.id} className="flex items-center justify-between py-2">
                           <p>{restaurant.name}</p>
-                          <button>&times;</button>
+                          <button onClick={() => delRestaurant(restaurant.id)}>&times;</button>
                       </div>
                   ))}
 
