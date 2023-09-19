@@ -98,6 +98,10 @@ variable "BACKEND_URI" {
   type = string
 }
 
+variable "NEXT_PUBLIC_BACKEND_URI" {
+  type = string
+}
+
 variable "FORMATION_SIZE_FRONTEND" {
   type = string
 }

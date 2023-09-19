@@ -4,7 +4,7 @@ import { SlackUsers } from 'Admin/scenarios/SlackUsers'
 
 const Home = () => {
     return (
-        <div className="mt-20 flex flex-wrap justify-center space-x-10 font-mono text-lg">
+        <div className="mt-20 flex flex-wrap justify-center gap-8 font-mono text-lg">
             <Restaurants />
             <SlackUsers />
             <Events />

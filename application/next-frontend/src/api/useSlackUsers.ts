@@ -1,18 +1,16 @@
 import { apiRequestHelper } from './utils'
 import { useAuthedSWR } from './useAuthedSWR'
 
-export interface SlackUser {
+export interface BaseSlackUser {
     active: boolean
     priority: number
+}
+
+export interface SlackUser extends BaseSlackUser {
     slack_id: string
     current_username: string
     first_seen: string
     email?: string
-}
-
-export interface BaseUser {
-    active: boolean
-    priority: number
 }
 
 const useSlackUsers = () => {
@@ -22,21 +20,29 @@ const useSlackUsers = () => {
 
     const { put } = apiRequestHelper
 
-    const updateUser = (updatedUser: SlackUser) => {
-        const updatedBaseUser: BaseUser = { active: updatedUser.active, priority: updatedUser.priority }
+    const updateUser = (userToUpdate: SlackUser) => {
+        const updatedBaseUser: BaseSlackUser = { active: !userToUpdate.active, priority: userToUpdate.priority }
 
         try {
-            mutate(async () => {
-                const user = await put<SlackUser>(endpoint + '/' + updatedUser.slack_id, updatedBaseUser)
+            mutate(
+                async () => {
+                    const user = await put<SlackUser>(endpoint + '/' + userToUpdate.slack_id, updatedBaseUser)
 
-                if (data) {
-                    const updatedData = data.map((oldUser) => {
-                        if (user.slack_id === oldUser.slack_id) return user
-                        return oldUser
-                    })
-                    return updatedData
-                }
-            })
+                    if (data) {
+                        // Update cache
+                        const updatedData = data.map((oldUser) => {
+                            if (user.slack_id === oldUser.slack_id) return user
+                            return oldUser
+                        })
+                        return updatedData
+                    }
+                },
+                {
+                    populateCache: true,
+                    rollbackOnError: true,
+                    revalidate: false, //dont revalidate since cache is updated
+                },
+            )
         } catch (e) {
             console.error(e)
         }
@@ -45,4 +51,4 @@ const useSlackUsers = () => {
     return { data, isLoading, error, updateUser }
 }
 
-export default useSlackUsers
+export { useSlackUsers }

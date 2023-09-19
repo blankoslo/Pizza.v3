@@ -121,7 +121,7 @@ def create_app(environment):
     CORS(
         app,
         resources={r"/api/*": resources_origins},
-        allow_headers=["Authorization", "Content-Type"],
+        allow_headers=["Authorization", "Content-Type", "X-CSRF-TOKEN"],
         expose_headers=["X-Pagination"],
         methods=["OPTIONS", "HEAD", "GET", "POST", "PUT", "PATCH", "DELETE"],
         supports_credentials=True,
