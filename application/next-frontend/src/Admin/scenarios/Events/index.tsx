@@ -6,7 +6,7 @@ import { useEvents } from '@/api/useEvents'
 import { format } from 'date-fns'
 
 const Events = () => {
-    const { data, isLoading, error } = useEvents()
+    const { data, isLoading, error, delEvent } = useEvents()
 
     return (
         <CardComponent title="Dates" className="w-1/4">
@@ -16,9 +16,12 @@ const Events = () => {
                 ? `Failed to load events due to the following error: ${error?.info.msg}`
                 : !data || data.length == 0
                 ? 'No events found.'
-                : data.map((event, index) => (
-                      <div key={index} className="flex items-center justify-between py-2">
-                          <p>{formatTimeString(event.time)}</p>
+                : data.map((event) => (
+                      <div key={event.id} className="flex items-center justify-between py-2">
+                          <p>
+                              {formatTimeString(event.time)} at {event.restaurant.name}
+                          </p>
+                          <button onClick={() => delEvent(event.id)}>&times;</button>
                       </div>
                   ))}
             <ModalProvider>
