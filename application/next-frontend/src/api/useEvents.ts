@@ -1,4 +1,3 @@
-import { Restaurant } from './useRestaurants'
 import { useAuthedSWR } from './useAuthedSWR'
 import { ApiRestaurant } from './useRestaurants'
 import { apiRequestHelper } from './utils'
@@ -22,8 +21,8 @@ export interface ApiEventPost extends Event {
 
 const useEvents = () => {
     const endpoint = '/events'
-    const { data, isLoading, error, mutate } = useAuthedSWR<Event[]>(endpoint)
-    const { post } = apiRequestHelper
+    const { data, isLoading, error, mutate } = useAuthedSWR<ApiEvent[]>(endpoint)
+    const { post, del } = apiRequestHelper
 
     const addEvent = async (newEvent: ApiEventPost) => {
         try {
@@ -45,7 +44,28 @@ const useEvents = () => {
         }
     }
 
-    return { data, isLoading, error, addEvent }
+    const delEvent = (eventId: string) => {
+        try {
+            mutate(
+                async () => {
+                    await del<ApiEventPost>(`${endpoint}/${eventId}`)
+
+                    if (data) {
+                        return data.filter((event) => event.id !== eventId)
+                    }
+                },
+                {
+                    populateCache: true,
+                    rollbackOnError: true,
+                    revalidate: false,
+                },
+            )
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    return { data, isLoading, error, addEvent, delEvent }
 }
 
 export { useEvents }
