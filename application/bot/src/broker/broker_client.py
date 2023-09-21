@@ -20,6 +20,7 @@ from src.broker.schemas.get_slack_installation import GetSlackInstallationReques
 from src.broker.schemas.get_slack_organizations import GetSlackOrganizationsResponseSchema
 from src.broker.schemas.deleted_slack_organization_event import DeletedSlackOrganizationEventSchema
 from src.broker.schemas.set_slack_channel import SetSlackChannelRequestSchema, SetSlackChannelResponseSchema
+from src.broker.schemas.get_schedule_events_for_user import GetScheduledEventsForUserRequestSchema, GetScheduledEventsForUserResponseSchema
 
 class BrokerClient:
     messages = {}
@@ -221,3 +222,16 @@ class BrokerClient:
         response_schema = WithdrawInvitationResponseSchema()
         response = response_schema.load(response_payload)
         return response['success']
+    
+    def get_scheduled_events_for_user(self, user_id, team_id):
+        request_payload = {
+            "user_id": user_id,
+            'team_id': team_id
+        }
+        request_payload_schema = GetScheduledEventsForUserRequestSchema()
+        response_payload = self._call(self._create_request("get_scheduled_events_for_user", request_payload_schema.load(request_payload)))
+        if response_payload is None:
+            return False
+        response_schema = GetScheduledEventsForUserResponseSchema()
+        response = response_schema.load(response_payload)
+        return response['events']

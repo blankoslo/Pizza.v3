@@ -92,6 +92,42 @@ class BotApi:
                 self.logger.error("Was unable to leave channel %s", channel_id)
 
         return channel_id
+    
+    def handle_user_left_channel(self, team_id, user_id, channel_id, slack_client):
+        slack_installation = self.client.get_slack_installation(team_id=team_id)
+        if slack_installation is None or 'channel_id' not in slack_installation:
+            self.logger.error("Failed to get slack installation for team %s", team_id)
+            return
+        if slack_installation['channel_id'] != channel_id:
+            return
+        scheduled_events = self.client.get_scheduled_events_for_user(team_id=team_id, user_id=user_id)
+        if scheduled_events == False:
+            self.logger.error("Failed to get scheduled events for user %s", user_id)
+            return
+        
+        for scheduled_event in scheduled_events:
+            rsvp = scheduled_event['responded']
+            if rsvp == RSVP.not_attending:
+                continue
+
+            elif rsvp == RSVP.attending:
+                success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+                if success: # fix this message, withdrew since left channel
+                    continue
+                else:
+                    continue
+
+            elif rsvp == RSVP.unanswered:
+                success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+                if success: # fix this message, withdrew since left channel
+                    continue
+                else:
+                    continue
+        
+
+        
+        
+        
 
     def invite_multiple_if_needed(self):
         events = self.client.invite_multiple_if_needed()

@@ -14,7 +14,7 @@
 8. Click `Event Subscriptions`
 9. Turn on `Enable Events`
 10. Open `Subscribe to bot events`
-11. Add the events `file_shared` `message.channels` `message.im` `app_uninstalled` `tokens_revoked`
+11. Add the events `file_shared` `message.channels` `message.im` `app_uninstalled` `tokens_revoked` `member_left_channel`
 12. Click `OAuth & Permissions` in the menu
 13. Go down to `Scopes` and click `Add an OAuth Scope` and add the scopes found in `/application/backend/api/slack`'s GET `/install` method.
 14. Go to `App Home`

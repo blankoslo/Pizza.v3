@@ -69,6 +69,21 @@ def handle_event(body, say, context):
     if "subtype" in event and event["subtype"] == 'file_share':
         handle_file_share(event=event, say=say, token=token, client=client)
 
+
+@slack_app.event("member_left_channel")
+@request_time_monitor()
+def handle_event(body, say, context):
+    event = body["event"]
+    client = SlackApi(client=context["client"])
+    # Handle a user leaving a channel
+    if "channel" in event and "user" in event:
+        channel_id = event["channel"]
+        team_id = event["team"]
+        user_id = event["user"]
+        with injector.get(BotApi) as ba:
+            ba.handle_user_left_channel(channel_id=channel_id, team_id=team_id, user_id=user_id, slack_client=client)
+
+
 def handle_rsvp(body, ack, attending, client):
     user = body["user"]
     user_id = user["id"]

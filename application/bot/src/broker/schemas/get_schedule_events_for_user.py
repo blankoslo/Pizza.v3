@@ -1,5 +1,5 @@
 from marshmallow import fields, Schema
-from app.models.enums import RSVP
+from src.rsvp import RSVP
 from marshmallow_enum import EnumField
 
 class GetScheduledEventsForUserRequestSchema(Schema):

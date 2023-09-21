@@ -83,7 +83,8 @@ def get_scheduled_events_for_user(request: dict):
             "event_id": event.id,
             "restaurant_id": event.restaurant_id,
             "time": event.time.isoformat(),
-            "responded": event.rsvp
+            "responded": event.rsvp,
+            "event_finalized": event.finalized
         }
         response_data.append(data)
 
