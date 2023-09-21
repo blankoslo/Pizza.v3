@@ -2,6 +2,7 @@ import { ModalButton } from 'Admin/components/ModalButton'
 import { ModalProvider } from 'Admin/context/ModelContext'
 import { CreateEventCard } from './components/CreateEventCard'
 import { CardComponent } from 'Admin/components/CardComponent'
+import { Modal } from '@/Admin/components/Modal'
 
 const Events = () => {
     return (
@@ -10,9 +11,10 @@ const Events = () => {
                 [Occurance placeholder]
             </div>
             <ModalProvider>
-                <ModalButton buttonText="New event">
+                <ModalButton buttonText="New event" />
+                <Modal>
                     <CreateEventCard />
-                </ModalButton>
+                </Modal>
             </ModalProvider>
         </CardComponent>
     )
