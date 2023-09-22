@@ -123,9 +123,14 @@ class BotApi:
                     continue
                 else:
                     continue
-        
-
-        
+                
+        # set non active
+        user_to_update = {
+            'id': user_id,
+            'team_id': team_id,
+            'active': False
+        }
+        self.client.update_slack_users(users_to_update=[user_to_update])
         
         
 
@@ -344,9 +349,8 @@ class BotApi:
             return
         channel_id = installation_info['channel_id']
         slack_client = SlackApi(token=bot_token)
-        all_slack_users = slack_client.get_channel_users(channel_id=channel_id)
-        slack_users = slack_client.get_real_users(all_slack_users)
-        response = self.client.update_slack_user(slack_users)
+        users_to_update = slack_client.get_users_to_update_by_channel(channel_id=channel_id)
+        response = self.client.update_slack_users(users_to_update)
 
         updated_users = response['updated_users']
         for user in updated_users:

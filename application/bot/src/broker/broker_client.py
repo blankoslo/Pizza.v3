@@ -166,23 +166,25 @@ class BrokerClient:
         response = response_schema.load(response_payload)
         return response['user_ids']
 
-    def update_slack_user(self, slack_users):
+    def update_slack_users(self, slack_users):
         request_payload = {
             'users_to_update': []
         }
         for slack_user in slack_users:
-            slack_id = slack_user['id']
-            current_username = slack_user['name']
-            email = slack_user['profile']['email']
-            team_id = slack_user['team_id']
 
+            fields_to_update = {
+                'slack_id': slack_user['id'],
+                'team_id': slack_user['team_id']
+            }
+            if 'current_username' in slack_user:
+                fields_to_update['current_username'] = slack_user['current_username']
+            if 'email' in slack_user:
+                fields_to_update['email'] = slack_user['email']
+            if "active" in slack_user:
+                fields_to_update['active'] = slack_user['active']
 
-            request_payload['users_to_update'].append({
-                'slack_id': slack_id,
-                'current_username': current_username,
-                'email': email,
-                'team_id': team_id
-            })
+            request_payload['users_to_update'].append(fields_to_update)
+            
         request_payload_schema = UpdateSlackUserRequestSchema()
         response_payload = self._call(self._create_request("update_slack_user", request_payload_schema.load(request_payload)))
         response_schema = UpdateSlackUserResponseSchema()

@@ -76,7 +76,7 @@ def handle_event(body, say, context):
     event = body["event"]
     client = SlackApi(client=context["client"])
     # Handle a user leaving a channel
-    if "channel" in event and "user" in event:
+    if "channel" in event and "user" in event and "team" in event:
         channel_id = event["channel"]
         team_id = event["team"]
         user_id = event["user"]

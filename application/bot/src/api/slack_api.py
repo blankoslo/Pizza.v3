@@ -14,18 +14,39 @@ class SlackApi:
             raise ValueError("Either 'client' or 'token' must be provided.")
         self.logger = injector.get(logging.Logger)
 
+    # Returns a list of users in the workspace, 
+    # with their active status updated.
+    def get_users_to_update_by_channel(self, channel_id):
+        members = self.get_channel_users(channel=channel_id)
+        
+        full_users = self.get_slack_users()
+        users_to_update = self.get_real_users(full_users)
+
+        for user in users_to_update:
+            user["active"] = user["id"] in members
+            user["email"] = user["profile"]["email"]
+
+        return users_to_update
+
 
     def get_channel_users(self, channel_id: str):
-        res = self.client.conversations_members(channel=channel_id)
-        if not res["ok"]:
-            self.logger(res["error"])
+        first_page = self.client.conversations_members(channel=channel_id)
+
+        if not first_page["ok"]:
+            self.logger(first_page["error"])
             return []
 
-        members = res["members"]
-        # No method for getting full userinfo from a channel, so we get all users and filter.
-        # Better than sending a request for each user in the channel.
-        full_users = self.get_slack_users()
-        return [u for u in full_users if u["id"] in members]
+        members = first_page["members"]
+
+        # Continue to loop over pages to find the default channel
+        next_cursor = first_page["response_metadata"]["next_cursor"]
+        while next_cursor != "":
+            page = self.client.conversations_list(cursor=next_cursor)
+            next_cursor = page["response_metadata"]["next_cursor"]
+
+            members = members.extend(page["members"])
+
+        return members
 
     def get_slack_users(self):
         first_page = self.client.users_list()

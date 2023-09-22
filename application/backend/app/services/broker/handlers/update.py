@@ -50,10 +50,14 @@ def update_slack_user(request: dict):
     failed_users = []
     for user in users_to_update:
         try:
-            result = slack_user_service.update(user['slack_id'], {
-                'current_username': user['current_username'],
-                'email': user['email']
-            }, user['team_id'])
+            to_update = {}
+            if 'current_username' in user:
+                to_update['current_username'] = user['current_username']
+            if 'email' in user:
+                to_update['email'] = user['email']
+            if 'active' in user:
+                to_update['active'] = user['active']
+            result = slack_user_service.update(user['slack_id'], to_update, user['team_id'])
             if result is None:
                 slack_user_service.add({
                     'slack_id': user['slack_id'],
