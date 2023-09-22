@@ -27,6 +27,9 @@
     "invalidatedEventCancelled": "The event has been canceled.",
     "invitationExpired": "The invitation has expired.",
     "inviteWithdrawn": "You've withdrawn. Ok 😕",
-    "inviteWithdrawnFailure": "The pizza event is over. Withdrawal is not possible."
+    "inviteWithdrawnFailure": "The pizza event is over. Withdrawal is not possible.",
+    "invitedButLeftChannelUnanswered": "Since you left the PizzaBot channel, I assume you do not want to attend 😕",
+    "invitedButLeftChannelWithdrawn": "Since you left the PizzaBot channel, I assume you do not want to attend 😕 You have been withdrawn from the event",
+    "userLeftPizzaChannel": "You left the PizzaBot channel 😕 You will no longer receive invitations to future events."
 }
 

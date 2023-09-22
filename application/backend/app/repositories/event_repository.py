@@ -84,7 +84,7 @@ class EventRepository(Event, CrudMixin):
     
     @classmethod
     def get_scheduled_events_for_user(cls, user_id, team_id, session=db.session):
-        query = session.query(cls.id, cls.restaurant_id, cls.time, Invitation.rsvp, cls.finalized) \
+        query = session.query(cls.id, cls.restaurant_id, cls.time, Invitation.rsvp, cls.finalized, Invitation.slack_message_ts, Invitation.slack_message_channel) \
             .innerjoin(Invitation, cls.id == Invitation.event_id) \
             .filter( 
                 and_(

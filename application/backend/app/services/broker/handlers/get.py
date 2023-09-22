@@ -84,7 +84,9 @@ def get_scheduled_events_for_user(request: dict):
             "restaurant_id": event.restaurant_id,
             "time": event.time.isoformat(),
             "responded": event.rsvp,
-            "event_finalized": event.finalized
+            "event_finalized": event.finalized,
+            "slack_message_channel": event.slack_message_channel,
+            "slack_message_ts": event.slack_message_ts,
         }
         response_data.append(data)
 

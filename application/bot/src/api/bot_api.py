@@ -104,26 +104,6 @@ class BotApi:
         if scheduled_events == False:
             self.logger.error("Failed to get scheduled events for user %s", user_id)
             return
-        
-        for scheduled_event in scheduled_events:
-            rsvp = scheduled_event['responded']
-            if rsvp == RSVP.not_attending:
-                continue
-
-            elif rsvp == RSVP.attending:
-                success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
-                if success: # fix this message, withdrew since left channel
-                    continue
-                else:
-                    continue
-
-            elif rsvp == RSVP.unanswered:
-                success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
-                if success: # fix this message, withdrew since left channel
-                    continue
-                else:
-                    continue
-                
         # set non active
         user_to_update = {
             'id': user_id,
@@ -132,7 +112,32 @@ class BotApi:
         }
         self.client.update_slack_users(users_to_update=[user_to_update])
         
-        
+        # Respond to invited events
+        for scheduled_event in scheduled_events:
+            rsvp = scheduled_event['responded']
+            if rsvp == RSVP.not_attending:
+                continue
+
+            elif rsvp == RSVP.attending:
+                success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+                if success:
+                    self.send_pizza_invited_but_left_channel(channel_id=user_id, ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.attending)
+                else:
+                    self.logger.error("Failed to withdraw invitation after leaving channel for user %s", user_id)
+
+            elif rsvp == RSVP.unanswered:
+                success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+                if success:
+                    self.send_pizza_invited_but_left_channel(channel_id=user_id, ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.unanswered)
+                else:
+                    self.logger.error("Failed to decline invitetion after leaving channel for user %s", user_id)
+                
+        # Send message to user that they no longer will be invited to events
+        self.send_slack_message(
+            channel_id=user_id,
+            text=self.translator.translate("userLeftChannel"),
+            slack_client=slack_client
+        )
 
     def invite_multiple_if_needed(self):
         events = self.client.invite_multiple_if_needed()
@@ -657,4 +662,21 @@ class BotApi:
             }
         ]
         blocks = old_blocks + new_blocks
+        return slack_client.update_slack_message(channel_id=channel_id, ts=ts, blocks=blocks)
+    
+
+    def send_pizza_invited_but_left_channel(self, channel_id, ts, slack_client, event_id, prev_answer: RSVP):
+        self.logger.info('user left and sent message of widthdrawal for %s, %s' % (channel_id, event_id))
+        invitation_message = slack_client.get_slack_message(channel_id, ts)
+        blocks = invitation_message["blocks"][0:3]
+        new_blocks = [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": self.translator.translate("invitedButLeftChannelWithdrawn") if prev_answer == RSVP.attending else self.translator.translate("invitedButLeftChannelUnanswered")
+                }
+            }
+        ]
+        blocks = blocks + new_blocks
         return slack_client.update_slack_message(channel_id=channel_id, ts=ts, blocks=blocks)
