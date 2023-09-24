@@ -8,7 +8,7 @@ const CardComponent = ({
     className?: string
 }) => {
     return (
-        <div className={`w-[25rem] bg-[#FFF8C1] p-4 ${className ?? ''}`}>
+        <div className={`w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl ${className ?? ''}`}>
             <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
                 {title}
             </h5>

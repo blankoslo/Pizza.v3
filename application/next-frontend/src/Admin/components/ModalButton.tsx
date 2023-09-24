@@ -13,7 +13,7 @@ const ModalButton = ({ buttonText, children }: { buttonText: string; children: R
         <>
             <button
                 onClick={() => openModal()}
-                className="float-right my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] hover:bg-[#5FE09D] hover:text-white focus:outline-none"
+                className="float-right my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none"
             >
                 {buttonText}
             </button>
