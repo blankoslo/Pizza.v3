@@ -1,4 +1,4 @@
-import Mascot from 'Admin/assets/mascot.svg'
+import Mascot from 'Admin/assets/Mascot.svg'
 
 const AdminSidebar = () => {
     return (
