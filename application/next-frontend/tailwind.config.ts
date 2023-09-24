@@ -15,6 +15,7 @@ const config: Config = {
             fontFamily: {
                 spaceGrotesk: ['Space Grotesk', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
+                workSans: ['"Work Sans"', 'sans-serif'],
             },
         },
         plugins: [],

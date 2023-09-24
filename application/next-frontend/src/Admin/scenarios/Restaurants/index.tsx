@@ -8,22 +8,26 @@ const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()
 
     return (
-        <CardComponent title="Places">
-            {isLoading
-                ? 'Loading...'
-                : error
-                ? `Failed to load users due to the following error: ${error?.info.msg}`
-                : !data || data.length == 0
-                ? 'No restaurants found.'
-                : data.map((restaurant) => (
-                      <div key={restaurant.id} className="flex items-center justify-between py-2">
-                          <p>{restaurant.name}</p>
-                          <button onClick={() => delRestaurant(restaurant.id)}>&times;</button>
-                      </div>
-                  ))}
+        <CardComponent title="What pizza places would you like to visit?">
+            <div className="scrollable-wrapper mb-2">
+                <div className="scrollable-list">
+                    {isLoading
+                        ? 'Loading...'
+                        : error
+                        ? `Failed to load users due to the following error: ${error?.info.msg}`
+                        : !data || data.length == 0
+                        ? 'No restaurants found.'
+                        : data.map((restaurant) => (
+                              <div key={restaurant.id} className="flex py-2 text-2xl">
+                                  <button onClick={() => delRestaurant(restaurant.id)}>&times;</button>
+                                  <p className="ml-2 font-workSans italic">{restaurant.name}</p>
+                              </div>
+                          ))}
+                </div>
+            </div>
 
             <ModalProvider>
-                <ModalButton buttonText="Add More">
+                <ModalButton buttonText="Add">
                     <NewRestaurantModal />
                 </ModalButton>
             </ModalProvider>
