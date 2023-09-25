@@ -4,7 +4,6 @@ import { ModalButton } from 'Admin/components/ModalButton'
 import { ModalProvider } from 'Admin/context/ModelContext'
 import { useRestaurants } from '@/api/useRestaurants'
 import { Modal } from '@/Admin/components/Modal'
-import { ConfigurationModal } from '../ConfigurationModal'
 
 const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()

@@ -32,7 +32,6 @@ const CreateEventCard = () => {
     const { closeModal } = useModal()
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
         closeModal()
     }
 
