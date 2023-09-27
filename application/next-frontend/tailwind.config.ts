@@ -15,7 +15,8 @@ const config: Config = {
             fontFamily: {
                 spaceGrotesk: ['Space Grotesk', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
-                workSans: ['"Work Sans"', 'sans-serif'],
+                workSans: ['Work Sans', 'sans-serif'],
+                queensCTM: ['Queens Condensed Trial Medium', 'sans-serif'],
             },
         },
         plugins: [],
