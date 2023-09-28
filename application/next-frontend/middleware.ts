@@ -1,4 +1,4 @@
-27import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 type Environment = 'production' | 'development' | 'test'
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
