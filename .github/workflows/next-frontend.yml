@@ -4,11 +4,13 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+      - prod
     paths:
       - "application/next-frontend/**"
   push:
     branches:
       - main
+      - prod
     paths:
       - "application/next-frontend/**"
 
