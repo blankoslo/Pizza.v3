@@ -5,7 +5,7 @@ from flask_smorest import Blueprint, abort
 from app.repositories.user_repository import UserRepository
 from app.models.user_schema import UserSchema
 from app.auth import auth
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, set_access_cookies
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, set_access_cookies, unset_jwt_cookies
 from app.services.slack_organization_service import SlackOrganizationService
 from app.services.injector import injector
 
@@ -123,3 +123,11 @@ class Auth(views.MethodView):
             set_access_cookies(response, access_token)
             return response
         return abort(401, message = "User email not available or not verified by Slack.")
+
+
+@bp.route("/logout")
+class Auth(views.MethodView):
+    def delete(self):
+        response = jsonify(msg="Successfully logged out")
+        unset_jwt_cookies(response)
+        return response
