@@ -1,11 +1,11 @@
-resource "heroku_pipeline" "pizzabot" {
-  name = var.prefix
+# resource "heroku_pipeline" "pizzabot" {
+#   name = var.prefix
 
-  owner {
-    id = var.heroku_team_id
-    type = "team"
-  }
-}
+#   owner {
+#     id = var.heroku_team_id
+#     type = "team"
+#   }
+# }
 
 
 # module "production" {
@@ -107,19 +107,19 @@ module "staging" {
 #Add staging apps to pipeline under staging stage
 resource "heroku_pipeline_coupling" "staging-backend" {
   app_id = module.staging.app_backend_id
-  pipeline = heroku_pipeline.pizzabot.id
+  pipeline = var.EXISTING_PIPELINE_ID
   stage = "staging"
 }
 
 resource "heroku_pipeline_coupling" "staging-bot" {
   app_id = module.staging.app_bot_id
-  pipeline = heroku_pipeline.pizzabot.id
+  pipeline = var.EXISTING_PIPELINE_ID
   stage = "staging"
 }
 
 resource "heroku_pipeline_coupling" "staging-frontend" {
   app_id = module.staging.app_frontend_id
-  pipeline = heroku_pipeline.pizzabot.id
+  pipeline = var.EXISTING_PIPELINE_ID
   stage = "staging"
 }
 
