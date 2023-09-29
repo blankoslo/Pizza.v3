@@ -121,20 +121,32 @@ class BotApi:
             elif rsvp == RSVP.attending:
                 success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
-                    self.send_pizza_invited_but_left_channel(channel_id=user_id, event_id=scheduled_event['event_id'], ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.attending)
+                    self.send_pizza_invited_but_left_channel(
+                        channel_id=scheduled_event['slack_message_channel'], 
+                        event_id=scheduled_event['event_id'], 
+                        ts=scheduled_event['slack_message_ts'], 
+                        slack_client=slack_client, 
+                        prev_answer=RSVP.attending
+                    )
                 else:
                     self.logger.error("Failed to withdraw invitation after leaving channel for user %s", user_id)
 
             elif rsvp == RSVP.unanswered:
                 success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
-                    self.send_pizza_invited_but_left_channel(channel_id=user_id, event_id=scheduled_event['event_id'], ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.unanswered)
+                    self.send_pizza_invited_but_left_channel(
+                        channel_id=scheduled_event['slack_message_channel'], 
+                        event_id=scheduled_event['event_id'], 
+                        ts=scheduled_event['slack_message_ts'], 
+                        slack_client=slack_client, 
+                        prev_answer=RSVP.unanswered
+                    )
                 else:
                     self.logger.error("Failed to decline invitetion after leaving channel for user %s", user_id)
                 
         # Send message to user that they no longer will be invited to events
         self.send_slack_message(
-            channel_id=user_id,
+            channel_id=scheduled_event['slack_message_channel'],
             text=self.translator.translate("userLeftPizzaChannel"),
             slack_client=slack_client
         )
@@ -347,6 +359,8 @@ class BotApi:
         for slack_organization in slack_organizations:
             self.sync_users_from_organization(team_id=slack_organization['team_id'], bot_token=slack_organization['bot_token'])
 
+    # This updates all users on all user for all organizations, regardless if they are in the channel or not. This wont scale
+    # TODO: optimize this. Might need another message to the backend to get active users and see if the list has changed
     def sync_users_from_organization(self, team_id, bot_token):
         installation_info = self.client.get_slack_installation(team_id=team_id)
         if installation_info is None or 'channel_id' not in installation_info:
@@ -354,6 +368,7 @@ class BotApi:
             return
         channel_id = installation_info['channel_id']
         slack_client = SlackApi(token=bot_token)
+        
         users_to_update = slack_client.get_users_to_update_by_channel(channel_id=channel_id)
         response = self.client.update_slack_users(users_to_update)
 
