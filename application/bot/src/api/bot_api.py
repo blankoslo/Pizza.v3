@@ -110,7 +110,7 @@ class BotApi:
             'team_id': team_id,
             'active': False
         }
-        self.client.update_slack_users(users_to_update=[user_to_update])
+        self.client.update_slack_users(slack_users=[user_to_update])
         
         # Respond to invited events
         for scheduled_event in scheduled_events:
@@ -121,21 +121,21 @@ class BotApi:
             elif rsvp == RSVP.attending:
                 success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
-                    self.send_pizza_invited_but_left_channel(channel_id=user_id, ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.attending)
+                    self.send_pizza_invited_but_left_channel(channel_id=user_id, event_id=scheduled_event['event_id'], ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.attending)
                 else:
                     self.logger.error("Failed to withdraw invitation after leaving channel for user %s", user_id)
 
             elif rsvp == RSVP.unanswered:
                 success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
-                    self.send_pizza_invited_but_left_channel(channel_id=user_id, ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.unanswered)
+                    self.send_pizza_invited_but_left_channel(channel_id=user_id, event_id=scheduled_event['event_id'], ts=scheduled_event['slack_message_ts'], slack_client=slack_client, prev_answer=RSVP.unanswered)
                 else:
                     self.logger.error("Failed to decline invitetion after leaving channel for user %s", user_id)
                 
         # Send message to user that they no longer will be invited to events
         self.send_slack_message(
             channel_id=user_id,
-            text=self.translator.translate("userLeftChannel"),
+            text=self.translator.translate("userLeftPizzaChannel"),
             slack_client=slack_client
         )
 

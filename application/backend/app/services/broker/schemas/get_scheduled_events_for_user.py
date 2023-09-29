@@ -9,7 +9,7 @@ class GetScheduledEventsForUserRequestSchema(Schema):
   
 class ScheduledEventsForUserDataSchema(Schema):
     event_id = fields.UUID(required=True)
-    resturant_id = fields.UUID(required=True)
+    restaurant_id = fields.UUID(required=True)
     time = fields.Str(required=True)
     responded = EnumField(RSVP, by_value=True, required=True)
     event_finalized = fields.Bool(required=True)

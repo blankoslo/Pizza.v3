@@ -17,7 +17,7 @@ class SlackApi:
     # Returns a list of users in the workspace, 
     # with their active status updated.
     def get_users_to_update_by_channel(self, channel_id):
-        members = self.get_channel_users(channel=channel_id)
+        members = self.get_channel_users(channel_id=channel_id)
         
         full_users = self.get_slack_users()
         users_to_update = self.get_real_users(full_users)

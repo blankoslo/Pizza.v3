@@ -176,6 +176,8 @@ class BrokerClient:
                 'slack_id': slack_user['id'],
                 'team_id': slack_user['team_id']
             }
+            if 'name' in slack_user:
+                fields_to_update['current_username'] = slack_user['name']
             if 'current_username' in slack_user:
                 fields_to_update['current_username'] = slack_user['current_username']
             if 'email' in slack_user:
