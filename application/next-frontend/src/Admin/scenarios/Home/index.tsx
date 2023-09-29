@@ -1,12 +1,15 @@
-import { Events } from 'Admin/scenarios/Events'
-import { Restaurants } from 'Admin/scenarios/Restaurants'
-import { SlackUsers } from 'Admin/scenarios/SlackUsers'
-import { AdminSidebar } from 'Admin/components/AdminSidebar'
+// import { Events } from 'Admin/scenarios/Events'
+// import { Restaurants } from 'Admin/scenarios/Restaurants'
+// import { SlackUsers } from 'Admin/scenarios/SlackUsers'
+// import { AdminSidebar } from 'Admin/components/AdminSidebar'
+
+import { AdminMainPage } from 'Admin/scenarios/AdminMainPage'
 
 const Home = () => {
     return (
-        <div className="flex h-screen">
-            <div className="flex-1 bg-[#05793C]">
+        <div className="flex">
+            <AdminMainPage />
+            {/* <div className="flex-1 bg-[#05793C]">
                 <div className="mt-16">
                     <AdminSidebar />
                 </div>
@@ -17,7 +20,7 @@ const Home = () => {
                     <SlackUsers />
                     <Events />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
