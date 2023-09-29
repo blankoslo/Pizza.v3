@@ -102,7 +102,7 @@ resource "heroku_build" "backend" {
   ]
 
   source {
-    path = "../application/backend"
+    path = "../../application/backend"
   }
 }
 
@@ -114,7 +114,7 @@ resource "heroku_build" "bot" {
   ]
 
   source {
-    path = "../application/bot"
+    path = "../../application/bot"
   }
 }
 
@@ -122,7 +122,7 @@ resource "heroku_build" "frontend" {
   app_id = heroku_app.frontend.id
 
   source {
-    path = "../application/next-frontend"
+    path = "../../application/next-frontend"
   }
 }
 
