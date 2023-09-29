@@ -39,7 +39,7 @@ const CreateEventCard = () => {
         if (restaurantData === undefined || restaurantData.length === 0) {
             return
         }
-
+    
         const randomIndex = Math.floor(Math.random() * restaurantData.length)
         return restaurantData[randomIndex]
     }
