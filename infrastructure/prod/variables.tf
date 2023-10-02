@@ -57,7 +57,7 @@ variable "PRODUCTION_CLOUDINARY_API_SECRET" {
 variable "EXISTING_PIPELINE_ID" {
   type = string
   description = "As we have two different folders thats connected to the same pipeline we remotely create the pipeline and add the pipeline Id manualy"
-  default = "04d41f30-3c8e-41a4-bde4-577db41b97a0"
+  default = "deb1e6a1-f075-4153-a818-b39fd0351140"
 }
 
 
