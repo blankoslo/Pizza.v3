@@ -5,6 +5,14 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Queens Condensed Trial Regular';
+    src: url('../../public/fonts/QueensCondensedTrial-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 .header {
     @apply fixed h-32 bg-teal-400 w-full px-12 top-0;
 }
@@ -45,3 +53,8 @@
         linear-gradient(90deg, #c1c1c1 1px, transparent 1px);
     background-size: 145px 80px;
 }
+
+.postitColumns > *:not(:last-child) {
+    @apply mb-14;
+  }
+  
