@@ -170,8 +170,8 @@ class BrokerClient:
         request_payload = {
             'users_to_update': []
         }
-        for slack_user in slack_users:
 
+        for slack_user in slack_users:
             fields_to_update = {
                 'slack_id': slack_user['id'],
                 'team_id': slack_user['team_id']
@@ -182,7 +182,7 @@ class BrokerClient:
                 fields_to_update['current_username'] = slack_user['current_username']
             if 'email' in slack_user:
                 fields_to_update['email'] = slack_user['email']
-            if "active" in slack_user:
+            if 'active' in slack_user:
                 fields_to_update['active'] = slack_user['active']
 
             request_payload['users_to_update'].append(fields_to_update)

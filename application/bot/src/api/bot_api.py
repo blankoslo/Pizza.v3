@@ -121,6 +121,7 @@ class BotApi:
             elif rsvp == RSVP.attending:
                 success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
+                    # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
                     self.send_pizza_invited_but_left_channel(
                         channel_id=scheduled_event['slack_message_channel'], 
                         event_id=scheduled_event['event_id'], 
@@ -134,6 +135,7 @@ class BotApi:
             elif rsvp == RSVP.unanswered:
                 success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
                 if success:
+                    # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
                     self.send_pizza_invited_but_left_channel(
                         channel_id=scheduled_event['slack_message_channel'], 
                         event_id=scheduled_event['event_id'], 
