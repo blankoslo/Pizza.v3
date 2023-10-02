@@ -9,7 +9,7 @@ resource "heroku_domain" "blank_backend" {
 }
 
 resource "heroku_app" "backend" {
-  name = "${var.prefix}-${var.environment}-backend"
+  name = "${var.prefix}-${var.environment}-backend-test"
   region = "eu"
   stack = "heroku-22"
 
@@ -37,7 +37,7 @@ resource "heroku_app" "backend" {
 }
 
 resource "heroku_app" "bot" {
-  name = "${var.prefix}-${var.environment}-bot"
+  name = "${var.prefix}-${var.environment}-bot-test"
   region = "eu"
   stack = "heroku-22"
 
@@ -79,7 +79,7 @@ resource "heroku_app_config_association" "config_backend_association" {
 }
 
 resource "heroku_app" "frontend" {
-  name = "${var.prefix}-${var.environment}-frontend"
+  name = "${var.prefix}-${var.environment}-frontend-test"
   region = "eu"
   stack = "heroku-22"
 
