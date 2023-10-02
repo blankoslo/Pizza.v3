@@ -58,3 +58,16 @@
     @apply mb-14;
   }
   
+.marked-entry {
+    padding: 0 1.5em;
+    border-radius: 0.8em 0.3em;
+    background: transparent;
+    background-image: linear-gradient(
+      to right,
+      rgba(95, 224, 157, 0.1),
+      rgb(95, 224, 157, 0.7) 4%,
+      rgb(95, 224, 157, 0.3)
+    );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
