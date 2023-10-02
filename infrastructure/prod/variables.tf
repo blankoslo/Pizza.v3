@@ -54,6 +54,13 @@ variable "PRODUCTION_CLOUDINARY_API_SECRET" {
   type = string
 }
 
+variable "EXISTING_PIPELINE_ID" {
+  type = string
+  description = "As we have two different folders thats connected to the same pipeline we add the pipeline Id manualy"
+  default = "ca5f3b56-618c-4e63-9284-39029d096782"
+}
+
+
 # ************* STAGING ************* #
 
 # variable "STAGING_SLACK_APP_TOKEN" {
