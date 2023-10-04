@@ -72,7 +72,6 @@ const EventCalendar = () => {
                                     currentDate.getMonth(),
                                     day + 1,
                                 )
-                                console.log(currentToday, today)
                                 return (
                                     <td
                                         className={`h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
