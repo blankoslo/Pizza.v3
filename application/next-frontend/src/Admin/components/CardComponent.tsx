@@ -3,11 +3,11 @@ import { ModalProvider } from 'Admin/context/ModelContext'
 
 const CardComponent = ({
     title,
-    modalFunction,
+    modalComponent,
     children,
 }: {
     title: string
-    modalFunction?: React.ReactNode
+    modalComponent?: React.ReactNode
     children?: React.ReactNode
 }) => {
     return (
@@ -15,10 +15,10 @@ const CardComponent = ({
             <div className="flex justify-between">
                 <h5 className="mb-2 ml-6 pt-3 font-queensRegular text-3xl font-semibold text-[#05793C]">{title}</h5>
 
-                {modalFunction && (
+                {modalComponent && (
                     <div className="mr-6 pt-4">
                         <ModalProvider>
-                            <ModalPencil>{modalFunction}</ModalPencil>
+                            <ModalPencil>{modalComponent}</ModalPencil>
                         </ModalProvider>
                     </div>
                 )}
