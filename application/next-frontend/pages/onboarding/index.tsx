@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import jwtDecode from 'jwt-decode'
 import type { JwtToken, User } from '@/Admin/types/User'
 import { Navbar } from '@/Admin/scenarios/Navbar'
-import { OnboardAdmin } from '@/Admin/scenarios/Onboarding'
+import { Onboarding as OnboardAdmin} from '@/Admin/scenarios/Onboarding'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const jwt = req.cookies['access_token_cookie']

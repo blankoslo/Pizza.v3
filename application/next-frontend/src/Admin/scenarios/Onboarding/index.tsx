@@ -4,7 +4,7 @@ import { EventConfig } from './components/EventConfig'
 import { useState } from 'react'
 
 
-const OnboardAdmin = () => {
+const Onboarding = () => {
     const [step, setStep] = useState(0)
 
     return (
@@ -14,11 +14,11 @@ const OnboardAdmin = () => {
                     <AdminSidebar />
                 </div>
             </div>
-            <div className="grid-background flex-1">
+            <div className="grid-background flex-1 flex items-center justify-center">
                 {step === 0 ? <RestaurantsConfig onNext={() => setStep(1)}/> : <EventConfig/>}
             </div>
         </div>
     )
 }
 
-export { OnboardAdmin }
+export { Onboarding }
