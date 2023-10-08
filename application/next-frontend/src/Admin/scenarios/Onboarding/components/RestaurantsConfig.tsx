@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { CardComponent } from 'Admin/components/CardComponent'
 
 const RestaurantsConfig = (props: { onNext: () => void }) => {
     const { addRestaurant } = useRestaurants()
@@ -33,16 +32,17 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
     }
 
     return (
-        <CardComponent
-            title="What pizza places would you like to visit?"
-            header={<p className="font-queensCTM text-5xl text-[#05793C]">1/2</p>}
-        >
+        <div className="w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl">
+            <p className="font-queensCTM text-5xl text-[#05793C]">1/2</p>
+            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
+                What Pizza Places would you like to visit?
+            </h5>
             <div className="flex flex-col justify-between">
                 <form
                     onSubmit={handleSubmit((data) => {
                         validateForm(data as Restaurant)
                     })}
-                    className="flex flex-col"
+                    className="flex flex-col px-6"
                 >
                     <input
                         className="mb-4 p-3 bg-white border border-gray-800 font-workSans italic"
@@ -50,10 +50,10 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                         placeholder="Write your Pizza Places here"
                     />
                 </form>
-                <div className="scrollable-wrapper mb-2">
+                <div className="scrollable-wrapper mb-2 ">
                     <div className="scrollable-list h-[125px]">
                         {restaurants.map((restaurant, index) => (
-                            <div className="flex text-2xl" key={index}>
+                            <div className="flex text-2xl px-6" key={index}>
                                 <button onClick={() => deleteRestaurant(index)}>&times;</button>
                                 <p className="ml-2 font-workSans italic">{restaurant.name}</p>
                             </div>
@@ -67,11 +67,11 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                         }`}
                         onClick={addAllRestaurants}
                     >
-                        Next
+                        Add
                     </button>
                 </div>
             </div>
-        </CardComponent>
+        </div>
     )
 }
 

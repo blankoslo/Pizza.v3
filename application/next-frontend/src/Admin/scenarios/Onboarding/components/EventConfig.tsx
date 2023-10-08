@@ -7,9 +7,10 @@ import { ApiEventPost, useEvents } from '@/api/useEvents'
 import DatePicker from 'react-datepicker'
 import { useRestaurants } from '@/api/useRestaurants'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useRouter } from 'next/router'
 
 const EventConfig = () => {
-
+    const router = useRouter()
     const validationSchema = z.object({
         dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
     })
@@ -56,14 +57,17 @@ const EventConfig = () => {
     
 
     return (
-        <CardComponent
-            title="Add your first event"
-            header={<p className="font-queensCTM text-5xl text-[#05793C]">2/2</p>}
-        >
+        <div className="w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl">
+            <p className="font-queensCTM text-5xl text-[#05793C]">2/2</p>
+            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
+                Set up your first event!
+            </h5>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col font-workSans italic">
-                    <p className="text-[#05793C] ml-4">Date:</p>
+                    <div className="px-6">
+                    <p>Date:</p>
                     <Controller
+                    
                         name="dateTime"
                         control={methods.control}
                         render={({ field }) => (
@@ -81,26 +85,28 @@ const EventConfig = () => {
                         )}
                     />
                     <p className="text-xs">*Invitations are sent out 10 days in advance*</p>
-                    <div className="flex space-x-4">
-                    {/*
+                    <div className="flex flex-grow"/>
+                    <div className="flex place-content-evenly">
                         <button
                             className='my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] focus:outline-non hover:bg-[#5FE09D]'
+                            onClick={() => router.push("/admin")}
                         >
-                            Back
+                            Skip
                         </button>
-                        */}
+        
                         <button
                             type="submit"
                             className='my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] focus:outline-non hover:bg-[#5FE09D]'
-                            onClick={() => window.location.assign('/admin')}
+                            onClick={() => router.push("/admin")}
                         >
                             Create
                         </button>
+                        </div>
                     </div>
                 </form>
             </FormProvider>
             
-        </CardComponent>
+        </div>
     )
 }
 
