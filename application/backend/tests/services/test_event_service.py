@@ -121,7 +121,7 @@ class TestEventServiceSuit:
         test_events = Event.query.all()
         assert len(test_events) == 1
 
-    def test_update(self, db, slack_organizations, events, groups, restaurants, mock_broker, event_service):
+    def test_update(self, db, slack_organizations, events, groups, restaurants, event_service, mock_broker):
         team_id = slack_organizations[0].team_id
         event = events.get(team_id)[0]
         group = groups.get(team_id)[0]
@@ -148,3 +148,35 @@ class TestEventServiceSuit:
         mock_broker.send.assert_called()
         assert len(mock_broker.send.call_args_list) == 1
         assert mock_broker.send.call_args_list[0].kwargs['body']['type'] == 'updated_event'
+
+    def test_get_scheduled_events_for_user(self, slack_organizations, events, invitations, slack_users, event_service):
+        team_id = slack_organizations[0].team_id
+        slack_user = slack_users.get(team_id)[0].slack_id
+        team_events = events.get(team_id)
+        
+        user_invitations = list(filter(
+            lambda x: x.slack_id == slack_user, 
+            invitations.get(team_id)
+        ))
+
+        date_now = datetime.now(pytz.timezone('Europe/Oslo')) 
+        scheduled_events = []
+
+        for user_invitation in user_invitations:
+            for event in team_events:
+                if user_invitation.event_id == event.id and date_now < event.time:
+                    scheduled_events.append({**vars(event), **vars(user_invitation)})
+                    
+
+        scheduled_event_from_service = event_service.get_scheduled_events_for_user(user_id=slack_user, team_id=team_id)
+
+        assert len(user_invitations) == len(scheduled_event_from_service)
+
+        for test_event in scheduled_events:
+            event_from_service = next(event_from_service for event_from_service in scheduled_event_from_service 
+                            if event_from_service.id == test_event['id'])
+            assert test_event['time'] == event_from_service.time
+            assert test_event['rsvp'] == event_from_service.rsvp
+            assert test_event['finalized'] == event_from_service.finalized
+
+        
