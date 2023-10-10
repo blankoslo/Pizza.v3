@@ -2,12 +2,10 @@ import { EditBotModal } from '@/Admin/components/EditBotModal'
 import { ModalProvider } from 'Admin/context/ModelContext'
 
 const CardComponent = ({
-    header,
     title,
     modalContent,
     children,
 }: {
-    header?: React.ReactNode
     title: string
     modalContent?: React.ReactNode
     children?: React.ReactNode
