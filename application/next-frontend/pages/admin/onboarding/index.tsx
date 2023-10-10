@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next'
 import jwtDecode from 'jwt-decode'
-import type { JwtToken, User } from '@/Admin/types/User'
-import { Navbar } from '@/Admin/scenarios/Navbar'
+import type { JwtToken } from '@/Admin/types/User'
 import { Onboarding as OnboardAdmin } from '@/Admin/scenarios/Onboarding'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
@@ -11,16 +10,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const decodedJWT = jwtDecode<JwtToken>(jwt)
 
     return {
-        props: {
-            user: decodedJWT.user,
-        },
+        props: {},
     }
 }
 
-const Onboarding = ({ user }: { user: User }) => {
+const Onboarding = () => {
     return (
         <div>
-            <Navbar user={user} />
             <OnboardAdmin />
         </div>
     )
