@@ -1,6 +1,4 @@
 import { GetServerSideProps } from 'next'
-import jwtDecode from 'jwt-decode'
-import type { JwtToken } from '@/Admin/types/User'
 import { Onboarding as OnboardAdmin } from '@/Admin/scenarios/Onboarding'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
