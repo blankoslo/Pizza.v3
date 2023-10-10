@@ -3,7 +3,6 @@ import { RestaurantsConfig } from './components/RestaurantsConfig'
 import { EventConfig } from './components/EventConfig'
 import { useState } from 'react'
 
-
 const Onboarding = () => {
     const [step, setStep] = useState(0)
 
@@ -14,8 +13,8 @@ const Onboarding = () => {
                     <AdminSidebar />
                 </div>
             </div>
-            <div className="grid-background flex-1 flex items-center justify-center">
-                {step === 0 ? <RestaurantsConfig onNext={() => setStep(1)}/> : <EventConfig/>}
+            <div className="grid-background flex flex-1 items-center justify-center">
+                {step === 0 ? <RestaurantsConfig onNext={() => setStep(1)} /> : <EventConfig />}
             </div>
         </div>
     )

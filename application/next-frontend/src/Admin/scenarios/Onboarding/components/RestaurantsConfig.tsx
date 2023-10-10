@@ -45,7 +45,7 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                     className="flex flex-col px-6"
                 >
                     <input
-                        className="mb-4 p-3 bg-white border border-gray-800 font-workSans italic"
+                        className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
                         {...register('name')}
                         placeholder="Write your Pizza Places here"
                     />
@@ -53,7 +53,7 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                 <div className="scrollable-wrapper mb-2 ">
                     <div className="scrollable-list h-[125px]">
                         {restaurants.map((restaurant, index) => (
-                            <div className="flex text-2xl px-6" key={index}>
+                            <div className="flex px-6 text-2xl" key={index}>
                                 <button onClick={() => deleteRestaurant(index)}>&times;</button>
                                 <p className="ml-2 font-workSans italic">{restaurant.name}</p>
                             </div>
@@ -62,7 +62,7 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                 </div>
                 <div className="flex justify-end">
                     <button
-                        className={`my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] focus:outline-non ${
+                        className={`my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] focus:outline-none ${
                             restaurants.length === 0 ? 'cursor-default opacity-20' : 'hover:bg-[#5FE09D]'
                         }`}
                         onClick={addAllRestaurants}
