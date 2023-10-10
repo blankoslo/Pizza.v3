@@ -7,8 +7,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const jwt = req.cookies['access_token_cookie']
     if (!jwt) return { redirect: { destination: '/login', permanent: false }, props: {} }
 
-    const decodedJWT = jwtDecode<JwtToken>(jwt)
-
     return {
         props: {},
     }
