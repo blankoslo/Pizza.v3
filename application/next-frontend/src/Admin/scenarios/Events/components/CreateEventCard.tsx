@@ -6,6 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useModal } from 'Admin/context/ModelContext'
+import { ApiEventPost, useEvents } from '@/api/useEvents'
+import { useRestaurants } from '@/api/useRestaurants'
 
 const validationSchema = z.object({
     dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
@@ -30,10 +32,30 @@ const CreateEventCard = () => {
     const { handleSubmit } = methods
 
     const { closeModal } = useModal()
+    const { addEvent } = useEvents()
+    const { data: restaurantData } = useRestaurants()
+
+    const findRestauarant = () => {
+        if (restaurantData === undefined || restaurantData.length === 0) {
+            return
+        }
+
+        const randomIndex = Math.floor(Math.random() * restaurantData.length)
+        return restaurantData[randomIndex]
+    }
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
-        closeModal()
+        const restaurant = findRestauarant()
+
+        if (restaurant) {
+            const event: ApiEventPost = {
+                time: data.dateTime.toISOString(),
+                restaurant_id: restaurant.id,
+                people_per_event: data.participants,
+            }
+            addEvent(event)
+            closeModal()
+        }
     }
 
     return (
