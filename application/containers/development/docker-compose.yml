@@ -94,6 +94,19 @@ services:
       - database-network
       - proxy-network
       - rabbitmq_network
+      - stripe-cli-network
+  stripe-cli:
+    build: 
+      context: ../../
+      dockerfile: containers/development/Dockerfile.stripe-cli
+    depends_on:
+      - backend
+    environment:
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+      WEBHOOK_ENDPOINT: "${BACKEND_URI}/api/stripe/webhook"
+    command: "listen --api-key \"${STRIPE_API_KEY}\" --forward-to \"${BACKEND_URI}/api/stripe/webhook\""
+    networks:
+      - stripe-cli-network
   bot-worker:
     build:
       context: ../../
@@ -168,6 +181,8 @@ networks:
   proxy-network:
     driver: bridge
   rabbitmq_network:
+    driver: bridge
+  stripe-cli-network:
     driver: bridge
 
 volumes:
