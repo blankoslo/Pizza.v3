@@ -3,6 +3,7 @@ import json
 import logging
 import sys
 import cloudinary
+import stripe
 
 from app.db import db, migrate
 from app.api import api, ma
@@ -20,7 +21,7 @@ from flask_smorest import Blueprint
 from flask_talisman import Talisman
 from flask_cors import CORS
 
-from app.api import events_bp, restaurants_bp, users_bp, invitations_bp, images_bp, auth_bp, slack_bp, groups_bp
+from app.api import events_bp, restaurants_bp, users_bp, invitations_bp, images_bp, auth_bp, slack_bp, groups_bp, stripe_bp
 
 # Don't remove, needed for queue files to get imported
 import app.services.broker.queue
@@ -139,6 +140,9 @@ def create_app(environment):
         secure=True,
     )
 
+    # Set up stripe
+    stripe.api_key = app.config["STRIPE_SECRET_KEY"]
+
     return app
 
 def register_blueprints(api):
@@ -152,4 +156,5 @@ def register_blueprints(api):
     api_base_bp.register_blueprint(auth_bp)
     api_base_bp.register_blueprint(slack_bp)
     api_base_bp.register_blueprint(groups_bp)
+    api_base_bp.register_blueprint(stripe_bp)
     api.register_blueprint(api_base_bp)

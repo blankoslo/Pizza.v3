@@ -66,7 +66,7 @@ services:
       rabbitmq:
         condition: service_healthy
     ports:
-      - 8080:8080
+      - 8080:3000
     volumes:
       - ../../backend:/srv/backend
     environment:
@@ -89,6 +89,7 @@ services:
           *common-rabbitmq-variables,
           *common-cloudinary-variables,
         ]
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
     networks:
       - database-network
       - proxy-network
