@@ -5,6 +5,7 @@ import Line from 'Admin/assets/Line.svg'
 import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
+import { useEvents } from '@/api/useEvents'
 
 // Goes into the next month - 1 day, which is the last day of current month, and returns this day
 // e.g. if we are in October, and our last day is 31st, we return 31
@@ -40,8 +41,21 @@ const EventCalendar = () => {
         'December',
     ]
     const today = new Date()
+    const { data, isLoading, error } = useEvents()
 
-    const chosen = [8, 13, 27] // remove
+    const getEventDaysForCurrentMonth = () => {
+        if (!data || data.length == 0) return []
+
+        return data
+            .filter((event) => {
+                const eventDate = new Date(event.time)
+                return (
+                    eventDate.getMonth() === currentDate.getMonth() &&
+                    eventDate.getFullYear() === currentDate.getFullYear()
+                )
+            })
+            .map((event) => new Date(event.time).getDate())
+    }
 
     const renderMonth = () => {
         // Reverse the list so that we can pop instead of shift when rendering rows
@@ -78,7 +92,7 @@ const EventCalendar = () => {
                                         ${
                                             today >= currentTomorrow
                                                 ? 'opacity-50'
-                                                : chosen.includes(day)
+                                                : getEventDaysForCurrentMonth().includes(day)
                                                 ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
                                                 : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                         }`}
@@ -86,7 +100,7 @@ const EventCalendar = () => {
                                         onClick={() => onClickDay(currentToday)}
                                     >
                                         {day}
-                                        {chosen.includes(day) && (
+                                        {getEventDaysForCurrentMonth().includes(day) && (
                                             <Image
                                                 className="mx-auto"
                                                 src={pizzaImages[Math.floor(Math.random() * pizzaImages.length)]}
@@ -107,7 +121,14 @@ const EventCalendar = () => {
     // This will later be changed to open a modal to add/delete event
     const onClickDay = (selectedDate: Date) => {
         if (selectedDate < today) return
-        alert(`You clicked on ${selectedDate}!`)
+
+        const selectedDay = selectedDate.getDate() // get the day
+
+        if (getEventDaysForCurrentMonth().includes(selectedDay)) {
+            alert(`You clicked on ${selectedDate}, which has an event!`)
+        } else {
+            alert(`You clicked on ${selectedDate}!`)
+        }
     }
 
     const setPreviousMonth = () => {

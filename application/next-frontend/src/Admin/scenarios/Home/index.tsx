@@ -1,5 +1,5 @@
-// import { Events } from 'Admin/scenarios/Events'
-// import { Restaurants } from 'Admin/scenarios/Restaurants'
+import { Events } from 'Admin/scenarios/Events'
+import { Restaurants } from 'Admin/scenarios/Restaurants'
 // import { SlackUsers } from 'Admin/scenarios/SlackUsers'
 // import { AdminSidebar } from 'Admin/components/AdminSidebar'
 
@@ -7,7 +7,12 @@ import { EventCalendar } from '../Events/components/EventCalendar'
 
 const Home = () => {
     return (
+        <>
         <EventCalendar />
+        <Events />
+        <Restaurants />
+        </>
+
         // <div className="flex h-screen">
         //     <div className="flex-1 bg-[#05793C]">
         //         <div className="mt-16">
