@@ -100,10 +100,12 @@ class BotApi:
             return
         if slack_installation['channel_id'] != channel_id:
             return
+        
         scheduled_events = self.client.get_scheduled_events_for_user(team_id=team_id, user_id=user_id)
         if scheduled_events == False:
             self.logger.error("Failed to get scheduled events for user %s", user_id)
             return
+        
         # set non active
         user_to_update = {
             'id': user_id,
@@ -115,36 +117,25 @@ class BotApi:
         # Respond to invited events
         for scheduled_event in scheduled_events:
             rsvp = scheduled_event['responded']
+            success = False
             if rsvp == RSVP.not_attending:
                 continue
-
             elif rsvp == RSVP.attending:
                 success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
-                if success:
-                    # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
-                    self.send_pizza_invited_but_left_channel(
-                        channel_id=scheduled_event['slack_message_channel'], 
-                        event_id=scheduled_event['event_id'], 
-                        ts=scheduled_event['slack_message_ts'], 
-                        slack_client=slack_client, 
-                        prev_answer=RSVP.attending
-                    )
-                else:
-                    self.logger.error("Failed to withdraw invitation after leaving channel for user %s", user_id)
-
             elif rsvp == RSVP.unanswered:
                 success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
-                if success:
-                    # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
-                    self.send_pizza_invited_but_left_channel(
-                        channel_id=scheduled_event['slack_message_channel'], 
-                        event_id=scheduled_event['event_id'], 
-                        ts=scheduled_event['slack_message_ts'], 
-                        slack_client=slack_client, 
-                        prev_answer=RSVP.unanswered
-                    )
-                else:
-                    self.logger.error("Failed to decline invitetion after leaving channel for user %s", user_id)
+                
+            if success:
+                # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
+                self.send_pizza_invited_but_left_channel(
+                    channel_id=scheduled_event['slack_message_channel'], 
+                    event_id=scheduled_event['event_id'], 
+                    ts=scheduled_event['slack_message_ts'], 
+                    slack_client=slack_client, 
+                    prev_answer=rsvp
+                )
+            else:
+                self.logger.error("Failed to decline invitation after leaving channel for user %s", user_id)
                 
         # Send message to user that they no longer will be invited to events
         self.send_slack_message(
