@@ -38,6 +38,7 @@ class SlackOrganizationService:
         slack_organization = SlackOrganizationRepository.get_by_id(id=team_id)
         old_channel_id = slack_organization.channel_id
 
+        # if scheduled events exist, dont update channel
         if scheduled_events_count > 0:
             return old_channel_id, scheduled_events_count, None
         

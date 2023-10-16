@@ -45,7 +45,7 @@ def update_slack_user(request: dict):
     slack_user_service = injector.get(SlackUserService)
     users_to_update = request['users_to_update']
 
-    response = True
+    success = True
     updated_users = []
     failed_users = []
     for user in users_to_update:
@@ -58,6 +58,8 @@ def update_slack_user(request: dict):
             if 'active' in user:
                 to_update['active'] = user['active']
             result = slack_user_service.update(user['slack_id'], to_update, user['team_id'])
+
+            # if user doesnt exist, so add them
             if result is None:
                 slack_user_service.add({
                     'slack_id': user['slack_id'],
@@ -65,13 +67,14 @@ def update_slack_user(request: dict):
                     'email': user['email']
                 }, user['team_id'])
             updated_users.append(user['slack_id'])
+            
         except Exception as e:
             logger.warning(e)
-            response = False
+            success = False
             failed_users.append(user['slack_id'])
 
     return {
-        'success': response,
+        'success': success,
         'updated_users': updated_users,
         'failed_users': failed_users
     }

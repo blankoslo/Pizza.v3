@@ -105,7 +105,7 @@ def set_slack_channel(request: dict):
     old_channel_id = None
     scheduled_events_count = None
     try:
-        old_channel_id, scheduled_events_count, slack_organization,  = slack_organization_service.set_channel(team_id=team_id, channel_id=channel_id)
+        old_channel_id, scheduled_events_count, slack_organization = slack_organization_service.set_channel(team_id=team_id, channel_id=channel_id)
     except Exception as e:
         logger.error(e)
         success = False
