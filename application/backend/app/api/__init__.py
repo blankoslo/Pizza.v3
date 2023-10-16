@@ -5,6 +5,7 @@ from app.models.slack_user import SlackUser
 from app.models.invitation import Invitation
 from app.models.image import Image
 from app.models.slack_message import SlackMessage
+from app.models.stripe_customer import StripeCustomer
 
 from app.api.crud.invitations import bp as invitations_bp
 from app.api.crud.restaurants import bp as restaurants_bp

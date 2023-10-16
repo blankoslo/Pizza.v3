@@ -13,6 +13,7 @@ class SlackOrganization(db.Model):
     bot_user_id = sa.Column(sa.String, nullable=False)
     access_token = sa.Column(sa.String, nullable=False)
     channel_id = sa.Column(sa.String, nullable=True)
+    stripe_customer = relationship("StripeCustomer", backref="slack_organization", cascade="all, delete-orphan", uselist=False)
     slack_users = relationship("SlackUser", backref="slack_organization", cascade="all, delete-orphan")
     users = relationship("User", backref="slack_organization", cascade="all, delete-orphan")
     events = relationship("Event", backref="slack_organization", cascade="all, delete-orphan")

@@ -12,6 +12,12 @@ class StripeCustomerSchema(SQLAlchemySchema):
         sqla_session = db.session
         load_instance = True
 
-    
+    customer_id = auto_field()
+    team_id = auto_field()
+    created_at = auto_field()
+    is_premium = auto_field()
+    premium_from = auto_field()
+    premium_to = auto_field()
+
 
     
