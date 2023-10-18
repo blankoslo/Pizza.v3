@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next'
 import jwtDecode from 'jwt-decode'
 import type { JwtToken } from '@/Admin/types/User'
-import { Home } from 'Admin/scenarios/Home'
 import { Navbar } from '@/Admin/scenarios/Navbar'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
@@ -17,7 +16,6 @@ const AdminHome = () => {
     return (
         <div>
             <Navbar />
-            <Home />
         </div>
     )
 }
