@@ -4,12 +4,10 @@ import { SlackUsers } from 'Admin/scenarios/SlackUsers'
 import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { CreatePizzaEventCard } from './Events/components/CreatePizzaEventCard'
-import { DeletePizzaEventCard } from './Events/components/DeletePizzaEventCard'
 
 const AdminMainPage = () => {
     return (
         <div>
-            <DeletePizzaEventCard />
             <CreatePizzaEventCard />
             <div className="grid-background flex w-full justify-evenly pt-16">
                 <div className="w-1/3 p-4 [&>*]:mb-14">
