@@ -15,11 +15,13 @@ class StripeCustomerService:
         return stripe_customer.is_premium
     
     def add(self, data, team_id):
-        stripe_customer = self.get_by_team_id(team_id)
-        if stripe_customer is not None:
+        _, stripe_customer = self.get_by_team_id(team_id)
+        print("stripe cust: ", stripe_customer)
+        if stripe_customer:
             return None
-        data.customer_id = stripe_customer.customer_id
-        data.team_id = team_id
+        # data.customer_id = stripe_customer.customer_id
+        # data.team_id = team_id
+        print("this the data: ", data)
         return StripeCustomerRepository.upsert(data)
     
     def update(self, data, team_id):
