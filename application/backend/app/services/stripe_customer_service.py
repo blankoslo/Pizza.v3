@@ -6,7 +6,7 @@ class StripeCustomerService:
         return StripeCustomerRepository.get_by_id(customer_id)
     
     def get_by_team_id(self, team_id):
-        return StripeCustomerRepository.get(filters = {'team_id': team_id})
+        return StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
     
     def get_premium_status(self, team_id):
         stripe_customer = self.get_by_team_id(team_id)
@@ -19,13 +19,13 @@ class StripeCustomerService:
         if stripe_customer is not None:
             return None
         data.customer_id = stripe_customer.customer_id
-        data.team_id = team_id
+        data.slack_organization_id = team_id
         return StripeCustomerRepository.upsert(data)
     
     def update(self, data, team_id):
         stripe_customer = self.get_by_team_id(team_id)
         
-        if stripe_customer is None or stripe_customer.team_id != team_id:
+        if stripe_customer is None or stripe_customer.slack_organization_id != team_id:
             return None
         
         updated_stripe_customer = StripeCustomerSchema().load(data=data, instance=stripe_customer, partial=True)
