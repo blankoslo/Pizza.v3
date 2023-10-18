@@ -14,7 +14,22 @@ const addOrdinalToDate = (date: string) => {
 }
 
 const DeletePizzaEventCard = () => {
-    const [date, month, time] = ['17', 'September', '6:00'] // 1st, 2nd, 3rd, Nth
+    const today = new Date()
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ]
+    const [date, month, time] = [today.getDate(), today.getMonth(), '6:00']
 
     return (
         <div className="h-[448px] w-[703px] rounded-[32px] border bg-[#EDFFF6] px-14 py-10">
@@ -30,16 +45,16 @@ const DeletePizzaEventCard = () => {
 
             <div className="mt-5 flex font-workSans text-3xl font-semibold">
                 <span className="w-[70%]">
-                    {addOrdinalToDate(date)} of {month}
+                    {addOrdinalToDate(date.toString())} of {months[month]}
                 </span>
                 <span className="w-[30%]">{time}</span>
             </div>
 
             <div className="mt-14 flex justify-evenly">
-                <button className="my-4 w-[270px] border-2 border-[#2D8F5C] bg-[#CFF6E2] py-4 font-workSans text-2xl font-semibold text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none">
+                <button className="my-4 w-[270px] border-2 border-[#4E5445] py-4 font-workSans text-2xl font-semibold text-[#4E5445] hover:bg-[#FFF8C1] focus:outline-none">
                     Cancel
                 </button>
-                <button className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FF9494] focus:outline-none">
+                <button className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FFB9B9] focus:outline-none">
                     Delete Event
                 </button>
             </div>

@@ -4,7 +4,24 @@ import TriangleGrey from 'Admin/assets/TriangleGrey.svg'
 import { useState } from 'react'
 
 const CreatePizzaEventCard = () => {
-    const [date, month, time] = ['17', 'September', '6:00']
+    const today = new Date()
+    const [date, time] = [today.getDate(), '6:00']
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ]
+    const [currentMonth, setCurrentMonth] = useState(today.getMonth())
+
     const leftArrowGreen = <Image className="rotate-180 cursor-pointer" src={TriangleGreen} alt="previous month" />
     const rightArrowGreen = <Image className="cursor-pointer" src={TriangleGreen} alt="previous month" />
     const leftArrowGrey = <Image className="cursor-pointer" src={TriangleGrey} alt="previous month" />
@@ -15,13 +32,13 @@ const CreatePizzaEventCard = () => {
 
     const handleLastClicked = (direction: string) => {
         if (direction === 'right') {
+            setCurrentMonth((currentMonth + 1) % 12)
             setRightTriangle(rightArrowGreen)
             setLeftTriangle(leftArrowGrey)
-            // and update current month for req purposes
         } else {
+            setCurrentMonth(currentMonth == 0 ? 11 : currentMonth - 1)
             setLeftTriangle(leftArrowGreen)
             setRightTriangle(rightArrowGrey)
-            // and update current month for req purposes
         }
     }
 
@@ -39,11 +56,11 @@ const CreatePizzaEventCard = () => {
 
             <div className="mt-5 flex font-workSans text-4xl font-semibold [&>*]:border-2 [&>*]:border-dotted [&>*]:border-[#94DBB6] ">
                 <span className="p-3 text-[#003F1E]">{date}.</span>
-                <div className="ml-2 flex p-3">
+                <div className="ml-2 flex w-[17rem] justify-center p-3">
                     <div className="my-auto mr-2" onClick={() => handleLastClicked('left')}>
                         {leftTriangle}
                     </div>
-                    <span className="text-[#003F1E]">{month}</span>
+                    <span className="text-[#003F1E]">{months[currentMonth]}</span>
                     <div className="my-auto ml-2" onClick={() => handleLastClicked('right')}>
                         {rightTriangle}
                     </div>
@@ -52,10 +69,10 @@ const CreatePizzaEventCard = () => {
             </div>
 
             <div className="mt-14 flex justify-evenly">
-                <button className="my-4 w-[270px] border-2 border-[#2D8F5C] bg-[#CFF6E2] py-4 font-workSans text-2xl font-semibold text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none">
+                <button className="my-4 w-[270px] border-2 border-[#4E5445] py-4 font-workSans text-2xl font-semibold text-[#4E5445] hover:bg-[#FFF8C1] focus:outline-none">
                     Cancel
                 </button>
-                <button className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FF9494] focus:outline-none">
+                <button className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none">
                     Create Event
                 </button>
             </div>
