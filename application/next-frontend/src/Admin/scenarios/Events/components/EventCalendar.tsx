@@ -144,7 +144,7 @@ const EventCalendar = () => {
     }
 
     return (
-        <div className="inline-block bg-[#EDFFF6] px-6 pb-6 pt-3 text-[#05793C]">
+        <div className="inline-block min-h-[517px] bg-[#EDFFF6] px-6 pb-6 pt-3 text-[#05793C]">
             <div className="flex justify-center">
                 <Image
                     onClick={() => setPreviousMonth()}
@@ -153,7 +153,7 @@ const EventCalendar = () => {
                     className="rotate-180 cursor-pointer"
                     alt="show previous month"
                 />
-                <span className="mx-4 font-queensCTM text-4xl">{months[currentDate.getMonth()]}</span>
+                <span className="mx-4 font-queensRegular text-4xl">{months[currentDate.getMonth()]}</span>
                 <Image
                     onClick={() => setNextMonth()}
                     width={20}

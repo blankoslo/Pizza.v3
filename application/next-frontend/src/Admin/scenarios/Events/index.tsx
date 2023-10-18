@@ -40,7 +40,7 @@ const Events = () => {
                     </span>
                 </div>
             )}
-            <div className="my-10 italic text-[#05793C]">{upcomingEventsMessage(futureEvents.length)}</div>
+            <div className="mb-10 mt-[11.7rem] italic text-[#05793C]">{upcomingEventsMessage(futureEvents.length)}</div>
         </CardComponent>
     )
 }
