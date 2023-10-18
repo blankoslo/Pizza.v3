@@ -8,9 +8,9 @@ import { EventCalendar } from '../Events/components/EventCalendar'
 const Home = () => {
     return (
         <>
-        <EventCalendar />
-        <Events />
-        <Restaurants />
+            <EventCalendar />
+            <Events />
+            <Restaurants />
         </>
 
         // <div className="flex h-screen">

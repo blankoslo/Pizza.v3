@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Triangle from 'Admin/assets/Triangle.svg'
 import Line from 'Admin/assets/Line.svg'
@@ -41,21 +41,24 @@ const EventCalendar = () => {
         'December',
     ]
     const today = new Date()
-    const { data, isLoading, error } = useEvents()
+    const { data } = useEvents()
 
-    const getEventDaysForCurrentMonth = () => {
-        if (!data || data.length == 0) return []
+    const eventDaysForCurrentMonth = useMemo(() => {
+        const getEventDaysForCurrentMonth = () => {
+            if (!data || data.length == 0) return []
 
-        return data
-            .filter((event) => {
-                const eventDate = new Date(event.time)
-                return (
-                    eventDate.getMonth() === currentDate.getMonth() &&
-                    eventDate.getFullYear() === currentDate.getFullYear()
-                )
-            })
-            .map((event) => new Date(event.time).getDate())
-    }
+            return data
+                .filter((event) => {
+                    const eventDate = new Date(event.time)
+                    return (
+                        eventDate.getMonth() === currentDate.getMonth() &&
+                        eventDate.getFullYear() === currentDate.getFullYear()
+                    )
+                })
+                .map((event) => new Date(event.time).getDate())
+        }
+        return getEventDaysForCurrentMonth()
+    }, [data, currentDate])
 
     const renderMonth = () => {
         // Reverse the list so that we can pop instead of shift when rendering rows
@@ -92,7 +95,7 @@ const EventCalendar = () => {
                                         ${
                                             today >= currentTomorrow
                                                 ? 'opacity-50'
-                                                : getEventDaysForCurrentMonth().includes(day)
+                                                : eventDaysForCurrentMonth.includes(day)
                                                 ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
                                                 : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                         }`}
@@ -100,7 +103,7 @@ const EventCalendar = () => {
                                         onClick={() => onClickDay(currentToday)}
                                     >
                                         {day}
-                                        {getEventDaysForCurrentMonth().includes(day) && (
+                                        {eventDaysForCurrentMonth.includes(day) && (
                                             <Image
                                                 className="mx-auto"
                                                 src={pizzaImages[Math.floor(Math.random() * pizzaImages.length)]}
@@ -124,7 +127,7 @@ const EventCalendar = () => {
 
         const selectedDay = selectedDate.getDate() // get the day
 
-        if (getEventDaysForCurrentMonth().includes(selectedDay)) {
+        if (eventDaysForCurrentMonth.includes(selectedDay)) {
             alert(`You clicked on ${selectedDate}, which has an event!`)
         } else {
             alert(`You clicked on ${selectedDate}!`)
