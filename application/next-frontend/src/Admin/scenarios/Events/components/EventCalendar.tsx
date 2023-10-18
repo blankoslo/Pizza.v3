@@ -43,8 +43,8 @@ const EventCalendar = () => {
     const today = new Date()
     const { data } = useEvents()
 
-    const eventDaysForCurrentMonth = useMemo(() => {
-        const getEventDaysForCurrentMonth = () => {
+    const eventsForCurrentMonth = useMemo(() => {
+        const getEventsForCurrentMonth = () => {
             if (!data || data.length == 0) return []
 
             return data
@@ -55,9 +55,9 @@ const EventCalendar = () => {
                         eventDate.getFullYear() === currentDate.getFullYear()
                     )
                 })
-                .map((event) => new Date(event.time).getDate())
+                .map((event) => [event.id, new Date(event.time).getDate()])
         }
-        return getEventDaysForCurrentMonth()
+        return getEventsForCurrentMonth()
     }, [data, currentDate])
 
     const renderMonth = () => {
@@ -95,7 +95,7 @@ const EventCalendar = () => {
                                         ${
                                             today >= currentTomorrow
                                                 ? 'opacity-50'
-                                                : eventDaysForCurrentMonth.includes(day)
+                                                : eventsForCurrentMonth.some(([, d]) => d == day)
                                                 ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
                                                 : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                         }`}
@@ -103,7 +103,7 @@ const EventCalendar = () => {
                                         onClick={() => onClickDay(currentToday)}
                                     >
                                         {day}
-                                        {eventDaysForCurrentMonth.includes(day) && (
+                                        {eventsForCurrentMonth.some(([, d]) => d == day) && (
                                             <Image
                                                 className="mx-auto"
                                                 src={pizzaImages[Math.floor(Math.random() * pizzaImages.length)]}
@@ -125,10 +125,11 @@ const EventCalendar = () => {
     const onClickDay = (selectedDate: Date) => {
         if (selectedDate < today) return
 
-        const selectedDay = selectedDate.getDate() // get the day
+        const selectedDay = selectedDate.getDate() // Get the day
 
-        if (eventDaysForCurrentMonth.includes(selectedDay)) {
-            alert(`You clicked on ${selectedDate}, which has an event!`)
+        if (eventsForCurrentMonth.some(([, d]) => d == selectedDay)) {
+            const eventIndex = eventsForCurrentMonth.findIndex(([, m]) => m === selectedDay)
+            alert(`You clicked on ${selectedDate}, which has an event with id ${eventsForCurrentMonth[eventIndex][0]}!`)
         } else {
             alert(`You clicked on ${selectedDate}!`)
         }
