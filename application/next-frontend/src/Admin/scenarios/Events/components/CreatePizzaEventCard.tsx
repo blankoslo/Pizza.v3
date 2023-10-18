@@ -24,10 +24,12 @@ type FormData = {
     participants?: number
 }
 
-const today = new Date()
+type CreatePizzaEventCardProps = {
+    clickedDate: Date
+}
 
-const CreatePizzaEventCard = () => {
-    const [date, time] = [today.getDate(), '19']
+const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
+    const [date, time] = [clickedDate.getDate(), '18:00']
     const months = [
         'January',
         'February',
@@ -42,19 +44,18 @@ const CreatePizzaEventCard = () => {
         'November',
         'December',
     ]
-    const [currentMonth, setCurrentMonth] = useState(today.getMonth())
+    const [currentMonth, setCurrentMonth] = useState(clickedDate.getMonth())
 
     const methods = useForm({
         resolver: zodResolver(validationSchema),
         defaultValues: {
-            eventDate: today.getDate(),
-            eventMonth: today.getMonth(),
-            eventTime: '19',
+            eventDate: clickedDate.getDate(),
+            eventMonth: clickedDate.getMonth(),
+            eventTime: '18:00',
             participants: 5,
         },
     })
     const { handleSubmit, setValue, control } = methods
-
     const { closeModal } = useModal()
     const { addEvent } = useEvents()
     const { data: restaurantData } = useRestaurants()
@@ -70,7 +71,7 @@ const CreatePizzaEventCard = () => {
 
     const onSubmit = (event: FormData) => {
         const restaurant = findRestauarant()
-        const newEventDate = new Date(2023, event.eventMonth, event.eventDate, parseInt(event.eventTime))
+        const newEventDate = new Date(2024, event.eventMonth, event.eventDate, 18)
 
         if (restaurant) {
             const event: ApiEventPost = {

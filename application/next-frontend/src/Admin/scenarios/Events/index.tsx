@@ -23,7 +23,8 @@ const Events = () => {
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : [0, 0]
 
     return (
-        <CardComponent title="Events" modalComponent={<CreatePizzaEventCard />}>
+        <CardComponent title="Events" modalComponent={<CreatePizzaEventCard clickedDate={new Date()} />}>
+            {/* argumentet over vil endres så snart vi får med kalenderen, da sender vi datoen som blir trykket på */}
             {isLoading ? (
                 'Loading...'
             ) : error ? (
