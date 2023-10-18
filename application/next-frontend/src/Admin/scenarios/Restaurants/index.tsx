@@ -1,14 +1,12 @@
 import { NewRestaurantModal } from './components/NewRestaurantModal'
 import { CardComponent } from 'Admin/components/CardComponent'
-import { ModalButton } from 'Admin/components/ModalButton'
-import { ModalProvider } from 'Admin/context/ModelContext'
 import { useRestaurants } from '@/api/useRestaurants'
 
 const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()
 
     return (
-        <CardComponent title="What pizza places would you like to visit?">
+        <CardComponent title="Places" modalComponent={<NewRestaurantModal />}>
             <div className="scrollable-wrapper mb-2">
                 <div className="scrollable-list">
                     {isLoading
@@ -25,12 +23,6 @@ const Restaurants = () => {
                           ))}
                 </div>
             </div>
-
-            <ModalProvider>
-                <ModalButton buttonText="Add">
-                    <NewRestaurantModal />
-                </ModalButton>
-            </ModalProvider>
         </CardComponent>
     )
 }

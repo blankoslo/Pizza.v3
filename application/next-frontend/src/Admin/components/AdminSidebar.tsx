@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Mascot from 'Admin/assets/Mascot.svg'
+import Mascot from 'Admin/assets/MascotChilling.svg'
 import TextBackground from 'Admin/assets/AdminSidebarBackground.svg'
 
 const AdminSidebar = () => {
@@ -8,7 +8,7 @@ const AdminSidebar = () => {
             <div className="font-workSans text-white">
                 <div className="relative mx-auto mb-8 w-[22rem]">
                     <Image priority src={TextBackground} width={345} alt="background" />
-                    <h1 className="absolute left-[57%] top-[54%] w-[22rem] -translate-x-1/2 -translate-y-1/2 font-queensCTM text-6xl text-[#05793C]">
+                    <h1 className="absolute left-[57%] top-[54%] w-[22rem] -translate-x-1/2 -translate-y-1/2 font-queensMedium text-6xl text-[#05793C]">
                         Pizza control in progress..
                     </h1>
                 </div>
