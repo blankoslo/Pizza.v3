@@ -19,11 +19,19 @@ class StripeCustomerService:
         stripe_customer = self.get_by_team_id(team_id)
         if stripe_customer is not None:
             return None
-        data.customer_id = stripe_customer.customer_id
         data.slack_organization_id = team_id
         return StripeCustomerRepository.upsert(data)
     
-    def update(self, data, team_id):
+    def update(self, data, customer_id):
+        stripe_customer = self.get_by_customer_id(customer_id)
+        
+        if stripe_customer is None:
+            return None
+        
+        updated_stripe_customer = StripeCustomerSchema().load(data=data, instance=stripe_customer, partial=True)
+        return StripeCustomerRepository.upsert(updated_stripe_customer)
+    
+    def update_by_team_id(self, data, team_id):
         stripe_customer = self.get_by_team_id(team_id)
         
         if stripe_customer is None or stripe_customer.slack_organization_id != team_id:
