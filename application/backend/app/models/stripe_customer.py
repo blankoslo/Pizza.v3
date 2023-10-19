@@ -5,7 +5,7 @@ class StripeCustomer(db.Model):
     __tablename__ = "stripe_customer"
     customer_id = sa.Column(sa.String, primary_key=True)
     slack_organization_id = sa.Column(sa.String, sa.ForeignKey('slack_organizations.team_id'), nullable=False, index=True, unique=True)
-    created_at = sa.Column(sa.DateTime, nullable=False)
+    created_at = sa.Column(sa.DateTime, nullable=False, default=sa.func.now())
     is_premium = sa.Column(sa.Boolean, nullable=False)
     premium_from = sa.Column(sa.DateTime, nullable=True)
     premium_to = sa.Column(sa.DateTime, nullable=True)

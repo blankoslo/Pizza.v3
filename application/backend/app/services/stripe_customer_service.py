@@ -6,7 +6,8 @@ class StripeCustomerService:
         return StripeCustomerRepository.get_by_id(customer_id)
     
     def get_by_team_id(self, team_id):
-        return StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
+        count, stripe_customers = StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
+        return stripe_customers[0] if count > 0 else None
     
     def get_premium_status(self, team_id):
         stripe_customer = self.get_by_team_id(team_id)
