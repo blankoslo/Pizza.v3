@@ -67,12 +67,11 @@ const EventConfig = () => {
                         <Controller
                             name="dateTime"
                             control={methods.control}
-                            
                             render={({ field }) => (
                                 <DatePicker
                                     name={'date'}
                                     selected={field.value}
-                                    className="mb-4 border w-[300px] border-gray-800 bg-white p-3"
+                                    className="mb-4 w-[300px] border border-gray-800 bg-white p-3"
                                     showTimeSelect
                                     onChange={(date: Date) => field.onChange(date)}
                                     customInput={<TextField />}
