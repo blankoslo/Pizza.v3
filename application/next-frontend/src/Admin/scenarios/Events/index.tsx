@@ -1,8 +1,8 @@
-import { CreateEventCard } from './components/CreateEventCard'
+import { CreatePizzaEventCard } from 'Admin/scenarios/Events/components/CreatePizzaEventCard'
 import { CardComponent } from 'Admin/components/CardComponent'
 import { useEvents } from '@/api/useEvents'
-import { format } from 'date-fns'
 import { ApiEvent } from '@/api/useEvents'
+import { format } from 'date-fns'
 
 const futureDate = (date: ApiEvent) => new Date(date.time) >= new Date()
 
@@ -23,7 +23,7 @@ const Events = () => {
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : [0, 0]
 
     return (
-        <CardComponent title="Events" modalContent={<CreateEventCard />}>
+        <CardComponent title="Events" modalContent={<CreatePizzaEventCard clickedDate={new Date()} />}>
             {isLoading ? (
                 'Loading...'
             ) : error ? (

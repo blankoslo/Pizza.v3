@@ -13,14 +13,14 @@ const AdminMainPage = () => {
         <div>
             <ModalProvider>
                 <TestTemporary>
-                    <CreatePizzaEventCard />
+                    <CreatePizzaEventCard clickedDate={new Date()} />
                 </TestTemporary>
             </ModalProvider>
-            <ModalProvider>
+            {/*<ModalProvider>
                 <TestTemporary>
-                    <DeletePizzaEventCard />
+                    <DeletePizzaEventCard id={''} finalized={false} people_per_event={0} time={''} />
                 </TestTemporary>
-            </ModalProvider>
+    </ModalProvider>*/}
 
             <div className="grid-background flex w-full justify-evenly pt-16">
                 <div className="w-1/3 p-4 [&>*]:mb-14">
