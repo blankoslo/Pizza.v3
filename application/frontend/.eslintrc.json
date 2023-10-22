@@ -21,7 +21,8 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "semi": 2
+    "semi": 2,
+    "tailwindcss/no-custom-classname": "off"
   },
   "settings": {
     "react": {
