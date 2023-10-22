@@ -2,6 +2,7 @@ import Image from 'next/image'
 import TriangleGreen from 'Admin/assets/TriangleGreen.svg'
 import TriangleGrey from 'Admin/assets/TriangleGrey.svg'
 import { useState } from 'react'
+import { useModal } from '@/Admin/context/ModelContext'
 
 const CreatePizzaEventCard = () => {
     const [date, month, time] = ['17', 'September', '6:00']
@@ -9,6 +10,7 @@ const CreatePizzaEventCard = () => {
     const rightArrowGreen = <Image className="cursor-pointer" src={TriangleGreen} alt="previous month" />
     const leftArrowGrey = <Image className="cursor-pointer" src={TriangleGrey} alt="previous month" />
     const rightArrowGrey = <Image className="rotate-180 cursor-pointer" src={TriangleGrey} alt="previous month" />
+    const { closeModal } = useModal()
 
     const [leftTriangle, setLeftTriangle] = useState(leftArrowGrey)
     const [rightTriangle, setRightTriangle] = useState(rightArrowGreen)
@@ -29,7 +31,9 @@ const CreatePizzaEventCard = () => {
         <div className="h-[448px] w-[703px] rounded-[32px] border bg-[#EDFFF6] px-14 py-10">
             <div className="flex justify-between">
                 <span className="font-queensRegular text-5xl text-[#05793C]">Create Pizza Event?</span>
-                <span className="m-0 cursor-pointer text-4xl font-light text-[#004B24]">&times;</span>
+                <span className="m-0 cursor-pointer text-4xl font-light text-[#004B24]" onClick={() => closeModal()}>
+                    &times;
+                </span>
             </div>
 
             <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-[#05793C]">
@@ -52,7 +56,10 @@ const CreatePizzaEventCard = () => {
             </div>
 
             <div className="mt-14 flex justify-evenly">
-                <button className="my-4 w-[270px] border-2 border-[#2D8F5C] bg-[#CFF6E2] py-4 font-workSans text-2xl font-semibold text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none">
+                <button
+                    onClick={() => closeModal()}
+                    className="my-4 w-[270px] border-2 border-[#2D8F5C] bg-[#CFF6E2] py-4 font-workSans text-2xl font-semibold text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none"
+                >
                     Cancel
                 </button>
                 <button className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FF9494] focus:outline-none">
