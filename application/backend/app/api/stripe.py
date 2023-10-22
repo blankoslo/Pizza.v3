@@ -5,6 +5,8 @@ from flask import views, request, redirect, jsonify, current_app
 from flask_smorest import Blueprint, abort
 from app.repositories.user_repository import UserRepository
 from app.models.user_schema import UserSchema
+from app.models.stripe_customer_schema import StripeCustomerSchema
+from app.models.stripe_customer import StripeCustomer
 from app.auth import auth
 from flask_jwt_extended import jwt_required, get_jwt_identity, set_access_cookies, unset_jwt_cookies, current_user
 from app.services.slack_organization_service import SlackOrganizationService
@@ -12,6 +14,7 @@ from app.services.injector import injector
 import stripe
 from app.services.stripe_customer_service import StripeCustomerService
 from datetime import datetime, timezone
+
 
 bp = Blueprint("stripe", "stripe", url_prefix="/stripe", description="Stripe payments")
 
@@ -34,7 +37,10 @@ class Stripe(views.MethodView):
         team_id = "T05MQ6CCQ2C"
         #team_id = current_user.slack_organization_id
         stripe_service:StripeCustomerService = injector.get(StripeCustomerService)
-        _, stripe_customer_id = stripe_service.get_by_team_id(team_id=team_id)
+        stripe_customer: StripeCustomer = stripe_service.get_by_team_id(team_id=team_id)
+
+        if stripe_customer: 
+            print(stripe_customer.__dict__)
 
         try:
             prices = stripe.Price.list(
@@ -47,9 +53,9 @@ class Stripe(views.MethodView):
             checkout_session = None
 
             #checkout session for existing customer
-            if stripe_customer_id:
+            if stripe_customer:
                 checkout_session = stripe.checkout.Session.create(
-                    customer = stripe_customer_id,
+                    customer = stripe_customer.customer_id,
                     line_items=[
                         {
                             'price': pizzabot_premium_ref.id,
@@ -86,7 +92,7 @@ class Stripe(views.MethodView):
 class Stripe(views.MethodView):
     def post(self):
         logger = injector.get(logging.Logger)
-        stripe_servive: StripeCustomerService = injector.get(StripeCustomerService)
+        stripe_service: StripeCustomerService = injector.get(StripeCustomerService)
         payload = request.data
         event = None
 
@@ -110,30 +116,41 @@ class Stripe(views.MethodView):
             if event['type'] in ["checkout.session.completed"]:
                 session = event['data']["object"]
                 client_reference_id = session.get("client_reference_id")
-                stripe_customer = session.get("customer")
+                stripe_customer_id = session.get("customer")
 
                 print("session: ", session)
                 print("client_ref_id: ", client_reference_id)
-                print("stripe customer: ", stripe_customer)
+                print("stripe customer: ", stripe_customer_id)
 
                 
                 #new user
                 if client_reference_id:
-                    data = {
-                        "team_id": client_reference_id,
-                        "customer_id": stripe_customer,
+                    schema_data = {
+                        "slack_organization_id": client_reference_id,
+                        "customer_id": stripe_customer_id,
                         "is_premium": True,
-                        "created_at": datetime.now(timezone.utc)
                     }
+                    new_user = StripeCustomer(**schema_data)
 
-                    print("adding user: ", data)
-                    t = stripe_servive.add(data=data, team_id=client_reference_id)
-                    print(t)
+                    t = stripe_service.add(data=new_user, team_id=client_reference_id)
 
                 else: 
                     #update status on existing user that renews subscription
-                    t = stripe_servive.update(
-                    )
+                    stripe_customer:StripeCustomer = stripe_service.get_by_customer_id(stripe_customer_id)
+
+                    stripe_customer.is_premium = True
+
+                    stripe_customer_dict = stripe_customer.__dict__
+                    print(type(stripe_customer_dict))
+                    print(stripe_customer_dict)
+
+                    stripe_customer_dict.pop("_sa_instance_state", None)
+                    # stripe_customer_dict['created_at'] = stripe_customer_dict['created_at'].isoformat()
+
+                    try:
+                        t = stripe_service.update(data=stripe_customer_dict, customer_id=stripe_customer.customer_id)
+                    except Exception as e:
+                        print(e)
 
 
             elif event['type'] == 'customer.subscription.deleted':
@@ -143,7 +160,7 @@ class Stripe(views.MethodView):
                 subscription = event['data']['object']
                 customer_id = subscription.get('customer')
 
-                t = stripe_servive.update()
+                t = stripe_service.update({"is_premium": True}, stripe_customer)
 
 
             else:    

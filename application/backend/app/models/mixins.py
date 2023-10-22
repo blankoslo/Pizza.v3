@@ -52,7 +52,13 @@ class CrudMixin():
 
     @classmethod
     def get_by_id(cls, id, session=db.session):
-        return session.get(cls, id)
+        print(cls)
+        print(id)
+        print(type(session))
+        s = session.get(cls, id)
+        print(type(s))
+        return s
+
     
     @classmethod
     def delete(cls, id, session=db.session):

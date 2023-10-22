@@ -3,7 +3,18 @@ from app.models.stripe_customer_schema import StripeCustomerSchema
 
 class StripeCustomerService:
     def get_by_customer_id(self, customer_id):
-        return StripeCustomerRepository.get_by_id(customer_id)
+        
+
+
+        stripe_customer = StripeCustomerRepository.get_by_id(customer_id)
+
+        print("Inside get_by_customer_id")
+        print(f"Fetched customer type: {type(stripe_customer)}")
+        print(f"Fetched customer data: {stripe_customer.__dict__ if stripe_customer else None}")
+
+        return stripe_customer
+
+
     
     def get_by_team_id(self, team_id):
         count, stripe_customers = StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
@@ -16,22 +27,31 @@ class StripeCustomerService:
         return stripe_customer.is_premium
     
     def add(self, data, team_id):
-        _, stripe_customer = self.get_by_team_id(team_id)
-        print("stripe cust: ", stripe_customer)
-        if stripe_customer:
+        stripe_customer = self.get_by_team_id(team_id)
+
+        if stripe_customer is not None:
             return None
-        data.slack_organization_id = team_id
+        
+        #data.slack_organization_id = team_id
         return StripeCustomerRepository.upsert(data)
     
     def update(self, data, customer_id):
+        print("Inside update method")
+        print("Type of self:", type(self))
+        print("Data:", data)
+        print("Customer ID:", customer_id)
+        print("Type of cusotmer_id: ", type(customer_id))
+
         stripe_customer = self.get_by_customer_id(customer_id)
-        
+        print("Fetched stripe customer:", stripe_customer)
+        print("Fetched stripe customer attributes", stripe_customer.__dict__)
+
         if stripe_customer is None:
             return None
-        
+
         updated_stripe_customer = StripeCustomerSchema().load(data=data, instance=stripe_customer, partial=True)
         return StripeCustomerRepository.upsert(updated_stripe_customer)
-    
+        
     def update_by_team_id(self, data, team_id):
         stripe_customer = self.get_by_team_id(team_id)
         
