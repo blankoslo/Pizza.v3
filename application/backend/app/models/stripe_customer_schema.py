@@ -13,7 +13,7 @@ class StripeCustomerSchema(SQLAlchemySchema):
         load_instance = True
 
     customer_id = auto_field()
-    team_id = auto_field()
+    slack_organization_id = auto_field()
     created_at = auto_field()
     is_premium = auto_field()
     premium_from = auto_field()
