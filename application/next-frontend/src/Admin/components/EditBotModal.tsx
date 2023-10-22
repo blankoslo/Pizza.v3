@@ -6,7 +6,7 @@ type Props = {
     children: React.ReactNode
 }
 
-const ModalPencil = ({ children }: Props) => {
+const EditBotModal = ({ children }: Props) => {
     const { isModalOpen, openModal, closeModal } = useModal()
 
     const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -35,4 +35,4 @@ const ModalPencil = ({ children }: Props) => {
     )
 }
 
-export { ModalPencil }
+export { EditBotModal }

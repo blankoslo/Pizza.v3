@@ -23,7 +23,7 @@ const Events = () => {
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : [0, 0]
 
     return (
-        <CardComponent title="Events" modalComponent={<CreateEventCard />}>
+        <CardComponent title="Events" modalContent={<CreateEventCard />}>
             {isLoading ? (
                 'Loading...'
             ) : error ? (

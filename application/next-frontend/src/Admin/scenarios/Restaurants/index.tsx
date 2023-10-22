@@ -6,7 +6,7 @@ const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()
 
     return (
-        <CardComponent title="Places" modalComponent={<NewRestaurantModal />}>
+        <CardComponent title="Places" modalContent={<NewRestaurantModal />}>
             <div className="scrollable-wrapper mb-2">
                 <div className="scrollable-list">
                     {isLoading
