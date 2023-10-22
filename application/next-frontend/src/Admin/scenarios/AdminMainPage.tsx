@@ -3,14 +3,19 @@ import { Restaurants } from 'Admin/scenarios/Restaurants'
 import { SlackUsers } from 'Admin/scenarios/SlackUsers'
 import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
-import { CreatePizzaEventCard } from './Events/components/CreatePizzaEventCard'
 import { DeletePizzaEventCard } from './Events/components/DeletePizzaEventCard'
+import { ModalProvider } from '../context/ModelContext'
+import { TestTemporary } from './Events/components/TestTemporary'
 
 const AdminMainPage = () => {
     return (
         <div>
+            <ModalProvider>
+                <TestTemporary />
+            </ModalProvider>
+
             <DeletePizzaEventCard />
-            <CreatePizzaEventCard />
+
             <div className="grid-background flex w-full justify-evenly pt-16">
                 <div className="w-1/3 p-4 [&>*]:mb-14">
                     <h1 className="font-queensMedium text-6xl">Pizza Admin</h1>
