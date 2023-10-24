@@ -1,13 +1,13 @@
-import { ModalPencil } from 'Admin/components/ModalPencil'
+import { EditBotModal } from '@/Admin/components/EditBotModal'
 import { ModalProvider } from 'Admin/context/ModelContext'
 
 const CardComponent = ({
     title,
-    modalComponent,
+    modalContent,
     children,
 }: {
     title: string
-    modalComponent?: React.ReactNode
+    modalContent?: React.ReactNode
     children?: React.ReactNode
 }) => {
     return (
@@ -15,10 +15,10 @@ const CardComponent = ({
             <div className="flex justify-between">
                 <h5 className="mb-2 ml-6 pt-3 font-queensRegular text-3xl font-semibold text-[#05793C]">{title}</h5>
 
-                {modalComponent && (
+                {modalContent && (
                     <div className="mr-6 pt-4">
                         <ModalProvider>
-                            <ModalPencil>{modalComponent}</ModalPencil>
+                            <EditBotModal>{modalContent}</EditBotModal>
                         </ModalProvider>
                     </div>
                 )}
