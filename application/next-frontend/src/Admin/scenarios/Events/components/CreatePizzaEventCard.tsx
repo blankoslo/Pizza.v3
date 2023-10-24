@@ -30,20 +30,9 @@ type CreatePizzaEventCardProps = {
 
 const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
     const [date, time] = [clickedDate.getDate(), '18:00']
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
+    const months = Array.from({ length: 12 }, (_, i) => {
+        return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
+    })
     const [currentMonth, setCurrentMonth] = useState(clickedDate.getMonth())
 
     const methods = useForm({
@@ -60,7 +49,7 @@ const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
     const { addEvent } = useEvents()
     const { data: restaurantData } = useRestaurants()
 
-    const findRestauarant = () => {
+    const findRestaurant = () => {
         if (!restaurantData || !restaurantData.length) {
             return
         }
@@ -70,7 +59,7 @@ const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
     }
 
     const onSubmit = (event: FormData) => {
-        const restaurant = findRestauarant()
+        const restaurant = findRestaurant()
         const newEventDate = new Date(2024, event.eventMonth, event.eventDate, 18)
 
         if (restaurant) {

@@ -1,37 +1,12 @@
 import { useModal } from '@/Admin/context/ModelContext'
 import { ApiEvent, useEvents } from '@/api/useEvents'
-
-const addOrdinalToDate = (date: string) => {
-    if (date.length > 1 && date.slice(-2) === '1') return date + 'th'
-    else
-        switch (date.slice(-1)) {
-            case '1':
-                return date + 'st'
-            case '2':
-                return date + 'nd'
-            case '3':
-                return date + 'rd'
-            default:
-                return date + 'th'
-        }
-}
+import ordinal from 'ordinal'
 
 const DeletePizzaEventCard = (event: ApiEvent) => {
     const eventDate = new Date(event.time)
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
+    const months = Array.from({ length: 12 }, (_, i) => {
+        return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
+    })
     const [date, month, time] = [
         eventDate.getDate(),
         eventDate.getMonth(),
@@ -56,7 +31,7 @@ const DeletePizzaEventCard = (event: ApiEvent) => {
 
             <div className="mt-5 flex font-workSans text-3xl font-semibold">
                 <span className="w-[70%]">
-                    {addOrdinalToDate(date.toString())} of {months[month]}
+                    {ordinal(date)} of {months[month]}
                 </span>
                 <span className="w-[30%]">{time}</span>
             </div>
