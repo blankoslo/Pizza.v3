@@ -6,6 +6,10 @@ import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
 import { useEvents } from '@/api/useEvents'
+import { ModalProvider } from '@/Admin/context/ModelContext'
+import { CreatePizzaEventCard } from './CreatePizzaEventCard'
+import { PizzaEventModal } from './PizzaEventModal'
+import { DeletePizzaEventCard } from './DeletePizzaEventCard'
 
 // Goes into the next month - 1 day, which is the last day of current month, and returns this day
 // e.g. if we are in October, and our last day is 31st, we return 31
@@ -26,20 +30,9 @@ const EventCalendar = () => {
         .fill(null)
         .map((_, i) => i + 1)
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ]
+    const months = Array.from({ length: 12 }, (_, i) => {
+        return new Date(0, i).toLocaleString('en-US', { month: 'long' })
+    })
     const today = new Date()
     const { data } = useEvents()
 
@@ -59,6 +52,17 @@ const EventCalendar = () => {
         }
         return getEventsForCurrentMonth()
     }, [data, currentDate])
+
+    const getEventId = (selectedDate: Date) => {
+        if (selectedDate < today) return -1
+
+        const selectedDay = selectedDate.getDate()
+        const eventIndex = eventsForCurrentMonth.findIndex(([, m]) => m === selectedDay)
+        if (eventIndex == -1) return -1
+
+        const eventId = eventsForCurrentMonth[eventIndex][0]
+        return eventId
+    }
 
     const renderMonth = () => {
         // Reverse the list so that we can pop instead of shift when rendering rows
@@ -89,29 +93,31 @@ const EventCalendar = () => {
                                     currentDate.getMonth(),
                                     day + 1,
                                 )
-                                return (
-                                    <td
-                                        className={`h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
-                                        ${
-                                            today >= currentTomorrow
-                                                ? 'opacity-50'
-                                                : eventsForCurrentMonth.some(([, d]) => d == day)
-                                                ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
-                                                : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
-                                        }`}
-                                        key={dayOfWeek}
-                                        onClick={() => onClickDay(currentToday)}
-                                    >
-                                        {day}
-                                        {eventsForCurrentMonth.some(([, d]) => d == day) && (
-                                            <Image
-                                                className="mx-auto"
-                                                src={pizzaImages[Math.floor(Math.random() * pizzaImages.length)]}
-                                                width={43}
-                                                alt="pizza"
-                                            />
-                                        )}
-                                    </td>
+                                const eventThatDay = eventsForCurrentMonth.some(([, d]) => d == day)
+                                const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
+
+                                const eventId = getEventId(currentToday)
+                                const styling = `h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
+                                    ${
+                                        today >= currentTomorrow
+                                            ? 'opacity-50'
+                                            : eventThatDay
+                                            ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
+                                            : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
+                                    }`
+
+                                return today >= currentToday ? (
+                                    <td className={styling}>{day}</td>
+                                ) : (
+                                    <ModalProvider key={dayOfWeek}>
+                                        <PizzaEventModal styling={styling} eventId={eventId} day={day} image={image}>
+                                            {eventId === -1 ? (
+                                                <CreatePizzaEventCard selectedDate={currentToday} />
+                                            ) : (
+                                                <DeletePizzaEventCard eventDate={currentToday} eventId={eventId} />
+                                            )}
+                                        </PizzaEventModal>
+                                    </ModalProvider>
                                 )
                             }
                         }
@@ -119,20 +125,6 @@ const EventCalendar = () => {
                     })}
             </tr>
         )
-    }
-
-    // This will later be changed to open a modal to add/delete event
-    const onClickDay = (selectedDate: Date) => {
-        if (selectedDate < today) return
-
-        const selectedDay = selectedDate.getDate() // Get the day
-
-        if (eventsForCurrentMonth.some(([, d]) => d == selectedDay)) {
-            const eventIndex = eventsForCurrentMonth.findIndex(([, m]) => m === selectedDay)
-            alert(`You clicked on ${selectedDate}, which has an event with id ${eventsForCurrentMonth[eventIndex][0]}!`)
-        } else {
-            alert(`You clicked on ${selectedDate}!`)
-        }
     }
 
     const setPreviousMonth = () => {

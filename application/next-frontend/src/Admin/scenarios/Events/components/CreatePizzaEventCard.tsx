@@ -24,22 +24,23 @@ type FormData = {
     participants?: number
 }
 
-type CreatePizzaEventCardProps = {
-    clickedDate: Date
+type Props = {
+    selectedDate: Date
 }
 
-const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
-    const [date, time] = [clickedDate.getDate(), '18:00']
+const CreatePizzaEventCard = ({ selectedDate }: Props) => {
+    const [date, time] = [selectedDate.getDate(), '18:00']
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
     })
-    const [currentMonth, setCurrentMonth] = useState(clickedDate.getMonth())
+    const [currentMonth, setCurrentMonth] = useState(selectedDate.getMonth())
+    const [currentYear, setCurrentYear] = useState(selectedDate.getFullYear())
 
     const methods = useForm({
         resolver: zodResolver(validationSchema),
         defaultValues: {
-            eventDate: clickedDate.getDate(),
-            eventMonth: clickedDate.getMonth(),
+            eventDate: selectedDate.getDate(),
+            eventMonth: selectedDate.getMonth(),
             eventTime: '18:00',
             participants: 5,
         },
@@ -60,7 +61,7 @@ const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
 
     const onSubmit = (event: FormData) => {
         const restaurant = findRestaurant()
-        const newEventDate = new Date(2024, event.eventMonth, event.eventDate, 18)
+        const newEventDate = new Date(currentYear, event.eventMonth, event.eventDate, 18)
 
         if (restaurant) {
             const event: ApiEventPost = {
@@ -82,6 +83,7 @@ const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
 
     const handleLastClicked = (direction: string) => {
         if (direction === 'right') {
+            if (currentMonth + 1 > 11) setCurrentYear(currentYear + 1)
             const newMonthValue = (currentMonth + 1) % 12
             setCurrentMonth(newMonthValue)
             setValue('eventMonth', newMonthValue)
@@ -89,6 +91,7 @@ const CreatePizzaEventCard = ({ clickedDate }: CreatePizzaEventCardProps) => {
             setRightTriangle(rightArrowGreen)
             setLeftTriangle(leftArrowGrey)
         } else {
+            if (currentMonth - 1 < 0) setCurrentYear(currentYear - 1)
             const newMonthValue = currentMonth == 0 ? 11 : currentMonth - 1
             setCurrentMonth(newMonthValue)
             setValue('eventMonth', newMonthValue)
