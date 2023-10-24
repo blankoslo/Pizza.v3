@@ -1,5 +1,4 @@
 import { useModal } from '@/Admin/context/ModelContext'
-import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 
 type Props = {
     children: React.ReactNode
