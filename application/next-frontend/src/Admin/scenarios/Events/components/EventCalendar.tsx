@@ -5,8 +5,8 @@ import Line from 'Admin/assets/Line.svg'
 import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
-import { useEvents } from '@/api/useEvents'
-import { ModalProvider, useModal } from '@/Admin/context/ModelContext'
+import { ApiEvent, useEvents } from '@/api/useEvents'
+import { useModal } from '@/Admin/context/ModelContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { PizzaEventModal } from './PizzaEventModal'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
@@ -14,6 +14,7 @@ import { DeletePizzaEventCard } from './DeletePizzaEventCard'
 type ModalData = {
     eventId: string | number
     selectedDate: Date
+    event: ApiEvent | undefined
 }
 
 // Goes into the next month - 1 day, which is the last day of current month, and returns this day
@@ -96,21 +97,25 @@ const EventCalendar = () => {
                             const day = remainingDays.pop()
                             if (day) {
                                 // currentToday is at 00:00, so therefore comparisons with today will always yield LT
+                                // "current" as in, the date picked in the calendar
                                 const currentToday = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
                                 const currentTomorrow = new Date(
                                     currentDate.getFullYear(),
                                     currentDate.getMonth(),
                                     day + 1,
                                 )
-                                const eventThatDay = eventsForCurrentMonth.some(([, d]) => d == day)
-                                const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
 
+                                // Event data. eventId is possibly -1, eventObject is possibly undefined
                                 const eventId = getEventId(currentToday)
+                                const eventObject = data?.find((event) => event.id == eventId)
+
+                                // Styling
+                                const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
                                 const styling = `h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
                                     ${
                                         today >= currentTomorrow
                                             ? 'opacity-50'
-                                            : eventThatDay
+                                            : eventsForCurrentMonth.some(([, d]) => d == day)
                                             ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
                                             : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                     }`
@@ -122,7 +127,11 @@ const EventCalendar = () => {
                                         <td
                                             className={styling}
                                             onClick={() => {
-                                                setModalData({ eventId: eventId, selectedDate: currentToday })
+                                                setModalData({
+                                                    eventId: eventId,
+                                                    selectedDate: currentToday,
+                                                    event: eventObject,
+                                                })
                                                 openModal()
                                             }}
                                         >
@@ -191,7 +200,7 @@ const EventCalendar = () => {
                     {modalData.eventId === -1 ? (
                         <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
                     ) : (
-                        <DeletePizzaEventCard eventDate={modalData.selectedDate} eventId={modalData.eventId} />
+                        <>{modalData.event && <DeletePizzaEventCard event={modalData.event} />}</>
                     )}
                 </PizzaEventModal>
             )}

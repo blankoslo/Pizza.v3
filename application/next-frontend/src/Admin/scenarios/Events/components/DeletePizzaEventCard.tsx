@@ -1,22 +1,22 @@
 import { useModal } from '@/Admin/context/ModelContext'
-import { useEvents } from '@/api/useEvents'
+import { useEvents, ApiEvent } from '@/api/useEvents'
 import ordinal from 'ordinal'
 
 // Should pass ApiEvent instead and use those values
+
 type Props = {
-    eventDate: Date
-    eventId: string | number
+    event: ApiEvent
 }
 
-const DeletePizzaEventCard = ({ eventDate, eventId }: Props) => {
+const DeletePizzaEventCard = ({ event }: Props) => {
+    const [eventDate, eventId] = [new Date(event.time), event.id]
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
     })
     const [date, month, time] = [
         eventDate.getDate(),
         eventDate.getMonth(),
-        '18:00',
-        // `${eventDate.getHours()}:${eventDate.getMinutes()}`,
+        `${eventDate.getHours()}:${String(eventDate.getMinutes()).padStart(2, '0')}`,
     ]
     const { delEvent } = useEvents()
     const { closeModal } = useModal()
