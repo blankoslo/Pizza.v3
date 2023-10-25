@@ -1,12 +1,8 @@
-import TriangleGreen from 'Admin/assets/TriangleGreen.svg'
-import TriangleGrey from 'Admin/assets/TriangleGrey.svg'
 import { useModal } from 'Admin/context/ModelContext'
 import { ApiEventPost, useEvents } from '@/api/useEvents'
 import { useRestaurants } from '@/api/useRestaurants'
 
 import { useForm, FormProvider, Controller } from 'react-hook-form'
-import { useState } from 'react'
-import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -33,8 +29,8 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
     })
-    const [currentMonth, setCurrentMonth] = useState(selectedDate.getMonth())
-    const [currentYear, setCurrentYear] = useState(selectedDate.getFullYear())
+    const currentMonth = selectedDate.getMonth()
+    const currentYear = selectedDate.getFullYear()
 
     const methods = useForm({
         resolver: zodResolver(validationSchema),
@@ -74,33 +70,6 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
         }
     }
 
-    const leftArrowGreen = <Image className="rotate-180 cursor-pointer" src={TriangleGreen} alt="previous month" />
-    const rightArrowGreen = <Image className="cursor-pointer" src={TriangleGreen} alt="previous month" />
-    const leftArrowGrey = <Image className="cursor-pointer" src={TriangleGrey} alt="previous month" />
-    const rightArrowGrey = <Image className="rotate-180 cursor-pointer" src={TriangleGrey} alt="previous month" />
-    const [leftTriangle, setLeftTriangle] = useState(leftArrowGrey)
-    const [rightTriangle, setRightTriangle] = useState(rightArrowGreen)
-
-    const handleLastClicked = (direction: string) => {
-        if (direction === 'right') {
-            if (currentMonth + 1 > 11) setCurrentYear(currentYear + 1)
-            const newMonthValue = (currentMonth + 1) % 12
-            setCurrentMonth(newMonthValue)
-            setValue('eventMonth', newMonthValue)
-
-            setRightTriangle(rightArrowGreen)
-            setLeftTriangle(leftArrowGrey)
-        } else {
-            if (currentMonth - 1 < 0) setCurrentYear(currentYear - 1)
-            const newMonthValue = currentMonth == 0 ? 11 : currentMonth - 1
-            setCurrentMonth(newMonthValue)
-            setValue('eventMonth', newMonthValue)
-
-            setLeftTriangle(leftArrowGreen)
-            setRightTriangle(rightArrowGrey)
-        }
-    }
-
     return (
         <div className="h-[448px] w-[703px] rounded-[32px] border bg-[#EDFFF6] px-14 py-10">
             <div className="flex justify-between">
@@ -113,8 +82,8 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-[#05793C]">
-                        <span className="w-[65%]">Date:</span>
-                        <span className="w-[35%]">Time</span>
+                        <span className="w-[63%] text-left">Date:</span>
+                        <span className="w-[37%] text-left">Time</span>
                     </div>
 
                     <div className="mt-5 flex font-workSans text-4xl font-semibold [&>*]:border-2 [&>*]:border-dotted [&>*]:border-[#94DBB6] ">
@@ -127,9 +96,6 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                         />
 
                         <div className="ml-2 flex w-[17rem] justify-center p-3">
-                            <div className="my-auto mr-2" onClick={() => handleLastClicked('left')}>
-                                {leftTriangle}
-                            </div>
                             <span className="text-[#003F1E]">{months[currentMonth]}</span>
                             <Controller
                                 name="eventMonth"
@@ -139,9 +105,6 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                                     <input type="hidden" value={field.value} onChange={field.onChange} />
                                 )}
                             />
-                            <div className="my-auto ml-2" onClick={() => handleLastClicked('right')}>
-                                {rightTriangle}
-                            </div>
                         </div>
 
                         <span className="ml-6 p-3 text-[#004B24]">{time}</span>
