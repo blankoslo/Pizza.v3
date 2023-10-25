@@ -41,7 +41,7 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
             participants: 5,
         },
     })
-    const { handleSubmit, setValue, control } = methods
+    const { handleSubmit, control } = methods
     const { closeModal } = useModal()
     const { addEvent } = useEvents()
     const { data: restaurantData } = useRestaurants()
