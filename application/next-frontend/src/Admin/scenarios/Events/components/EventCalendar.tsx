@@ -80,7 +80,7 @@ const EventCalendar = () => {
 
     const renderRow = (remainingDays: number[], startIndex: number, endIndex: number) => {
         return (
-            <tr className="text-center align-top font-extralight">
+            <tr className="align-top font-extralight">
                 {Array(7)
                     .fill(null)
                     .map((_, dayOfWeek) => {

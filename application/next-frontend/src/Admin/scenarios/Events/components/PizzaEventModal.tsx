@@ -20,9 +20,9 @@ const PizzaEventModal = (props: Props) => {
 
     return (
         <>
-            <td className={props.styling} onClick={() => openModal()}>
+            <td className={`${props.styling} text-center`} onClick={() => openModal()}>
                 {props.day}
-                {props.eventId != -1 && <Image className="mx-auto" src={props.image} width={43} alt="pizza" />}
+                {props.eventId !== -1 && <Image className="mx-auto" src={props.image} width={43} alt="pizza" />}
             </td>
 
             {isModalOpen && (
