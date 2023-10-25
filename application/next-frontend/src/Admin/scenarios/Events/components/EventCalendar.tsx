@@ -6,10 +6,15 @@ import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
 import { useEvents } from '@/api/useEvents'
-import { ModalProvider } from '@/Admin/context/ModelContext'
+import { ModalProvider, useModal } from '@/Admin/context/ModelContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { PizzaEventModal } from './PizzaEventModal'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
+
+type ModalData = {
+    eventId: string | number
+    selectedDate: Date
+}
 
 // Goes into the next month - 1 day, which is the last day of current month, and returns this day
 // e.g. if we are in October, and our last day is 31st, we return 31
@@ -36,6 +41,9 @@ const EventCalendar = () => {
     const fullDay = new Date()
     const today = new Date(fullDay.getFullYear(), fullDay.getMonth(), fullDay.getDate())
     const { data } = useEvents()
+
+    const [modalData, setModalData] = useState<ModalData>()
+    const { openModal } = useModal()
 
     const eventsForCurrentMonth = useMemo(() => {
         const getEventsForCurrentMonth = () => {
@@ -110,15 +118,20 @@ const EventCalendar = () => {
                                 return today >= currentTomorrow ? (
                                     <td className={styling}>{day}</td>
                                 ) : (
-                                    <ModalProvider key={dayOfWeek}>
-                                        <PizzaEventModal styling={styling} eventId={eventId} day={day} image={image}>
-                                            {eventId === -1 ? (
-                                                <CreatePizzaEventCard selectedDate={currentToday} />
-                                            ) : (
-                                                <DeletePizzaEventCard eventDate={currentToday} eventId={eventId} />
+                                    <>
+                                        <td
+                                            className={styling}
+                                            onClick={() => {
+                                                setModalData({ eventId: eventId, selectedDate: currentToday })
+                                                openModal()
+                                            }}
+                                        >
+                                            {day}
+                                            {eventId != -1 && (
+                                                <Image className="mx-auto" src={image} width={43} alt="pizza" />
                                             )}
-                                        </PizzaEventModal>
-                                    </ModalProvider>
+                                        </td>
+                                    </>
                                 )
                             }
                         }
@@ -173,6 +186,15 @@ const EventCalendar = () => {
                 </thead>
                 <tbody>{renderMonth()}</tbody>
             </table>
+            {modalData && (
+                <PizzaEventModal {...modalData}>
+                    {modalData.eventId === -1 ? (
+                        <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
+                    ) : (
+                        <DeletePizzaEventCard eventDate={modalData.selectedDate} eventId={modalData.eventId} />
+                    )}
+                </PizzaEventModal>
+            )}
         </div>
     )
 }
