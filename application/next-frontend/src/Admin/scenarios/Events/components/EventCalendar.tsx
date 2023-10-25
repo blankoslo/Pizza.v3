@@ -88,21 +88,25 @@ const EventCalendar = () => {
                             const day = remainingDays.pop()
                             if (day) {
                                 // currentToday is at 00:00, so therefore comparisons with today will always yield LT
+                                // "current" as in, the date picked in the calendar
                                 const currentToday = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
                                 const currentTomorrow = new Date(
                                     currentDate.getFullYear(),
                                     currentDate.getMonth(),
                                     day + 1,
                                 )
-                                const eventThatDay = eventsForCurrentMonth.some(([, d]) => d == day)
-                                const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
 
+                                // Event data. eventId is possibly -1, eventObject is possibly undefined
                                 const eventId = getEventId(currentToday)
+                                const eventObject = data?.find((event) => event.id == eventId)
+
+                                // Styling
+                                const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
                                 const styling = `h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
                                     ${
                                         today >= currentTomorrow
                                             ? 'opacity-50'
-                                            : eventThatDay
+                                            : eventsForCurrentMonth.some(([, d]) => d == day)
                                             ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
                                             : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                     }`
@@ -112,10 +116,10 @@ const EventCalendar = () => {
                                 ) : (
                                     <ModalProvider key={dayOfWeek}>
                                         <PizzaEventModal styling={styling} eventId={eventId} day={day} image={image}>
-                                            {eventId === -1 ? (
-                                                <CreatePizzaEventCard selectedDate={currentToday} />
+                                            {eventObject ? (
+                                                <DeletePizzaEventCard event={eventObject} />
                                             ) : (
-                                                <DeletePizzaEventCard eventDate={currentToday} eventId={eventId} />
+                                                <CreatePizzaEventCard selectedDate={currentToday} />
                                             )}
                                         </PizzaEventModal>
                                     </ModalProvider>
