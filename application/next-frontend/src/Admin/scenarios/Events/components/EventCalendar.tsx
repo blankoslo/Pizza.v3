@@ -33,7 +33,8 @@ const EventCalendar = () => {
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-US', { month: 'long' })
     })
-    const today = new Date()
+    const fullDay = new Date()
+    const today = new Date(fullDay.getFullYear(), fullDay.getMonth(), fullDay.getDate())
     const { data } = useEvents()
 
     const eventsForCurrentMonth = useMemo(() => {
@@ -106,7 +107,7 @@ const EventCalendar = () => {
                                             : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
                                     }`
 
-                                return today >= currentToday ? (
+                                return today >= currentTomorrow ? (
                                     <td className={styling}>{day}</td>
                                 ) : (
                                     <ModalProvider key={dayOfWeek}>

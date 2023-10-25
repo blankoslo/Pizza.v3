@@ -51,7 +51,10 @@ const DeletePizzaEventCard = ({ eventDate, eventId }: Props) => {
                 </button>
                 <button
                     className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FFB9B9] focus:outline-none"
-                    onClick={() => (typeof eventId === 'string' ? delEvent(eventId) : '')}
+                    onClick={() => {
+                        typeof eventId === 'string' ? delEvent(eventId) : ''
+                        closeModal()
+                    }}
                 >
                     Delete Event
                 </button>
