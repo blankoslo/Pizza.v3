@@ -197,10 +197,10 @@ const EventCalendar = () => {
             </table>
             {modalData && (
                 <PizzaEventModal {...modalData}>
-                    {modalData.eventId === -1 ? (
-                        <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
+                    {modalData.event ? (
+                        <DeletePizzaEventCard event={modalData.event} />
                     ) : (
-                        <>{modalData.event && <DeletePizzaEventCard event={modalData.event} />}</>
+                        <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
                     )}
                 </PizzaEventModal>
             )}
