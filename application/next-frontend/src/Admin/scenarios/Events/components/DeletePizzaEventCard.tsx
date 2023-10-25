@@ -2,15 +2,21 @@ import { useModal } from '@/Admin/context/ModelContext'
 import { ApiEvent, useEvents } from '@/api/useEvents'
 import ordinal from 'ordinal'
 
-const DeletePizzaEventCard = (event: ApiEvent) => {
-    const eventDate = new Date(event.time)
+// Should pass ApiEvent instead and use those values
+
+type Props = {
+    event: ApiEvent
+}
+
+const DeletePizzaEventCard = ({ event }: Props) => {
+    const [eventDate, eventId] = [new Date(event.time), event.id]
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
     })
     const [date, month, time] = [
         eventDate.getDate(),
         eventDate.getMonth(),
-        `${eventDate.getHours()}:${eventDate.getMinutes()}`,
+        `${eventDate.getHours()}:${String(eventDate.getMinutes()).padStart(2, '0')}`,
     ]
     const { delEvent } = useEvents()
     const { closeModal } = useModal()
@@ -45,7 +51,10 @@ const DeletePizzaEventCard = (event: ApiEvent) => {
                 </button>
                 <button
                     className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#FFB9B9] focus:outline-none"
-                    onClick={() => delEvent(event.id)}
+                    onClick={() => {
+                        typeof eventId === 'string' ? delEvent(eventId) : ''
+                        closeModal()
+                    }}
                 >
                     Delete Event
                 </button>
