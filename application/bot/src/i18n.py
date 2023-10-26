@@ -20,7 +20,7 @@ class Translator:
         self.data = {}
         self.locale = default_locale
         self.logger: logging.Logger = injector.get(logging.Logger)
-        self.timezone = lang_timezone_map[self.locale]
+        self.timezone = pytz.timezone(lang_timezone_map[self.locale])
 
         for filename in glob.glob(os.path.join(language_folder, '*.json')):
             loc = os.path.splitext(os.path.basename(filename))[0]
