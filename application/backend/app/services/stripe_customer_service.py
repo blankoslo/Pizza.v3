@@ -1,9 +1,12 @@
 from app.repositories.stripe_customer_repository import StripeCustomerRepository
+from app.repositories.slack_organization_repository import SlackOrganizationRepository
 from app.models.stripe_customer_schema import StripeCustomerSchema
 
 class StripeCustomerService:
     def get_by_customer_id(self, customer_id):
-        return StripeCustomerRepository.get_by_id(customer_id)
+        to_return = StripeCustomerRepository.get_by_id(customer_id)
+        print(to_return.slack_organization_id)
+        return to_return
     
     def get_by_team_id(self, team_id):
         count, stripe_customers = StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
@@ -18,9 +21,11 @@ class StripeCustomerService:
     def add(self, data, team_id):
         stripe_customer = self.get_by_team_id(team_id)
         if stripe_customer is not None:
-            return None
-        data.slack_organization_id = team_id
-        return StripeCustomerRepository.upsert(data)
+            return False
+        
+        new_stripe_customer = StripeCustomerSchema().load(data=data, partial=True)
+        new_stripe_customer.slack_organization_id = team_id
+        return StripeCustomerRepository.upsert(new_stripe_customer)
     
     def update(self, data, customer_id):
         stripe_customer = self.get_by_customer_id(customer_id)
