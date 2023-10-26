@@ -56,7 +56,7 @@ const EventConfig = () => {
 
     return (
         <div className="w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl">
-            <p className="font-queensCTM text-5xl text-[#05793C]">2/2</p>
+            <p className="font-queensMedium text-5xl text-[#05793C]">2/2</p>
             <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
                 Set up your first event!
             </h5>

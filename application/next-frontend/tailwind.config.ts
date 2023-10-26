@@ -16,7 +16,6 @@ const config: Config = {
                 spaceGrotesk: ['"Space Grotesk"', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
                 workSans: ['"Work Sans"', 'sans-serif'],
-                queensCTM: ['"Queens Condensed Trial Medium"', 'sans-serif'],
                 queensMedium: ['"Queens Condensed Trial Medium"', 'sans-serif'],
                 queensRegular: ['"Queens Condensed Trial Regular"', 'sans-serif'],
             },
