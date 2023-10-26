@@ -106,12 +106,15 @@ class BotApi:
             self.logger.error("Failed to get scheduled events for user %s", user_id)
             return
         
+        self.logger.info(f"User {user_id} left channel in organization {team_id}")
+
         # set non active
         user_to_update = {
             'id': user_id,
             'team_id': team_id,
             'active': False
         }
+
         self.client.update_slack_users(slack_users=[user_to_update])
         
         # Respond to invited events
@@ -333,10 +336,10 @@ class BotApi:
         )
 
     def accept_invitation(self, event_id, slack_id):
-        self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.attending)
+        return self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.attending)
 
     def decline_invitation(self, event_id, slack_id):
-        self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.not_attending)
+        return self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.not_attending)
 
     def withdraw_invitation(self, event_id, slack_id):
         return self.client.withdraw_invitation(event_id=event_id, slack_id=slack_id)
