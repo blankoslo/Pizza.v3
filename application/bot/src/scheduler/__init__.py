@@ -13,7 +13,7 @@ def auto_reply():
     with injector.get(BotApi) as ba:
         ba.auto_reply()
 
-@scheduler.scheduled_job('interval', id='invite_multiple_if_needed', minutes=150, jitter=120)
+@scheduler.scheduled_job('interval', id='invite_multiple_if_needed', minutes=15, jitter=120)
 def invite_multiple_if_needed():
     logger = injector.get(logging.Logger)
     logger.info("Inviting multiple if need on scheduled task")
