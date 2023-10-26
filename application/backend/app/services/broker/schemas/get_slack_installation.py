@@ -13,3 +13,4 @@ class GetSlackInstallationResponseSchema(Schema):
     app_id = fields.Str(required=True)
     bot_user_id = fields.Str(required=True)
     access_token = fields.Str(required=True)
+    channel_id = fields.Str(required=True)

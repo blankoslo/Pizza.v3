@@ -81,3 +81,17 @@ class EventRepository(Event, CrudMixin):
             .group_by(cls.id, cls.time, cls.restaurant_id) \
             .having(func.count(cls.id) == cls.people_per_event)
         return query.first()
+    
+    @classmethod
+    def get_scheduled_events_for_user(cls, user_id, team_id, session=db.session):
+        query = session.query(cls.id, cls.restaurant_id, cls.time, Invitation.rsvp, cls.finalized, Invitation.slack_message_ts, Invitation.slack_message_channel) \
+            .join(Invitation, cls.id == Invitation.event_id) \
+            .filter( 
+                and_(
+                    Invitation.slack_id == user_id,
+                    cls.slack_organization_id == team_id,
+                    cls.time > datetime.now(),
+                )
+            )
+
+        return query.all()

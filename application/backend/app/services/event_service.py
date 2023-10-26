@@ -133,3 +133,6 @@ class EventService:
         BrokerService.publish("updated_event", queue_event)
 
         return updated_event
+    
+    def get_scheduled_events_for_user(self, user_id, team_id):
+        return EventRepository.get_scheduled_events_for_user(user_id, team_id)

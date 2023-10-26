@@ -20,6 +20,7 @@ from src.broker.schemas.get_slack_installation import GetSlackInstallationReques
 from src.broker.schemas.get_slack_organizations import GetSlackOrganizationsResponseSchema
 from src.broker.schemas.deleted_slack_organization_event import DeletedSlackOrganizationEventSchema
 from src.broker.schemas.set_slack_channel import SetSlackChannelRequestSchema, SetSlackChannelResponseSchema
+from src.broker.schemas.get_schedule_events_for_user import GetScheduledEventsForUserRequestSchema, GetScheduledEventsForUserResponseSchema
 
 class BrokerClient:
     messages = {}
@@ -165,23 +166,27 @@ class BrokerClient:
         response = response_schema.load(response_payload)
         return response['user_ids']
 
-    def update_slack_user(self, slack_users):
+    def update_slack_users(self, slack_users):
         request_payload = {
             'users_to_update': []
         }
+
         for slack_user in slack_users:
-            slack_id = slack_user['id']
-            current_username = slack_user['name']
-            email = slack_user['profile']['email']
-            team_id = slack_user['team_id']
+            fields_to_update = {
+                'slack_id': slack_user['id'],
+                'team_id': slack_user['team_id']
+            }
+            if 'name' in slack_user:
+                fields_to_update['current_username'] = slack_user['name']
+            if 'current_username' in slack_user:
+                fields_to_update['current_username'] = slack_user['current_username']
+            if 'email' in slack_user:
+                fields_to_update['email'] = slack_user['email']
+            if 'active' in slack_user:
+                fields_to_update['active'] = slack_user['active']
 
-
-            request_payload['users_to_update'].append({
-                'slack_id': slack_id,
-                'current_username': current_username,
-                'email': email,
-                'team_id': team_id
-            })
+            request_payload['users_to_update'].append(fields_to_update)
+            
         request_payload_schema = UpdateSlackUserRequestSchema()
         response_payload = self._call(self._create_request("update_slack_user", request_payload_schema.load(request_payload)))
         response_schema = UpdateSlackUserResponseSchema()
@@ -221,3 +226,16 @@ class BrokerClient:
         response_schema = WithdrawInvitationResponseSchema()
         response = response_schema.load(response_payload)
         return response['success']
+    
+    def get_scheduled_events_for_user(self, user_id, team_id):
+        request_payload = {
+            "user_id": user_id,
+            'team_id': team_id
+        }
+        request_payload_schema = GetScheduledEventsForUserRequestSchema()
+        response_payload = self._call(self._create_request("get_scheduled_events_for_user", request_payload_schema.load(request_payload)))
+        if response_payload is None:
+            return False
+        response_schema = GetScheduledEventsForUserResponseSchema()
+        response = response_schema.load(response_payload)
+        return response['events']

@@ -103,8 +103,9 @@ def set_slack_channel(request: dict):
 
     success = True
     old_channel_id = None
+    scheduled_events_count = None
     try:
-        old_channel_id, slack_organization = slack_organization_service.set_channel(team_id=team_id, channel_id=channel_id)
+        old_channel_id, scheduled_events_count, slack_organization = slack_organization_service.set_channel(team_id=team_id, channel_id=channel_id)
     except Exception as e:
         logger.error(e)
         success = False
@@ -112,6 +113,8 @@ def set_slack_channel(request: dict):
     response = {'success': success}
     if old_channel_id is not None:
         response['old_channel_id'] = old_channel_id
+    if scheduled_events_count:
+        response['scheduled_events_count'] = scheduled_events_count
 
     return response
 

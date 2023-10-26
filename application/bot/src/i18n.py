@@ -5,6 +5,7 @@ from src.injector import injector
 import logging
 from string import Template
 import pytz
+import datetime
 
 #valid timezones can be found here
 #https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568 
@@ -20,7 +21,7 @@ class Translator:
         self.data = {}
         self.locale = default_locale
         self.logger: logging.Logger = injector.get(logging.Logger)
-        self.timezone = lang_timezone_map[self.locale]
+        self.timezone = pytz.timezone(lang_timezone_map[self.locale])
 
         for filename in glob.glob(os.path.join(language_folder, '*.json')):
             loc = os.path.splitext(os.path.basename(filename))[0]
@@ -30,7 +31,7 @@ class Translator:
     def set_locale(self, locale):
         if locale in self.data and locale in lang_timezone_map:
             self.locale = locale
-            self.timezone = lang_timezone_map[locale]
+            self.timezone = pytz.timezone(lang_timezone_map[locale])
         else:
             self.logger.warn(f"Unvalid locale: {locale}, fallback to default locale: {self.locale}")
 
@@ -48,5 +49,5 @@ class Translator:
             self.logger.warn(f"The key '{key}' does not match any text. Defaults text to key")
             return key
 
-    def format_timestamp(self, timestamp):
+    def format_timestamp(self, timestamp: datetime.datetime):
          return pytz.utc.localize(timestamp.replace(tzinfo=None), is_dst=None).astimezone(self.timezone)

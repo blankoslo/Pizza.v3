@@ -32,7 +32,15 @@ class SlackOrganizationService:
         return SlackOrganizationRepository.upsert(schema=schema)
 
     def set_channel(self, team_id, channel_id):
+
+        scheduled_events_count, scheduled_events = SlackOrganizationRepository.get_scheduled_events(team_id=team_id)
+    
         slack_organization = SlackOrganizationRepository.get_by_id(id=team_id)
         old_channel_id = slack_organization.channel_id
+
+        # if scheduled events exist, dont update channel
+        if scheduled_events_count > 0:
+            return old_channel_id, scheduled_events_count, None
+        
         slack_organization.channel_id = channel_id
-        return old_channel_id, SlackOrganizationRepository.upsert(schema=slack_organization)
+        return old_channel_id, 0, SlackOrganizationRepository.upsert(schema=slack_organization)

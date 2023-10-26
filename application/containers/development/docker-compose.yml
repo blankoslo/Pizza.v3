@@ -127,7 +127,7 @@ services:
       timeout: 5s
       retries: 5
   database:
-    image: postgres
+    image: postgres:15
     restart: always
     volumes:
       - database_data:/var/lib/postgressql/data
