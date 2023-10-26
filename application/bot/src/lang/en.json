@@ -4,7 +4,7 @@
     "pizzaChannelErrorScheduledEvents": "There are $count scheduled events in the previous pizza channel. Please cancel them in the admin panel before switching channel.",
     "pizzaChannelConfirm": "Pizza channel has now been set to <#$channel_id>",
     "botWelcome": "Hello! I'm the pizza bot. If you want to change the channel I use, you can go to the appropriate channel and use the command '/set-pizza-channel'. If the channel is private, you need to add me first.",
-    "eventReminder": "Hey there! I didn't hear any more from you. Are you comming?",
+    "eventReminder": "Hey there! I didn't hear any more from you. Are you coming?",
     "eventFinalized": "Hello there! $user_ids! You're going to have 🍕 at $restaurant_name, $time_stamp. $booker is booking the table!",
     "eventUnfinalized": "Hello there! $user_ids! If the one who withdrew from the visit to $restaurant_name $time_stamp was supposed to book, then one of you others will have to take care of that. Meanwhile, a replacement is being sought.",
     "userWithdrawAfterFinalization": "Hello there! <@$user_id> just withdrew from the visit to $restaurant_name $time_stamp.",
