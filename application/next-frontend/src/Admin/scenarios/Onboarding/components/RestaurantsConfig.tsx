@@ -1,3 +1,4 @@
+import Button from '@/Admin/components/Button'
 import { Restaurant, useRestaurants } from '@/api/useRestaurants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -32,9 +33,9 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
     }
 
     return (
-        <div className="w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl">
-            <p className="font-queensMedium text-5xl text-[#05793C]">1/2</p>
-            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
+        <div className="w-[25rem] bg-yellow p-4 shadow-2xl">
+            <p className="font-queensMedium text-5xl text-green-primary">1/2</p>
+            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-dark">
                 What Pizza Places would you like to visit?
             </h5>
             <div className="flex flex-col justify-between">
@@ -61,14 +62,14 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                     </div>
                 </div>
                 <div className="flex justify-end">
-                    <button
-                        className={`my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] focus:outline-none ${
-                            restaurants.length === 0 ? 'cursor-default opacity-20' : 'hover:bg-[#5FE09D]'
-                        }`}
+                    <Button
                         onClick={addAllRestaurants}
-                    >
-                        Add
-                    </button>
+                        className={`my-4 min-w-[7rem] text-xl ${
+                            restaurants.length === 0 ? 'cursor-default opacity-20' : 'hover:bg-green-secondary'
+                        }`}
+                        text="Add"
+                        buttonStyle="primary"
+                    />
                 </div>
             </div>
         </div>
