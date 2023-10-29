@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from './Events/components/EventCalendar'
 import { useState } from 'react'
+import { ModalProvider } from '../context/ModelContext'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
@@ -20,7 +21,9 @@ const AdminMainPage = () => {
                                 <Events />
                             </div>
                             <div className="z-10 flex-none">
-                                <EventCalendar />
+                                <ModalProvider>
+                                    <EventCalendar />
+                                </ModalProvider>
                             </div>
                         </div>
                     ) : (

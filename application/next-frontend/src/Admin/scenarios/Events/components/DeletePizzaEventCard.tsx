@@ -1,5 +1,5 @@
 import { useModal } from '@/Admin/context/ModelContext'
-import { ApiEvent, useEvents } from '@/api/useEvents'
+import { useEvents, ApiEvent } from '@/api/useEvents'
 import ordinal from 'ordinal'
 
 // Should pass ApiEvent instead and use those values
