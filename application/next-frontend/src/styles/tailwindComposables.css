@@ -1,5 +1,5 @@
 .header {
-    @apply fixed h-32 bg-teal-400 w-full px-12 top-0;
+    @apply fixed h-32 bg-green-secondary w-full px-12 top-0;
 }
 
 .scrollable-wrapper {
@@ -12,7 +12,7 @@
 
 .scrollable-list::after {
     content: '';
-    @apply absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-[#FFF8C1] pointer-events-none;
+    @apply absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-yellow pointer-events-none;
 }
 
 .scrollable-list::-webkit-scrollbar {
