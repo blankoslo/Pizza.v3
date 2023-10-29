@@ -8,7 +8,7 @@ const Onboarding = () => {
 
     return (
         <div className="flex h-screen">
-            <div className="flex-1 bg-[#05793C]">
+            <div className="flex-1 bg-green-primary">
                 <div className="mt-16">
                     <AdminSidebar />
                 </div>
