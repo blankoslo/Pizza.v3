@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from 'Admin/scenarios/Events/components/EventCalendar'
 import { useState, useRef, useEffect } from 'react'
+import { HoverProvider } from 'Shared/context/HoverContext'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
@@ -36,7 +37,9 @@ const AdminMainPage = () => {
                     {calendarShowing ? (
                         <div ref={focusedAreaRef} className="pointer-events-auto flex">
                             <div className="grow" onClick={() => setCalendarShowing(false)}>
-                                <Events />
+                                <HoverProvider>
+                                    <Events />
+                                </HoverProvider>
                             </div>
                             <div className="z-10 flex-none">
                                 <EventCalendar />
@@ -44,7 +47,9 @@ const AdminMainPage = () => {
                         </div>
                     ) : (
                         <div onClick={() => setCalendarShowing(true)}>
-                            <Events />
+                            <HoverProvider>
+                                <Events />
+                            </HoverProvider>
                         </div>
                     )}
                     <div className={`${calendarShowing ? 'opacity-25' : ''} `}>
