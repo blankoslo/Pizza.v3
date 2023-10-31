@@ -4,19 +4,38 @@ import { SlackUsers } from 'Admin/scenarios/SlackUsers'
 import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from './Events/components/EventCalendar'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ModalProvider } from '../context/ModelContext'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
 
+    const focusedAreaRef = useRef<HTMLDivElement | null>(null)
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (calendarShowing && focusedAreaRef.current && !focusedAreaRef.current.contains(event.target as Node)) {
+                setCalendarShowing(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [calendarShowing])
+
     return (
         <div>
-            <div className="grid-background flex w-full justify-evenly pt-16">
+            <div
+                className={`grid-background flex w-full justify-evenly pt-16 ${
+                    calendarShowing ? 'pointer-events-none' : ''
+                }`}
+            >
                 <div className="w-1/3 p-4 [&>*]:mb-14">
                     <h1 className="font-queensMedium text-6xl">Pizza Admin</h1>
                     {calendarShowing ? (
-                        <div className="flex">
+                        <div ref={focusedAreaRef} className="flex pointer-events-auto">
                             <div className="grow" onClick={() => setCalendarShowing(false)}>
                                 <Events />
                             </div>
