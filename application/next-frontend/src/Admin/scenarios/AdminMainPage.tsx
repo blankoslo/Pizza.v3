@@ -35,7 +35,7 @@ const AdminMainPage = () => {
                 <div className="w-1/3 p-4 [&>*]:mb-14">
                     <h1 className="font-queensMedium text-6xl">Pizza Admin</h1>
                     {calendarShowing ? (
-                        <div ref={focusedAreaRef} className="flex pointer-events-auto">
+                        <div ref={focusedAreaRef} className="pointer-events-auto flex">
                             <div className="grow" onClick={() => setCalendarShowing(false)}>
                                 <Events />
                             </div>
