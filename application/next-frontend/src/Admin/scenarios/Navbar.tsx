@@ -33,22 +33,22 @@ const Navbar = () => {
     ]
 
     return (
-        <div className="flex w-full items-center gap-4 overflow-hidden bg-white py-4 font-workSans text-xl text-[#303030]">
+        <div className="flex w-full items-center gap-4 overflow-hidden bg-white py-4 font-workSans text-xl text-dark">
             <div className="ml-16 flex-1">
                 <Image priority src={PizzaBotLogo} width={150} alt="pizza bot logo" />
             </div>
             {navbarEntries.map((entry) => (
                 <button
                     key={entry.key}
-                    className={`mr-10 hover:font-bold hover:text-[#05793C] ${
-                        entry.key == markedIndex ? 'marked-entry font-bold text-[#05793C]' : ''
+                    className={`mr-10 hover:font-bold hover:text-green-primary ${
+                        entry.key == markedIndex ? 'marked-entry font-bold text-green-primary' : ''
                     }`}
                     onClick={() => setMarkedIndex(entry.key)}
                 >
                     {entry.text}
                 </button>
             ))}
-            <button className="mr-10 hover:font-bold hover:text-[#05793C]" onClick={() => logout()}>
+            <button className="mr-10 hover:font-bold hover:text-green-primary" onClick={() => logout()}>
                 Log out
             </button>
         </div>

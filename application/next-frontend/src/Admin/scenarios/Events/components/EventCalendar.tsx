@@ -111,13 +111,13 @@ const EventCalendar = () => {
 
                                 // Styling
                                 const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
-                                const styling = `h-[3.75rem] w-[4.15rem] border border-[#05793C] text-[#303030]
+                                const styling = `h-[3.75rem] w-[4.15rem] border border-primary text-dark
                                     ${
                                         today >= currentTomorrow
                                             ? 'opacity-50'
                                             : eventsForCurrentMonth.some(([, d]) => d == day)
-                                            ? 'cursor-pointer bg-[#05793C] text-white hover:bg-[#FF9494]'
-                                            : 'cursor-pointer bg-white hover:bg-[#5FE09D]'
+                                            ? 'cursor-pointer bg-green-primary text-white hover:bg-red-highlight'
+                                            : 'cursor-pointer bg-white hover:bg-green-secondary'
                                     }`
 
                                 return today >= currentTomorrow ? (
@@ -144,7 +144,7 @@ const EventCalendar = () => {
                                 )
                             }
                         }
-                        return <td className="h-[3.75rem] w-[4.15rem] border border-[#05793C]" key={dayOfWeek} />
+                        return <td className="h-[3.75rem] w-[4.15rem] border border-green-primary" key={dayOfWeek} />
                     })}
             </tr>
         )
@@ -159,7 +159,7 @@ const EventCalendar = () => {
     }
 
     return (
-        <div className="inline-block min-h-[517px] bg-[#EDFFF6] px-6 pb-6 pt-3 text-[#05793C]">
+        <div className="inline-block min-h-[517px] bg-green-light px-6 pb-6 pt-3 text-green-primary">
             <div className="flex justify-center">
                 <Image
                     onClick={() => setPreviousMonth()}

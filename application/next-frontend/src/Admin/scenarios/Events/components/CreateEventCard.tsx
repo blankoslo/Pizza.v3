@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useModal } from 'Admin/context/ModelContext'
 import { ApiEventPost, useEvents } from '@/api/useEvents'
 import { useRestaurants } from '@/api/useRestaurants'
+import Button from '@/Admin/components/Button'
 
 const validationSchema = z.object({
     dateTime: z.date().refine((value) => value !== null, { message: 'Date is required' }),
@@ -98,12 +99,7 @@ const CreateEventCard = () => {
                             />
                         )}
                     />
-                    <button
-                        type="submit"
-                        className="w-1/4 rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-                    >
-                        Add event
-                    </button>
+                    <Button className="w-[270px]" text="Add Event" buttonStyle="primary" type="submit" />
                 </form>
             </FormProvider>
         </div>

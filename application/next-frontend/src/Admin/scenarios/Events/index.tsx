@@ -32,7 +32,7 @@ const Events = () => {
                 ''
             ) : (
                 <div className="mt-5 flex flex-col">
-                    <div className="italic text-[#05793C]">Next event:</div>
+                    <div className="italic text-green-primary">Next event:</div>
                     <h3 className="text-2xl font-semibold leading-10">{futureEvents[0].restaurant?.name}</h3>
                     <h4 className="text-xl font-semibold leading-10">{eventDateFormatted(futureEvents[0].time)}</h4>
                     <span className="text-xl font-semibold leading-7">
@@ -40,7 +40,9 @@ const Events = () => {
                     </span>
                 </div>
             )}
-            <div className="mb-10 mt-[11.7rem] italic text-[#05793C]">{upcomingEventsMessage(futureEvents.length)}</div>
+            <div className="mb-10 mt-[11.7rem] italic text-green-primary">
+                {upcomingEventsMessage(futureEvents.length)}
+            </div>
         </CardComponent>
     )
 }

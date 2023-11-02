@@ -5,6 +5,7 @@ import { useRestaurants } from '@/api/useRestaurants'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import Button from '@/Admin/components/Button'
 
 const validationSchema = z.object({
     eventDate: z.number(),
@@ -71,23 +72,26 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
     }
 
     return (
-        <div className="h-[448px] w-[703px] rounded-[32px] border bg-[#EDFFF6] px-14 py-10">
+        <div className="h-[448px] w-[703px] rounded-[32px] border bg-green-light px-14 py-10">
             <div className="flex justify-between">
-                <span className="font-queensRegular text-5xl text-[#05793C]">Create Pizza Event?</span>
-                <span className="m-0 cursor-pointer text-4xl font-light text-[#004B24]" onClick={() => closeModal()}>
+                <span className="font-queensRegular text-5xl text-green-primary">Create Pizza Event?</span>
+                <span
+                    className="m-0 cursor-pointer text-4xl font-light text-green-quaternary"
+                    onClick={() => closeModal()}
+                >
                     &times;
                 </span>
             </div>
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-[#05793C]">
+                    <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-green-primary">
                         <span className="w-[63%] text-left">Date:</span>
                         <span className="w-[37%] text-left">Time</span>
                     </div>
 
                     <div className="mt-5 flex font-workSans text-4xl font-semibold [&>*]:border-2 [&>*]:border-dotted [&>*]:border-[#94DBB6] ">
-                        <span className="p-3 text-[#003F1E]">{date}.</span>
+                        <span className="p-3 text-green-tertiary">{date}.</span>
                         <Controller
                             name="eventDate"
                             control={control}
@@ -96,7 +100,7 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                         />
 
                         <div className="ml-2 flex w-[17rem] justify-center p-3">
-                            <span className="text-[#003F1E]">{months[currentMonth]}</span>
+                            <span className="text-green-tertiary">{months[currentMonth]}</span>
                             <Controller
                                 name="eventMonth"
                                 control={control}
@@ -107,7 +111,7 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                             />
                         </div>
 
-                        <span className="ml-6 p-3 text-[#004B24]">{time}</span>
+                        <span className="ml-6 p-3 text-green-quaternary">{time}</span>
                         <Controller
                             name="eventTime"
                             control={control}
@@ -116,20 +120,14 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                         />
                     </div>
 
-                    <div className="mt-14 flex justify-evenly">
-                        <button
-                            className="my-4 w-[270px] border-2 border-[#4E5445] py-4 font-workSans text-2xl font-semibold text-[#4E5445] hover:bg-[#FFF8C1] focus:outline-none"
-                            type="button"
+                    <div className="my-4 mt-14 flex justify-evenly">
+                        <Button
                             onClick={() => closeModal()}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            className="my-4 w-[270px] border-2 border-b-8 border-[#2D8F5C] bg-white py-4 font-workSans text-2xl font-black text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none"
-                            type="submit"
-                        >
-                            Create Event
-                        </button>
+                            text="Cancel"
+                            buttonStyle="secondary"
+                            className="w-[270px]"
+                        />
+                        <Button text="Create Event" buttonStyle="primary" className="w-[270px]" type="submit" />
                     </div>
                 </form>
             </FormProvider>

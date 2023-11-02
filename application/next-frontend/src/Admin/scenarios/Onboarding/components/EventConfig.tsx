@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker'
 import { useRestaurants } from '@/api/useRestaurants'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useRouter } from 'next/router'
+import Button from '@/Admin/components/Button'
 
 const EventConfig = () => {
     const router = useRouter()
@@ -55,9 +56,9 @@ const EventConfig = () => {
     }
 
     return (
-        <div className="w-[25rem] bg-[#FFF8C1] p-4 shadow-2xl">
-            <p className="font-queensMedium text-5xl text-[#05793C]">2/2</p>
-            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-neutral-800">
+        <div className="w-[25rem] bg-yellow p-4 shadow-2xl">
+            <p className="font-queensMedium text-5xl text-green-primary">2/2</p>
+            <h5 className="mb-2 px-6 py-3 font-workSans text-2xl font-semibold leading-tight text-dark">
                 Set up your first event!
             </h5>
             <FormProvider {...methods}>
@@ -83,21 +84,20 @@ const EventConfig = () => {
                         />
                         <p className="text-xs">*Invitations are sent out 10 days in advance*</p>
                         <div className="flex grow" />
-                        <div className="flex place-content-evenly">
-                            <button
-                                className="my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none"
+                        <div className="my-4 flex place-content-evenly">
+                            <Button
                                 onClick={() => router.push('/admin')}
-                            >
-                                Skip
-                            </button>
-
-                            <button
+                                className="min-w-[7rem] text-lg"
+                                text="Skip"
+                                buttonStyle="primary"
+                            />
+                            <Button
                                 type="submit"
-                                className="my-4 min-w-[7rem] border-2 border-b-8 border-[#2D8F5C] bg-white px-4 py-2 font-workSans text-sm font-black italic text-[#2D8F5C] hover:bg-[#5FE09D] focus:outline-none"
                                 onClick={() => router.push('/admin')}
-                            >
-                                Create
-                            </button>
+                                className="min-w-[7rem] text-lg"
+                                text="Create"
+                                buttonStyle="primary"
+                            />
                         </div>
                     </div>
                 </form>
