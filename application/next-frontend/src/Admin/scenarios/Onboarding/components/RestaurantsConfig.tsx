@@ -5,7 +5,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const RestaurantsConfig = (props: { onNext: () => void }) => {
+interface RestaurantsConfigProps {
+    onNext: () => void
+}
+
+const RestaurantsConfig = (props: RestaurantsConfigProps) => {
     const { addRestaurant } = useRestaurants()
     const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
@@ -13,7 +17,9 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
         name: z.string().min(1, { message: 'Name required' }),
     })
 
-    const { register, handleSubmit, reset } = useForm({ resolver: zodResolver(validationSchema) })
+    const { register, handleSubmit, reset, getValues } = useForm<Restaurant>({
+        resolver: zodResolver(validationSchema),
+    })
 
     const validateForm = (data: Restaurant) => {
         setRestaurants((prevRestaurants) => [data, ...prevRestaurants])
@@ -21,7 +27,7 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
     }
 
     const addAllRestaurants = () => {
-        if (restaurants.length != 0) {
+        if (restaurants.length !== 0) {
             restaurants.forEach(addRestaurant)
             setRestaurants([])
             props.onNext()
@@ -32,6 +38,13 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
         setRestaurants((prevRestaurants) => prevRestaurants.filter((_, i) => i !== index))
     }
 
+    const handleAddClick = () => {
+        const { name } = getValues()
+        if (name) {
+            validateForm({ name })
+        }
+    }
+
     return (
         <div className="w-[25rem] bg-yellow p-4 shadow-2xl">
             <p className="font-queensMedium text-5xl text-green-primary">1/2</p>
@@ -40,8 +53,8 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
             </h5>
             <div className="flex flex-col justify-between">
                 <form
-                    onSubmit={handleSubmit((data) => {
-                        validateForm(data as Restaurant)
+                    onSubmit={handleSubmit((data: Restaurant) => {
+                        validateForm(data)
                     })}
                     className="flex flex-col px-6"
                 >
@@ -63,11 +76,17 @@ const RestaurantsConfig = (props: { onNext: () => void }) => {
                 </div>
                 <div className="flex justify-end">
                     <Button
+                        onClick={handleAddClick}
+                        className="my-4 min-w-[7rem] text-xl hover:bg-green-secondary"
+                        text="Add"
+                        buttonStyle="primary"
+                    />
+                    <Button
                         onClick={addAllRestaurants}
                         className={`my-4 min-w-[7rem] text-xl ${
                             restaurants.length === 0 ? 'cursor-default opacity-20' : 'hover:bg-green-secondary'
                         }`}
-                        text="Add"
+                        text="Continue"
                         buttonStyle="primary"
                     />
                 </div>
