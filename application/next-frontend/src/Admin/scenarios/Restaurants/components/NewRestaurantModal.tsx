@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useModal } from 'Admin/context/ModelContext'
 import { useRestaurants, Restaurant } from '@/api/useRestaurants'
+import Button from '@/Admin/components/Button'
 
 const validationSchema = z.object({
     name: z.string().min(1, { message: 'Name required' }),
@@ -40,39 +41,39 @@ const NewRestaurantModal = () => {
     }
 
     return (
-        <div className="bg-white">
+        <div className="w-[25rem] bg-yellow p-4 shadow-2xl">
             <div className="m-10 flex justify-between">
-                <h1>New restaurant</h1>
-                <button onClick={closeModal}>&times;</button>
+                <h1 className="font-queensMedium text-5xl text-green-primary">New restaurant</h1>
             </div>
 
-            <form onSubmit={handleSubmit((data) => validateForm(data as Restaurant))} className="flex flex-col">
+            <form onSubmit={handleSubmit((data) => validateForm(data as Restaurant))} className="flex flex-col px-6">
                 <input
-                    className="mx-6 my-3 rounded-md p-3"
-                    style={{ border: '1px solid lightgrey' }}
+                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
                     {...register('name')}
                     placeholder="Restaurant name*"
                 />
-                {errors.name && <p></p>}
+                {errors.name && <p className=" font-workSans text-red-600"></p>}
                 <input
-                    className="mx-6 my-3 rounded-md p-3"
-                    style={{ border: '1px solid lightgrey' }}
+                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
                     {...register('link')}
                     placeholder="Restaurant link"
                 />
                 <input
-                    className="mx-6 my-3 rounded-md p-3"
-                    style={{ border: '1px solid lightgrey' }}
+                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
                     {...register('tlf')}
                     placeholder="Restaurant phone number"
                 />
                 <input
-                    className="mx-6 my-3 rounded-md p-3"
-                    style={{ border: '1px solid lightgrey' }}
+                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
                     {...register('address')}
                     placeholder="Restaurant address"
                 />
-                <input className="cursor-pointer" type="submit" value="CREATE" />
+                <Button
+                    type="submit"
+                    className="my-4 min-w-[7rem] text-xl hover:bg-green-secondary"
+                    text="Add"
+                    buttonStyle="primary"
+                />
             </form>
         </div>
     )
