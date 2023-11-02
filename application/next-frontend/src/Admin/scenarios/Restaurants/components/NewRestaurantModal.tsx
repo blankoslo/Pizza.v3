@@ -41,37 +41,37 @@ const NewRestaurantModal = () => {
     }
 
     return (
-        <div className="w-[25rem] bg-yellow p-4 shadow-2xl">
+        <div className="bg-yellow w-[25rem] p-4 shadow-2xl">
             <div className="m-10 flex justify-between">
-                <h1 className="font-queensMedium text-5xl text-green-primary">New restaurant</h1>
+                <h1 className="font-queensMedium text-green-primary text-5xl">New restaurant</h1>
             </div>
 
             <form onSubmit={handleSubmit((data) => validateForm(data as Restaurant))} className="flex flex-col px-6">
                 <input
-                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
+                    className="font-workSans mb-4 border border-gray-800 bg-white p-3 italic"
                     {...register('name')}
                     placeholder="Restaurant name*"
                 />
                 {/* Display the error message for the name field if there is one */}
                 {errors.name && <p className="font-workSans text-red-600"></p>}
                 <input
-                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
+                    className="font-workSans mb-4 border border-gray-800 bg-white p-3 italic"
                     {...register('link')}
                     placeholder="Restaurant link"
                 />
                 <input
-                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
+                    className="font-workSans mb-4 border border-gray-800 bg-white p-3 italic"
                     {...register('tlf')}
                     placeholder="Restaurant phone number"
                 />
                 <input
-                    className="mb-4 border border-gray-800 bg-white p-3 font-workSans italic"
+                    className="font-workSans mb-4 border border-gray-800 bg-white p-3 italic"
                     {...register('address')}
                     placeholder="Restaurant address"
                 />
                 <Button
                     type="submit"
-                    className={"my-4 min-w-[7rem] text-xl 'hover:bg-green-secondary"}
+                    className={"'hover:bg-green-secondary my-4 min-w-[7rem] text-xl"}
                     text="Add"
                     buttonStyle="primary"
                 />
