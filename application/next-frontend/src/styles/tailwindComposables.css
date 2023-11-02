@@ -1,12 +1,5 @@
-@font-face {
-    font-family: 'Queens Condensed Trial Medium';
-    src: url('../../public/fonts/QueensCondensedTrial-Medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .header {
-    @apply fixed h-32 bg-teal-400 w-full px-12 top-0;
+    @apply fixed h-32 bg-green-secondary w-full px-12 top-0;
 }
 
 .scrollable-wrapper {
@@ -19,7 +12,7 @@
 
 .scrollable-list::after {
     content: '';
-    @apply absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-[#FFF8C1] pointer-events-none;
+    @apply absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-yellow pointer-events-none;
 }
 
 .scrollable-list::-webkit-scrollbar {
@@ -43,9 +36,9 @@
     background: #f1f1f1;
     background-image: linear-gradient(0deg, #c1c1c1 1px, transparent 1px),
         linear-gradient(90deg, #c1c1c1 1px, transparent 1px);
-    background-size: 145px 60px;
+    background-size: 145px 80px;
 }
-
+  
 .marked-entry {
     padding: 0 1.5em;
     border-radius: 0.8em 0.3em;

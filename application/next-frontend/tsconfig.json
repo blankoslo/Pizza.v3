@@ -17,7 +17,8 @@
         "paths": {
             "@/*": ["./src/*"],
             "Admin/*": ["./src/Admin/*"],
-            "Landing/*": ["./src/Landing/*"]
+            "Landing/*": ["./src/Landing/*"],
+            "Shared/*": ["./src/Shared/*"],
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -97,6 +97,7 @@ class TestGetHandlerSuit:
             'team_id': slack_organization.team_id,
             'app_id': slack_organization.app_id,
             'bot_user_id': slack_organization.bot_user_id,
+            'channel_id': slack_organization.channel_id,
             'access_token': slack_organization.access_token
         }
 

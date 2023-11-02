@@ -36,6 +36,8 @@ class BotApi:
         )
 
     def join_channel(self, slack_client, team_id, channel_id=None):
+        new_installation = channel_id is None
+
         # Get default channel if non is given
         if channel_id is None:
             default_channel = slack_client.get_default_channel()
@@ -50,14 +52,36 @@ class BotApi:
         join_success = slack_client.join_channel(channel_id)
         # If we were unable to join the channel
         if not join_success:
-            self.logger.error("Was unable to join channel %s", channel_id)
-            return
-
+            self.logger.error("Was unable to join channel %s in team: %s", channel_id, team_id)
+            return None
+        
         # Send a rpc message to set the channel
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
 
         if not set_channel_response['success']:
+            self.send_slack_message(
+                channel_id=channel_id,
+                text=self.translator.translate("pizzaChannelError"),
+                slack_client=slack_client
+            )
+            self.logger.error("Was unable to join channel %s", channel_id)
+            # Leave the channel we joined after sending the error message to slack
+            leave_success = slack_client.leave_channel(channel_id)
             return None
+    
+        # If there are scheduled events
+        elif not new_installation and 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
+            self.send_slack_message(
+                channel_id=channel_id,
+                text=self.translator.translate(
+                    "pizzaChannelErrorScheduledEvents", 
+                    count=set_channel_response['scheduled_events_count']
+                ),
+                slack_client=slack_client
+            )
+            leave_success = slack_client.leave_channel(channel_id)
+            return None
+        
 
         # Leave channel if old and new channel isnt the same
         # they can be the same if someone reinstall the app
@@ -67,8 +91,61 @@ class BotApi:
             if not leave_success:
                 self.logger.error("Was unable to leave channel %s", channel_id)
 
-        # return channel
         return channel_id
+    
+    def handle_user_left_channel(self, team_id, user_id, channel_id, slack_client):
+        slack_installation = self.client.get_slack_installation(team_id=team_id)
+        if slack_installation is None or 'channel_id' not in slack_installation:
+            self.logger.error("Failed to get slack installation for team %s", team_id)
+            return
+        if slack_installation['channel_id'] != channel_id:
+            return
+        
+        scheduled_events = self.client.get_scheduled_events_for_user(team_id=team_id, user_id=user_id)
+        if scheduled_events == False:
+            self.logger.error("Failed to get scheduled events for user %s", user_id)
+            return
+        
+        self.logger.info(f"User {user_id} left channel in organization {team_id}")
+
+        # set non active
+        user_to_update = {
+            'id': user_id,
+            'team_id': team_id,
+            'active': False
+        }
+
+        self.client.update_slack_users(slack_users=[user_to_update])
+        
+        # Respond to invited events
+        for scheduled_event in scheduled_events:
+            rsvp = scheduled_event['responded']
+            success = False
+            if rsvp == RSVP.not_attending:
+                continue
+            elif rsvp == RSVP.attending:
+                success = self.withdraw_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+            elif rsvp == RSVP.unanswered:
+                success = self.decline_invitation(event_id=scheduled_event['event_id'], slack_id=user_id)
+                
+            if success:
+                # TODO: fix that ts is overwritten by event handler from bakend on RSVP updated. 
+                self.send_pizza_invited_but_left_channel(
+                    channel_id=scheduled_event['slack_message_channel'], 
+                    event_id=scheduled_event['event_id'], 
+                    ts=scheduled_event['slack_message_ts'], 
+                    slack_client=slack_client, 
+                    prev_answer=rsvp
+                )
+            else:
+                self.logger.error("Failed to decline invitation after leaving channel for user %s", user_id)
+                
+        # Send message to user that they no longer will be invited to events
+        self.send_slack_message(
+            channel_id=scheduled_event['slack_message_channel'],
+            text=self.translator.translate("userLeftPizzaChannel"),
+            slack_client=slack_client
+        )
 
     def invite_multiple_if_needed(self):
         events = self.client.invite_multiple_if_needed()
@@ -259,10 +336,10 @@ class BotApi:
         )
 
     def accept_invitation(self, event_id, slack_id):
-        self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.attending)
+        return self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.attending)
 
     def decline_invitation(self, event_id, slack_id):
-        self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.not_attending)
+        return self.update_invitation_answer(slack_id=slack_id, event_id=event_id, answer=RSVP.not_attending)
 
     def withdraw_invitation(self, event_id, slack_id):
         return self.client.withdraw_invitation(event_id=event_id, slack_id=slack_id)
@@ -278,11 +355,18 @@ class BotApi:
         for slack_organization in slack_organizations:
             self.sync_users_from_organization(team_id=slack_organization['team_id'], bot_token=slack_organization['bot_token'])
 
+    # This updates all users on all user for all organizations, regardless if they are in the channel or not. This wont scale
+    # TODO: optimize this. Might need another message to the backend to get active users and see if the list has changed
     def sync_users_from_organization(self, team_id, bot_token):
+        installation_info = self.client.get_slack_installation(team_id=team_id)
+        if installation_info is None or 'channel_id' not in installation_info:
+            self.logger.error("Failed to sync users in workspace %s" % team_id)
+            return
+        channel_id = installation_info['channel_id']
         slack_client = SlackApi(token=bot_token)
-        all_slack_users = slack_client.get_slack_users()
-        slack_users = slack_client.get_real_users(all_slack_users)
-        response = self.client.update_slack_user(slack_users)
+        
+        users_to_update = slack_client.get_users_to_update_by_channel(channel_id=channel_id)
+        response = self.client.update_slack_users(users_to_update)
 
         updated_users = response['updated_users']
         for user in updated_users:
@@ -589,4 +673,21 @@ class BotApi:
             }
         ]
         blocks = old_blocks + new_blocks
+        return slack_client.update_slack_message(channel_id=channel_id, ts=ts, blocks=blocks)
+    
+
+    def send_pizza_invited_but_left_channel(self, channel_id, ts, slack_client, event_id, prev_answer: RSVP):
+        self.logger.info('user left and sent message of widthdrawal for %s, %s' % (channel_id, event_id))
+        invitation_message = slack_client.get_slack_message(channel_id, ts)
+        blocks = invitation_message["blocks"][0:3]
+        new_blocks = [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": self.translator.translate("invitedButLeftChannelWithdrawn") if prev_answer == RSVP.attending else self.translator.translate("invitedButLeftChannelUnanswered")
+                }
+            }
+        ]
+        blocks = blocks + new_blocks
         return slack_client.update_slack_message(channel_id=channel_id, ts=ts, blocks=blocks)

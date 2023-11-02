@@ -14,6 +14,42 @@ class SlackApi:
             raise ValueError("Either 'client' or 'token' must be provided.")
         self.logger = injector.get(logging.Logger)
 
+    # Returns a list of users in the workspace, 
+    # with their active status updated.
+    def get_users_to_update_by_channel(self, channel_id):
+        # list of user ids in channel
+        members = self.get_channel_users(channel_id=channel_id)
+        
+        # list of full user info in workspace
+        full_users = self.get_slack_users()
+        users_to_update = self.get_real_users(full_users)
+
+        for user in users_to_update:
+            user["active"] = user["id"] in members
+            user["email"] = user["profile"]["email"]
+
+        return users_to_update
+
+
+    def get_channel_users(self, channel_id: str) -> list[str]:
+        first_page = self.client.conversations_members(channel=channel_id)
+
+        if not first_page["ok"]:
+            self.logger(first_page["error"])
+            return []
+
+        members = first_page["members"]
+
+        # Continue to loop over pages to find the default channel
+        next_cursor = first_page["response_metadata"]["next_cursor"]
+        while next_cursor != "":
+            page = self.client.conversations_list(cursor=next_cursor)
+            next_cursor = page["response_metadata"]["next_cursor"]
+
+            members = members.extend(page["members"])
+
+        return members
+
     def get_slack_users(self):
         first_page = self.client.users_list()
 
@@ -34,7 +70,9 @@ class SlackApi:
         return members
 
     def get_real_users(self, all_users):
-        return [u for u in all_users if not u['deleted'] and not u['is_bot'] and not u['is_restricted'] and not u['name'] == "slackbot"] # type : list
+        # 'is_restricted': is multichannel guest.
+        # 'is_ultra_restricted': is singlechannel guest.
+        return [u for u in all_users if not u['deleted'] and not u['is_bot'] and not u['name'] == "slackbot"] # type : list
 
     def send_slack_message(self, channel_id, text=None, blocks=None, thread_ts=None):
         return self.client.chat_postMessage(

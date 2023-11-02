@@ -30,4 +30,4 @@ jobs:
         run: npm ci
       - name: Build
         working-directory: application/frontend
-        run: npm run build
+        run: npm run build:production

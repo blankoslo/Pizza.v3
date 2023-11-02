@@ -2,12 +2,14 @@ from app.services.broker.handlers.message_handler import MessageHandler
 
 from app.services.broker.schemas.get_unanswered_invitations import GetUnansweredInvitationsResponseSchema, GetUnansweredInvitationsDataSchema
 from app.services.broker.schemas.get_invited_unanswered_user_ids import GetInvitedUnansweredUserIdsResponseSchema
+from app.services.broker.schemas.get_scheduled_events_for_user import GetScheduledEventsForUserRequestSchema, GetScheduledEventsForUserResponseSchema
 from app.services.broker.schemas.get_slack_installation import GetSlackInstallationRequestSchema, GetSlackInstallationResponseSchema
 from app.services.broker.schemas.get_slack_organizations import GetSlackOrganizationsResponseSchema
 
 from app.services.invitation_service import InvitationService
 from app.services.slack_organization_service import SlackOrganizationService
 from app.services.slack_user_service import SlackUserService
+from app.services.event_service import EventService
 from app.services.injector import injector
 
 from app.models.enums import RSVP
@@ -71,6 +73,25 @@ def get_invited_unanswered_user_ids():
 
     return {'user_ids': response_data}
 
+@MessageHandler.handle('get_scheduled_events_for_user', incoming_schema=GetScheduledEventsForUserRequestSchema, outgoing_schema = GetScheduledEventsForUserResponseSchema)
+def get_scheduled_events_for_user(request: dict):
+    event_service = injector.get(EventService)
+    events = event_service.get_scheduled_events_for_user(request['user_id'], request['team_id'])
+    response_data = []
+    for event in events:
+        data = {
+            "event_id": event.id,
+            "restaurant_id": event.restaurant_id,
+            "time": event.time.isoformat(),
+            "responded": event.rsvp,
+            "event_finalized": event.finalized,
+            "slack_message_channel": event.slack_message_channel,
+            "slack_message_ts": event.slack_message_ts,
+        }
+        response_data.append(data)
+
+    return {'events': response_data}
+
 
 @MessageHandler.handle('get_slack_installation', incoming_schema = GetSlackInstallationRequestSchema, outgoing_schema = GetSlackInstallationResponseSchema)
 def get_slack_installation(request: dict):
@@ -81,7 +102,8 @@ def get_slack_installation(request: dict):
         'team_id': slack_organization.team_id,
         'app_id': slack_organization.app_id,
         'bot_user_id': slack_organization.bot_user_id,
-        'access_token': slack_organization.access_token
+        'access_token': slack_organization.access_token,
+        'channel_id': slack_organization.channel_id,
     }
 
     if slack_organization.team_name:

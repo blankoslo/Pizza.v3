@@ -2,6 +2,7 @@ import Image from 'next/image'
 import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg'
 import { AddToSlackButton } from './components/AddToSlackButton'
 import { clientsideApiUri } from '@/api/endpoints'
+import { LoginButton } from '@/Shared/components/LoginButton'
 
 const Header = () => {
     const addToSlack = async () => {
@@ -20,6 +21,7 @@ const Header = () => {
                 <div>
                     <button className="p-4 font-bold hover:bg-gray-300">About us</button>
                 </div>
+                <LoginButton />
                 <AddToSlackButton onClick={addToSlack} />
             </nav>
         </>

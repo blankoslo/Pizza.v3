@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Queens Condensed Trial Medium';
+    src: url('../../public/fonts/QueensCondensedTrial-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Queens Condensed Trial Regular';
+    src: url('../../public/fonts/QueensCondensedTrial-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

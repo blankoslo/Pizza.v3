@@ -31,7 +31,7 @@ const useRestaurants = () => {
                 {
                     populateCache: true,
                     rollbackOnError: true,
-                    revalidate: false,
+                    revalidate: true,
                 },
             )
         } catch (e) {

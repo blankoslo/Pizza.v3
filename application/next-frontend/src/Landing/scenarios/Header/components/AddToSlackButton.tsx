@@ -8,7 +8,7 @@ const AddToSlackButton = ({ onClick }: { onClick: () => void }) => {
             onClick={onClick}
         >
             <Image src={SlackLogoBlack} width={30} alt="-" />
-            <span>{'Get Started'}</span>
+            <span>{'Add to Slack'}</span>
             <span>{'>'}</span>
         </button>
     )

@@ -3,7 +3,7 @@ import Hello from '@/Landing/assets/illustrations/hello.svg'
 
 const FirstPage = () => {
     return (
-        <div className="flex h-fit justify-center bg-teal-400 pb-12">
+        <div className="flex h-fit justify-center bg-green-secondary pb-12">
             <div className="flex w-4/5">
                 <div className="flex w-1/2 flex-col">
                     <div className="mb-5 font-spaceGrotesk text-6xl leading-[4rem] text-gray-900">
