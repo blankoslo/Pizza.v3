@@ -40,9 +40,7 @@ const Events = () => {
                     meridiem={meridiem}
                 />
             )}
-            <div className="mb-10 mt-[11.7rem] italic text-green-primary">
-                {upcomingEventsMessage(futureEvents.length)}
-            </div>
+            <div className="mb-8 mt-16 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
         </CardComponent>
     )
 }
