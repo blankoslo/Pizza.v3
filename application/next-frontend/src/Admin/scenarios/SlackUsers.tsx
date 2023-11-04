@@ -1,24 +1,37 @@
 import { CardComponent } from 'Admin/components/CardComponent'
-import { useSlackUsers } from '@/api/useSlackUsers'
+import { useCurrentChannel } from '@/api/useCurrentChannel'
+import { SlackUser } from '@/api/useSlackUsers'
+
+const numUsersInChannel = (users: SlackUser[]) => {
+    if (users.length === 0) return 'No users in channel'
+    if (users.length === 1) return '1 user in channel'
+    return `${users.length} users in channel`
+}
 
 const SlackUsers = () => {
-    const { data, isLoading, error } = useSlackUsers()
+    const { data, isLoading, error } = useCurrentChannel()
+
+    const channelName = data?.channel_name
+    const channelMembers = data?.users.filter((user) => user.active) ?? []
 
     return (
         <CardComponent title="People">
-            {isLoading
-                ? 'Loading...'
-                : error
-                ? `Failed to load users due to the following error: ${error?.info.msg}`
-                : !data || data.length == 0
-                ? 'No users found.'
-                : data
-                      .filter((slackUser) => slackUser.active) // filter users based of the active property
-                      .map((slackUser) => (
-                          <div key={slackUser.slack_id} className="flex items-center justify-between py-2">
-                              <p>{slackUser.current_username}</p>
-                          </div>
-                      ))}
+            {isLoading ? (
+                'Loading...'
+            ) : error ? (
+                `Failed to load channel info due to the following error: ${error?.info.msg}`
+            ) : !data || channelName === undefined ? (
+                <div className="mt-5 break-keep font-workSans">
+                    No slack channel has been set for the PizzaBot. Please use the command
+                    <b>/set&#8209;pizza&#8209;channel</b> in your preferred slack-channel to set.
+                </div>
+            ) : (
+                <div className="mt-5 flex flex-col font-workSans">
+                    <h2 className="font-semibold italic text-green-primary">Slack Channel:</h2>
+                    <span className="text-2xl font-semibold leading-10">#{channelName}</span>
+                    <span className="mt-4">{numUsersInChannel(channelMembers)}</span>
+                </div>
+            )}
         </CardComponent>
     )
 }

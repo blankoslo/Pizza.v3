@@ -11,7 +11,7 @@ const CardComponent = ({
     children?: React.ReactNode
 }) => {
     return (
-        <div className={'w-[25rem] bg-yellow p-4 shadow-2xl'}>
+        <div className={'min-h-[16rem] w-[25rem] bg-yellow p-4 shadow-2xl'}>
             <div className="flex justify-between">
                 <h5 className="mb-2 ml-6 pt-3 font-queensRegular text-3xl font-semibold text-green-primary">{title}</h5>
 
