@@ -49,9 +49,12 @@ class SlackChannel(views.MethodView):
         count, slack_users = slack_user_service.get(filters={"slack_organization_id": current_user.slack_organization_id})
         returned_users = [
             {
-                "id": user.slack_id,
+                "slack_id": user.slack_id,
                 "current_username": user.current_username,
                 "active": user.active,
+                "priority": user.priority,
+                "email": user.email,
+                "first_seen": user.first_seen,
             } for user in slack_users
         ]
     
