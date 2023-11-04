@@ -12,10 +12,10 @@ const InvitationsStatus = ({ invitations }: { invitations: ApiInvitation[] }) =>
     )
 
     return (
-        <div className="flex flex-col font-workSans">
-            <span className="">{responses.accepted} Accepted </span>
-            <span className="">{responses.waiting} Waiting </span>
-            <span className="">{responses.declined} Declined </span>
+        <div className="flex flex-col gap-1 font-workSans">
+            <span className="tabular-nums">{responses.accepted} Accepted </span>
+            <span className="tabular-nums">{responses.waiting} Waiting </span>
+            <span className="tabular-nums">{responses.declined} Declined </span>
         </div>
     )
 }
