@@ -89,7 +89,7 @@ const EventCalendar = () => {
 
     const renderRow = (remainingDays: number[], startIndex: number, endIndex: number) => {
         return (
-            <tr className="text-center align-top font-extralight">
+            <tr key={remainingDays.length} className="text-center align-top font-extralight">
                 {Array(7)
                     .fill(null)
                     .map((_, dayOfWeek) => {
@@ -121,26 +121,27 @@ const EventCalendar = () => {
                                     }`
 
                                 return today >= currentTomorrow ? (
-                                    <td className={styling}>{day}</td>
+                                    <td key={`${currentToday}${currentTomorrow.toISOString()}`} className={styling}>
+                                        {day}
+                                    </td>
                                 ) : (
-                                    <>
-                                        <td
-                                            className={styling}
-                                            onClick={() => {
-                                                setModalData({
-                                                    eventId: eventId,
-                                                    selectedDate: currentToday,
-                                                    event: eventObject,
-                                                })
-                                                openModal()
-                                            }}
-                                        >
-                                            {day}
-                                            {eventId != -1 && (
-                                                <Image className="mx-auto" src={image} width={43} alt="pizza" />
-                                            )}
-                                        </td>
-                                    </>
+                                    <td
+                                        className={styling}
+                                        key={`${currentToday}${currentTomorrow.toISOString()}`}
+                                        onClick={() => {
+                                            setModalData({
+                                                eventId: eventId,
+                                                selectedDate: currentToday,
+                                                event: eventObject,
+                                            })
+                                            openModal()
+                                        }}
+                                    >
+                                        {day}
+                                        {eventId != -1 && (
+                                            <Image className="mx-auto" src={image} width={43} alt="pizza" />
+                                        )}
+                                    </td>
                                 )
                             }
                         }
