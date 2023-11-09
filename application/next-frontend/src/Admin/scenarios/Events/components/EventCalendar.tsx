@@ -111,7 +111,7 @@ const EventCalendar = () => {
 
                                 // Styling
                                 const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
-                                const styling = `h-[3.75rem] w-[4.15rem] border border-primary text-dark
+                                const styling = `h-[3.75rem] w-[4.15rem] border text-dark
                                     ${
                                         today >= currentTomorrow
                                             ? 'opacity-50'
@@ -145,7 +145,7 @@ const EventCalendar = () => {
                                 )
                             }
                         }
-                        return <td className="h-[3.75rem] w-[4.15rem] border border-green-primary" key={dayOfWeek} />
+                        return <td className="h-[3.75rem] w-[4.15rem] border" key={dayOfWeek} />
                     })}
             </tr>
         )
