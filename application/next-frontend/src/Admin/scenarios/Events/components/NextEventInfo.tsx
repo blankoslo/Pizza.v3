@@ -1,3 +1,4 @@
+import { useHover } from '@/Admin/context/HoverContext'
 import { ApiInvitation, useInvitations } from '@/api/useInvitations'
 
 const InvitationsStatus = ({ invitations }: { invitations: ApiInvitation[] }) => {
@@ -35,16 +36,22 @@ const NextEventInfo = ({
 }) => {
     const { data, error, isLoading } = useInvitations(event_id)
 
+    const { isHovered } = useHover()
+
     return (
         <div className="mt-5 flex flex-col">
-            <div className="italic text-green-primary">Next event:</div>
-            <h3 className="text-2xl font-semibold leading-10">{resturantName}</h3>
-            <h4 className="text-xl font-semibold leading-10">{date}</h4>
-            <span className="text-xl font-semibold leading-7">
+            <div className="pl-3 italic text-green-primary">Next event:</div>
+            <h3 className="text-2xl font-semibold leading-10">
+                <span className={`px-3 ${isHovered ? 'marked-entry-card' : ''}`}>{resturantName}</span>
+            </h3>
+            <h4 className="text-xl font-semibold leading-10">
+                <span className={`px-3 ${isHovered ? 'marked-entry-card' : ''}`}>{date}</span>
+            </h4>
+            <span className="pl-3 text-xl font-semibold leading-7">
                 {time} <span className="italic">{meridiem}</span>
             </span>
 
-            <div className="mt-8">
+            <div className="mt-8 pl-3">
                 <h4 className="italic text-green-primary">Invitation status: </h4>
 
                 {isLoading ? (

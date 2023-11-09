@@ -3,6 +3,7 @@ import { useEvents } from '@/api/useEvents'
 import { ApiEvent } from '@/api/useEvents'
 import { format } from 'date-fns'
 import { NextEventInfo } from './components/NextEventInfo'
+import { HoverProvider } from '@/Shared/context/HoverContext'
 
 const futureDate = (date: ApiEvent) => new Date(date.time) >= new Date()
 
@@ -39,7 +40,7 @@ const Events = () => {
                     meridiem={meridiem}
                 />
             )}
-            <div className="mb-8 mt-16 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
+            <div className="mb-8 mt-16 pl-4 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
         </CardComponentWrapper>
     )
 }

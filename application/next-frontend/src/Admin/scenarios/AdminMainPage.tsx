@@ -37,9 +37,7 @@ const AdminMainPage = () => {
                     {calendarShowing ? (
                         <div ref={focusedAreaRef} className="pointer-events-auto flex">
                             <div className="grow" onClick={() => setCalendarShowing(false)}>
-                                <HoverProvider>
-                                    <Events />
-                                </HoverProvider>
+                                <Events />
                             </div>
                             <div className="z-10 flex-none">
                                 <EventCalendar />
@@ -47,13 +45,13 @@ const AdminMainPage = () => {
                         </div>
                     ) : (
                         <div onClick={() => setCalendarShowing(true)}>
-                            <HoverProvider>
-                                <Events />
-                            </HoverProvider>
+                            <Events />
                         </div>
                     )}
                     <div className={`${calendarShowing ? 'opacity-25' : ''} `}>
-                        <SlackChannel />
+                        <HoverProvider>
+                            <SlackChannel />
+                        </HoverProvider>
                     </div>
                 </div>
                 <div className={`z-0 w-1/3 p-4 [&>*]:mb-14 ${calendarShowing ? 'opacity-25' : ''} `}>
