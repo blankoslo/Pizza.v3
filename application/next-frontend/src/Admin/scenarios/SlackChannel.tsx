@@ -8,14 +8,14 @@ const numUsersInChannel = (users: SlackUser[]) => {
     return `${users.length} users in channel`
 }
 
-const SlackUsers = () => {
+const SlackChannel = () => {
     const { data, isLoading, error } = useCurrentChannel()
 
     const channelName = data?.channel_name
     const channelMembers = data?.users.filter((user) => user.active) ?? []
 
     return (
-        <CardComponent title="People">
+        <CardComponent title="Slack Channel">
             {isLoading ? (
                 'Loading...'
             ) : error ? (
@@ -36,4 +36,4 @@ const SlackUsers = () => {
     )
 }
 
-export { SlackUsers }
+export { SlackChannel }
