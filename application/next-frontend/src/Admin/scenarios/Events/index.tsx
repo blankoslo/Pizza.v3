@@ -3,6 +3,7 @@ import { CardComponent } from 'Admin/components/CardComponent'
 import { useEvents } from '@/api/useEvents'
 import { ApiEvent } from '@/api/useEvents'
 import { format } from 'date-fns'
+import { NextEventInfo } from './components/NextEventInfo'
 
 const futureDate = (date: ApiEvent) => new Date(date.time) >= new Date()
 
@@ -20,7 +21,7 @@ const upcomingEventsMessage = (eventsNumber: number) =>
 const Events = () => {
     const { data, isLoading, error } = useEvents()
     const futureEvents = data?.filter(futureDate).sort(differenceBetweenTwoDates) ?? []
-    const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : [0, 0]
+    const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : ['0', '0']
 
     return (
         <CardComponent title="Events" modalContent={<CreatePizzaEventCard selectedDate={new Date()} />}>
@@ -31,18 +32,15 @@ const Events = () => {
             ) : !data || !data.length || !futureEvents.length ? (
                 ''
             ) : (
-                <div className="mt-5 flex flex-col">
-                    <div className="italic text-green-primary">Next event:</div>
-                    <h3 className="text-2xl font-semibold leading-10">{futureEvents[0].restaurant?.name}</h3>
-                    <h4 className="text-xl font-semibold leading-10">{eventDateFormatted(futureEvents[0].time)}</h4>
-                    <span className="text-xl font-semibold leading-7">
-                        {time} <span className="italic">{meridiem}</span>
-                    </span>
-                </div>
+                <NextEventInfo
+                    event_id={futureEvents[0].id}
+                    resturantName={futureEvents[0].restaurant?.name ?? 'Cannot find resturant name'}
+                    date={eventDateFormatted(futureEvents[0].time)}
+                    time={time}
+                    meridiem={meridiem}
+                />
             )}
-            <div className="mb-10 mt-[11.7rem] italic text-green-primary">
-                {upcomingEventsMessage(futureEvents.length)}
-            </div>
+            <div className="mb-8 mt-16 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
         </CardComponent>
     )
 }
