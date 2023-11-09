@@ -27,7 +27,6 @@ const SlackChannel = () => {
                 </div>
             ) : (
                 <div className="mt-5 flex flex-col font-workSans">
-                    <h2 className="font-semibold italic text-green-primary">Slack Channel:</h2>
                     <span className="text-2xl font-semibold leading-10">#{channelName}</span>
                     <span className="mt-4">{numUsersInChannel(channelMembers)}</span>
                 </div>
