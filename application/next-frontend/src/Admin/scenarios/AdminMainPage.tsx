@@ -64,7 +64,9 @@ const AdminMainPage = () => {
                         width={450}
                         alt="pizza bot mascot with four arms"
                     />
-                    <Restaurants />
+                    <HoverProvider>
+                        <Restaurants />
+                    </HoverProvider>
                 </div>
             </div>
         </div>
