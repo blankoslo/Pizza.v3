@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
-import { useModal } from 'Admin/context/ModelContext'
+import { useModal } from '@/context/ModelContext'
 import { useRestaurants, Restaurant } from '@/api/useRestaurants'
 import Button from '@/Admin/components/Button'
 

@@ -1,11 +1,11 @@
-import { CardComponent } from 'Admin/components/CardComponent'
+import { CardComponentWrapper } from '@/Admin/components/CardComponentWrapper'
 import { useSlackUsers } from '@/api/useSlackUsers'
 
 const SlackUsers = () => {
     const { data, isLoading, error } = useSlackUsers()
 
     return (
-        <CardComponent title="People">
+        <CardComponentWrapper title="People">
             {isLoading
                 ? 'Loading...'
                 : error
@@ -19,7 +19,7 @@ const SlackUsers = () => {
                               <p>{slackUser.current_username}</p>
                           </div>
                       ))}
-        </CardComponent>
+        </CardComponentWrapper>
     )
 }
 

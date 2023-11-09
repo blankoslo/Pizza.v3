@@ -1,12 +1,23 @@
 import { NewRestaurantModal } from './components/NewRestaurantModal'
-import { CardComponent } from 'Admin/components/CardComponent'
+import { CardComponentWrapper } from '@/Admin/components/CardComponentWrapper'
+import { ModalWrapper } from '@/Shared/modal/ModalWrapper'
 import { useRestaurants } from '@/api/useRestaurants'
+import { useModal } from '@/context/ModelContext'
 
 const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()
+    const { openModal } = useModal()
+
+    const handleOnClickEditIcon = () => {
+        openModal(
+            <ModalWrapper>
+                <NewRestaurantModal />
+            </ModalWrapper>,
+        )
+    }
 
     return (
-        <CardComponent title="Places" modalContent={<NewRestaurantModal />}>
+        <CardComponentWrapper title="Places" editIcon onClickEditIcon={handleOnClickEditIcon}>
             <div className="scrollable-wrapper mb-2 pb-8">
                 <div className="scrollable-list">
                     {isLoading
@@ -23,7 +34,7 @@ const Restaurants = () => {
                           ))}
                 </div>
             </div>
-        </CardComponent>
+        </CardComponentWrapper>
     )
 }
 

@@ -1,4 +1,4 @@
-import { useModal } from 'Admin/context/ModelContext'
+import { useModal } from '@/context/ModelContext'
 import { ApiEventPost, useEvents } from '@/api/useEvents'
 import { useRestaurants } from '@/api/useRestaurants'
 
