@@ -47,8 +47,9 @@ class Stripe(views.MethodView):
                 expand=['data.product']
             )
 
+
+            #TODO: fix this 
             pizzabot_premium_ref = [ref for ref in prices if ref["product"]["name"] == "PizzaBot Premium"][0]
-            # print(prices)
 
             checkout_session = None
 
@@ -91,89 +92,179 @@ class Stripe(views.MethodView):
 @bp.route('/webhook')
 class Stripe(views.MethodView):
     def post(self):
-        logger = injector.get(logging.Logger)
+        logger: logging.Logger = injector.get(logging.Logger)
         stripe_service: StripeCustomerService = injector.get(StripeCustomerService)
-        payload = request.data
-        event = None
+        
+        def get_event():
+            payload = request.data
 
-        # TODO: this is not secure, enforce secret for production
-        endpoint_secret = None #app.config['STRIPE_WEBHOOK_SECRET']
+            # TODO: this is not secure, enforce secret for production
+            endpoint_secret = None # injector.get_config('STRIPE_WEBHOOK_SECRET')  
+
+            if endpoint_secret:
+                sig_header = request.headers.get('STRIPE_SIGNATURE')
+                try:
+                    return stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+                except ValueError as e:
+                    logger.error(f'Failed to parse Stripe webhook: {e}')
+                except stripe.error.SignatureVerificationError as e:
+                    logger.warning(f'Stripe webhook signature verification failed: {e}')
+            else:
+                return json.loads(payload)
+
+            return None
+
+        def handle_session_completed(event):
+            session = event['data']['object']
+            client_reference_id = session.get('client_reference_id')
+            stripe_customer_id = session.get('customer')
+
+            if client_reference_id:
+                return create_new_user(client_reference_id, stripe_customer_id)
+            else:
+                return update_existing_user(stripe_customer_id)
+
+        def create_new_user(client_reference_id, stripe_customer_id):
+            new_user = StripeCustomer(
+                slack_organization_id=client_reference_id,
+                customer_id=stripe_customer_id,
+                is_premium=True,
+            )
+            try:
+                stripe_service.add(data=new_user, team_id=client_reference_id)
+                logger.info(f'Created new premium user, stripe_customer_id: {stripe_customer_id}')
+                return True
+            except Exception as e:
+                logger.error(f'Error creating new user: {e}')
+                return False
+
+        def update_existing_user(stripe_customer_id):
+            stripe_customer: StripeCustomer = stripe_service.get_by_customer_id(stripe_customer_id)
+            if not stripe_customer:
+                logger.error(f'No customer found with ID: {stripe_customer_id}')
+                return False
+            
+            stripe_customer_dict = stripe_customer.__dict__
+            stripe_customer_dict["is_premium"] = True
+            stripe_customer_dict.pop("_sa_instance_state", None)
+
+            try:
+                stripe_service.update(data=stripe_customer_dict, customer_id=stripe_customer.customer_id)
+                logger.info(f'Updated user to premium status, stripe_customer_id: {stripe_customer.customer_id}')
+                return True
+            except Exception as e:
+                logger.error(f'Error updating user: {e}')
+                return False
+
+        def handle_subscription_deleted(event):
+            subscription = event['data']['object']
+            customer_id = subscription.get('customer')
+            try:
+                stripe_service.update({"is_premium": False}, customer_id)
+                logger.info(f'Updated user to non-premium status: {customer_id}')
+                return True
+            except Exception as e:
+                logger.error(f'Error updating subscription status: {e}')
+                return False
+
+
+        event = get_event()
+
+        if not event:
+            return jsonify({'success': False, 'message': 'Event processing failed'}), 400
 
         try:
-            # Only verify the event if there is an endpoint secret defined
-            # Otherwise use the basic event deserialized with json
-            if endpoint_secret:
-                sig_header = request.headers['STRIPE_SIGNATURE']
-                
-                event = stripe.Webhook.construct_event(
-                    payload, sig_header, endpoint_secret
-                )
-            else:
-                event = json.loads(payload)
-
-
-            # Handle the event
-            if event['type'] in ["checkout.session.completed"]:
-                session = event['data']["object"]
-                client_reference_id = session.get("client_reference_id")
-                stripe_customer_id = session.get("customer")
-
-                print("session: ", session)
-                print("client_ref_id: ", client_reference_id)
-                print("stripe customer: ", stripe_customer_id)
-
-                
-                #new user
-                if client_reference_id:
-                    schema_data = {
-                        "slack_organization_id": client_reference_id,
-                        "customer_id": stripe_customer_id,
-                        "is_premium": True,
-                    }
-                    new_user = StripeCustomer(**schema_data)
-
-                    t = stripe_service.add(data=new_user, team_id=client_reference_id)
-
-                else: 
-                    #update status on existing user that renews subscription
-                    stripe_customer:StripeCustomer = stripe_service.get_by_customer_id(stripe_customer_id)
-
-                    stripe_customer.is_premium = True
-
-                    stripe_customer_dict = stripe_customer.__dict__
-                    print(type(stripe_customer_dict))
-                    print(stripe_customer_dict)
-
-                    stripe_customer_dict.pop("_sa_instance_state", None)
-                    # stripe_customer_dict['created_at'] = stripe_customer_dict['created_at'].isoformat()
-
-                    try:
-                        t = stripe_service.update(data=stripe_customer_dict, customer_id=stripe_customer.customer_id)
-                    except Exception as e:
-                        print(e)
-
-
+            if event['type'] == 'checkout.session.completed':
+                success = handle_session_completed(event)
             elif event['type'] == 'customer.subscription.deleted':
+                success = handle_subscription_deleted(event)
+            else:
+                success = True
+                logger.debug(f'Unhandled event type {event["type"]}')
+
+            return jsonify({'success': success}), 200 if success else 500
+        
+        except Exception as e:
+            logger.error(f'Error handling Stripe webhook: {e}')
+            return jsonify({'success': False}), 500
+
+        
+
+
+
+
+
+        # # TODO: this is not secure, enforce secret for production
+        # endpoint_secret = None #app.config['STRIPE_WEBHOOK_SECRET']
+
+        # try:
+        #     # Only verify the event if there is an endpoint secret defined
+        #     # Otherwise use the basic event deserialized with json
+        #     if endpoint_secret:
+        #         sig_header = request.headers['STRIPE_SIGNATURE']
                 
-                #update is_premium to false for given user
+        #         event = stripe.Webhook.construct_event(
+        #             payload, sig_header, endpoint_secret
+        #         )
+        #     else:
+        #         event = json.loads(payload)
 
-                subscription = event['data']['object']
-                customer_id = subscription.get('customer')
 
-                t = stripe_service.update({"is_premium": True}, stripe_customer)
+        #     # Handle the event
+        #     if event['type'] in ["checkout.session.completed"]:
+        #         session = event['data']["object"]
+        #         client_reference_id = session.get("client_reference_id")
+        #         stripe_customer_id = session.get("customer")
 
-
-            else:    
-                print('Unhandled event type {}'.format(event['type']))
-
-            return jsonify(success=True)
                 
-        except ValueError as e:
-            # Invalid payload
-            logger.error('Failed to parse stripe webhook. ' + str(e))
-            return jsonify(success=False)
-        except stripe.error.SignatureVerificationError as e:
-            # Invalid signature
-            logger.warn('⚠️ Stripe webhook signature verification failed.' + str(e))
-            return jsonify(success=False)
+        #         #new user
+        #         if client_reference_id:
+        #             schema_data = {
+        #                 "slack_organization_id": client_reference_id,
+        #                 "customer_id": stripe_customer_id,
+        #                 "is_premium": True,
+        #             }
+        #             new_user = StripeCustomer(**schema_data)
+
+        #             t = stripe_service.add(data=new_user, team_id=client_reference_id)
+
+        #         else: 
+        #             #update status on existing user that renews subscription
+        #             stripe_customer: StripeCustomer = stripe_service.get_by_customer_id(stripe_customer_id)
+
+        #             stripe_customer_dict = stripe_customer.__dict__
+        #             stripe_customer_dict["is_premium"] = True
+        #             stripe_customer_dict.pop("_sa_instance_state", None)
+
+        #             try:
+        #                 stripe_service.update(data=stripe_customer_dict, customer_id=stripe_customer.customer_id)
+        #                 logger.info(f"Created active subscription for {stripe_customer_dict}")
+        #             except Exception as e:
+        #                 success = False
+        #                 logger.error(e)
+
+ 
+        #     elif event['type'] == 'customer.subscription.deleted':
                 
+        #         #update is_premium to false for given user
+
+        #         subscription = event['data']['object']
+        #         customer_id = subscription.get('customer')
+
+        #         t = stripe_service.update({"is_premium": False}, stripe_customer)
+
+
+        #     else:    
+        #         print('Unhandled event type {}'.format(event['type']))
+
+        #     return jsonify(success)
+                
+        # except ValueError as e:
+        #     # Invalid payload
+        #     logger.error('Failed to parse stripe webhook. ' + str(e))
+        #     return jsonify(success=False)
+        # except stripe.error.SignatureVerificationError as e:
+        #     # Invalid signature
+        #     logger.warn('⚠️ Stripe webhook signature verification failed.' + str(e))
+        #     return jsonify(success=False)
+     
