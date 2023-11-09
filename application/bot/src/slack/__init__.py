@@ -155,6 +155,7 @@ def handle_rsvp_withdraw(ack, body, context):
 
 
 def handle_file_share(event, say, token, client):
+    return
     translator = injector.get(Translator)
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:
@@ -168,7 +169,7 @@ def handle_file_share(event, say, token, client):
                 b64 = base64.b64encode(r.content).decode('utf-8')
                 payload = {
                     'file': 'data:image;base64,%s' % b64,
-                    'upload_preset': 'blank.pizza.v2',
+                    'upload_preset': 'blank.pizza.v2', # TODO: Change to own preset based on pizzabot v3 and org
                     'tags': ','.join(['pizza', file['user_team']])
                 }
                 r2 = requests.post(
