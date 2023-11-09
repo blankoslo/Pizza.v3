@@ -4,9 +4,7 @@ from app.models.stripe_customer_schema import StripeCustomerSchema
 
 class StripeCustomerService:
     def get_by_customer_id(self, customer_id):
-        to_return = StripeCustomerRepository.get_by_id(customer_id)
-        print(to_return.slack_organization_id)
-        return to_return
+        return StripeCustomerRepository.get_by_id(customer_id)
     
     def get_by_team_id(self, team_id):
         count, stripe_customers = StripeCustomerRepository.get(filters = {'slack_organization_id': team_id})
