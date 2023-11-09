@@ -1,11 +1,11 @@
 import { Events } from 'Admin/scenarios/Events'
 import { Restaurants } from 'Admin/scenarios/Restaurants'
-import { SlackChannel } from '@/Admin/scenarios/SlackChannel'
+import { SlackChannel } from 'Admin/scenarios/SlackChannel'
 import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
-import { EventCalendar } from './Events/components/EventCalendar'
+import { EventCalendar } from 'Admin/scenarios/Events/components/EventCalendar'
 import { useState, useRef, useEffect } from 'react'
-import { ModalProvider } from '../context/ModelContext'
+import { ModalProvider } from 'Admin/context/ModelContext'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
