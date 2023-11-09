@@ -34,8 +34,9 @@ class SlackChannel(views.MethodView):
         if channel_id is None:
             return jsonify({"channel_name": None, "users": [] })
 
+        # Request channel info from slack
         request_url = f'https://slack.com/api/conversations.info?channel={channel_id}'
-        res = requests.post(request_url, headers={
+        res = requests.get(request_url, headers={
             "Content-Type": "application/json",
             "Authorization": f"Bearer {org.access_token}"
         }).json()
