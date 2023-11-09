@@ -52,7 +52,7 @@ const NextEventInfo = ({
                 ) : error ? (
                     `Failed to load invitation status. ${error?.info.msg}`
                 ) : !data || !data.length ? (
-                    'Invitations has not been sent yet.'
+                    'Invitations have not been sent yet.'
                 ) : (
                     <InvitationsStatus invitations={data} />
                 )}
