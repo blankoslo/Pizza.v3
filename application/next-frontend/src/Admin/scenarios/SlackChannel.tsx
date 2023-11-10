@@ -1,6 +1,7 @@
 import { useCurrentChannel } from '@/api/useCurrentChannel'
 import { SlackUser } from '@/api/useSlackUsers'
 import { CardComponentWrapper } from '../components/CardComponentWrapper'
+import { useHover } from '@/Shared/context/HoverContext'
 
 const numUsersInChannel = (users: SlackUser[]) => {
     if (users.length === 0) return 'No users in channel'
@@ -13,6 +14,7 @@ const SlackChannel = () => {
 
     const channelName = data?.channel_name
     const channelMembers = data?.users.filter((user) => user.active) ?? []
+    const { isHovered } = useHover()
 
     return (
         <CardComponentWrapper title="Slack Channel">
@@ -27,8 +29,10 @@ const SlackChannel = () => {
                 </div>
             ) : (
                 <div className="mt-5 flex flex-col font-workSans">
-                    <span className="text-2xl font-semibold leading-10">#{channelName}</span>
-                    <span className="mt-4">{numUsersInChannel(channelMembers)}</span>
+                    <span className="text-2xl font-semibold leading-10">
+                        <span className={`px-3 ${isHovered ? 'marked-entry-card' : ''}`}>#{channelName}</span>
+                    </span>
+                    <span className="mt-4 pl-3">{numUsersInChannel(channelMembers)}</span>
                 </div>
             )}
         </CardComponentWrapper>
