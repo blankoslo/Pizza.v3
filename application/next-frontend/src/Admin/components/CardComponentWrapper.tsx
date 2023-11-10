@@ -15,9 +15,9 @@ const CardComponentWrapper = ({
     const { setHovered, isHovered } = useHover()
     return (
         <div
-            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 ${isHovered ? 'hover:shadow-custom' : ''} ${
-                addIcon ? 'hover:cursor-pointer' : ''
-            }`}
+            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 shadow-2xl shadow-amber-950/25 ${
+                isHovered ? 'hover:shadow-custom' : ''
+            } ${addIcon ? 'hover:cursor-pointer' : ''}`}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             onClick={onClickCard}

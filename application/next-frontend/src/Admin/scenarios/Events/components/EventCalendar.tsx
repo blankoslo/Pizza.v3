@@ -9,6 +9,8 @@ import { ApiEvent, useEvents } from '@/api/useEvents'
 import { useModal } from 'Shared/context/ModalContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
+import { useRestaurants } from '@/api/useRestaurants'
+import { sendToast } from '@/Shared/toast/defaultToast'
 
 type ModalData = {
     eventId: string | number
@@ -43,15 +45,20 @@ const EventCalendar = () => {
     const { data } = useEvents()
 
     const { openModal } = useModal()
+    const { data: restaurantData } = useRestaurants()
 
     const handleOnClick = (modalData: ModalData) => {
-        openModal(
-            modalData.event ? (
-                <DeletePizzaEventCard event={modalData.event} />
-            ) : (
-                <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
-            ),
-        )
+        if ((!restaurantData || !restaurantData.length) && !modalData.event) {
+            sendToast('You need to have added restaurants in order to create events.')
+        } else {
+            openModal(
+                modalData.event ? (
+                    <DeletePizzaEventCard event={modalData.event} />
+                ) : (
+                    <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
+                ),
+            )
+        }
     }
 
     const eventsForCurrentMonth = useMemo(() => {
