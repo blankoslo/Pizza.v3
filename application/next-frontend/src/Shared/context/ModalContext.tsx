@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
-import { ModalWrapper } from '@/Shared/modal/ModalWrapper'
+import { ModalWrapper } from 'Shared/modal/ModalWrapper'
 
 interface ModalContextType {
     isModalOpen: boolean

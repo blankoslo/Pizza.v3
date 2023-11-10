@@ -1,5 +1,5 @@
 import Button from '@/Admin/components/Button'
-import { useModal } from '@/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 import { useEvents, ApiEvent } from '@/api/useEvents'
 import ordinal from 'ordinal'
 

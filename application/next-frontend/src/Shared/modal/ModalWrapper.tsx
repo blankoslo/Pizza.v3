@@ -1,4 +1,4 @@
-import { useModal } from '@/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 
 interface ModalWrapperProps {
     children: React.ReactNode

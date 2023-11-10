@@ -1,7 +1,7 @@
 import { NewRestaurantModal } from './components/NewRestaurantModal'
-import { CardComponentWrapper } from '@/Admin/components/CardComponentWrapper'
+import { CardComponentWrapper } from 'Admin/components/CardComponentWrapper'
 import { useRestaurants } from '@/api/useRestaurants'
-import { useModal } from '@/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 
 const Restaurants = () => {
     const { data, isLoading, error, delRestaurant } = useRestaurants()

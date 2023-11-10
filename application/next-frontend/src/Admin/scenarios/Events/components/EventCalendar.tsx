@@ -6,7 +6,7 @@ import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
 import { ApiEvent, useEvents } from '@/api/useEvents'
-import { useModal } from '@/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
 

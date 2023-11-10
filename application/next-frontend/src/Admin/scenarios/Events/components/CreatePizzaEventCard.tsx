@@ -1,11 +1,11 @@
-import { useModal } from '@/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 import { ApiEventPost, useEvents } from '@/api/useEvents'
 import { useRestaurants } from '@/api/useRestaurants'
 
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import Button from '@/Admin/components/Button'
+import Button from 'Admin/components/Button'
 
 const validationSchema = z.object({
     eventDate: z.number(),
