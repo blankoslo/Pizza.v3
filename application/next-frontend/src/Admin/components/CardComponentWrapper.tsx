@@ -15,7 +15,8 @@ const CardComponentWrapper = ({
     const { setHovered, isHovered } = useHover()
     return (
         <div
-            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 hover:shadow-custom ${
+            // shadow-[#6A5412]
+            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 shadow-2xl shadow-amber-950/25 hover:shadow-custom ${
                 addIcon ? 'hover:cursor-pointer' : ''
             }`}
             onMouseEnter={() => setHovered(true)}
