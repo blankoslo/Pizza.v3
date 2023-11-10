@@ -3,7 +3,9 @@ import { useEvents } from '@/api/useEvents'
 import { ApiEvent } from '@/api/useEvents'
 import { format } from 'date-fns'
 import { NextEventInfo } from './components/NextEventInfo'
-import { HoverProvider } from '@/Shared/context/HoverContext'
+import { useEffect, useState } from 'react'
+import { useModal } from 'Shared/context/ModalContext'
+import { EventModal } from 'Admin/scenarios/Events/components/EventCalendarModal'
 
 const futureDate = (date: ApiEvent) => new Date(date.time) >= new Date()
 
@@ -22,10 +24,22 @@ const Events = () => {
     const { data, isLoading, error } = useEvents()
     const futureEvents = data?.filter(futureDate).sort(differenceBetweenTwoDates) ?? []
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : ['0', '0']
+    const [eventModalShowing, setEventModalShowing] = useState<boolean>(false)
+    const { openModal, modalStack } = useModal()
+
+    const handleOnEventClick = () => {
+        setEventModalShowing(true)
+        openModal(<EventModal />)
+    }
+    useEffect(() => {
+        if (modalStack.length == 0) {
+            setEventModalShowing(false)
+        }
+    }, [modalStack])
 
     return (
-        <HoverProvider>
-            <CardComponentWrapper title="Events" addIcon>
+        <div className={`${eventModalShowing ? 'opacity-0' : ''}`}>
+            <CardComponentWrapper title="Events" addIcon onClickCard={handleOnEventClick}>
                 {isLoading ? (
                     'Loading...'
                 ) : error ? (
@@ -45,7 +59,7 @@ const Events = () => {
                     {upcomingEventsMessage(futureEvents.length)}
                 </div>
             </CardComponentWrapper>
-        </HoverProvider>
+        </div>
     )
 }
 
