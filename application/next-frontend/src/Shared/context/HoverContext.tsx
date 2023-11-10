@@ -15,8 +15,22 @@ export const useHover = () => {
     return context
 }
 
-export const HoverProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isHovered, setHovered] = useState(false)
+export const HoverProvider = ({
+    children,
+    isInsideModal = false,
+}: {
+    children: React.ReactNode
+    isInsideModal?: boolean
+}) => {
+    const [isHovered, setLocalHovered] = useState(false)
+
+    const setHovered = (hover: boolean) => {
+        if (isInsideModal) {
+            setLocalHovered(false)
+        } else {
+            setLocalHovered(hover)
+        }
+    }
 
     return <HoverContext.Provider value={{ isHovered, setHovered }}>{children}</HoverContext.Provider>
 }
