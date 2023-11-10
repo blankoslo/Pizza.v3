@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from 'Admin/scenarios/Events/components/EventCalendar'
 import { useState, useEffect } from 'react'
+import { HoverProvider } from 'Shared/context/HoverContext'
 import { useModal } from 'Shared/context/ModalContext'
 
 const AdminMainPage = () => {
@@ -43,7 +44,9 @@ const AdminMainPage = () => {
                     <div onClick={handleOnEventClick} className={`${eventModalShowing ? 'opacity-0' : ''}`}>
                         <Events />
                     </div>
-                    <SlackChannel />
+                    <HoverProvider>
+                        <SlackChannel />
+                    </HoverProvider>
                 </div>
                 <div className={`z-0 w-1/3 p-4 [&>*]:mb-14`}>
                     <Image
@@ -53,7 +56,9 @@ const AdminMainPage = () => {
                         width={450}
                         alt="pizza bot mascot with four arms"
                     />
-                    <Restaurants />
+                    <HoverProvider>
+                        <Restaurants />
+                    </HoverProvider>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ import { useEvents } from '@/api/useEvents'
 import { ApiEvent } from '@/api/useEvents'
 import { format } from 'date-fns'
 import { NextEventInfo } from './components/NextEventInfo'
+import { HoverProvider } from '@/Shared/context/HoverContext'
 
 const futureDate = (date: ApiEvent) => new Date(date.time) >= new Date()
 
@@ -23,24 +24,28 @@ const Events = () => {
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : ['0', '0']
 
     return (
-        <CardComponentWrapper title="Events" editIcon>
-            {isLoading ? (
-                'Loading...'
-            ) : error ? (
-                `Failed to load events. ${error?.info.msg}`
-            ) : !data || !data.length || !futureEvents.length ? (
-                ''
-            ) : (
-                <NextEventInfo
-                    event_id={futureEvents[0].id}
-                    resturantName={futureEvents[0].restaurant?.name ?? 'Cannot find resturant name'}
-                    date={eventDateFormatted(futureEvents[0].time)}
-                    time={time}
-                    meridiem={meridiem}
-                />
-            )}
-            <div className="mb-8 mt-16 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
-        </CardComponentWrapper>
+        <HoverProvider>
+            <CardComponentWrapper title="Events" addIcon>
+                {isLoading ? (
+                    'Loading...'
+                ) : error ? (
+                    `Failed to load events. ${error?.info.msg}`
+                ) : !data || !data.length || !futureEvents.length ? (
+                    ''
+                ) : (
+                    <NextEventInfo
+                        event_id={futureEvents[0].id}
+                        resturantName={futureEvents[0].restaurant?.name ?? 'Cannot find resturant name'}
+                        date={eventDateFormatted(futureEvents[0].time)}
+                        time={time}
+                        meridiem={meridiem}
+                    />
+                )}
+                <div className="mb-8 mt-16 pl-4 italic text-green-primary">
+                    {upcomingEventsMessage(futureEvents.length)}
+                </div>
+            </CardComponentWrapper>
+        </HoverProvider>
     )
 }
 
