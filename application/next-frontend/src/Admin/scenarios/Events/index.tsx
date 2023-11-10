@@ -25,7 +25,7 @@ const Events = () => {
 
     return (
         <HoverProvider>
-            <CardComponentWrapper title="Events" editIcon>
+            <CardComponentWrapper title="Events" addIcon>
                 {isLoading ? (
                     'Loading...'
                 ) : error ? (

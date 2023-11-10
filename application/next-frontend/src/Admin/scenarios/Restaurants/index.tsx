@@ -14,7 +14,7 @@ const Restaurants = () => {
     }
 
     return (
-        <CardComponentWrapper title="Places" editIcon onClickCard={handleOnClickCard}>
+        <CardComponentWrapper title="Places" addIcon onClickCard={handleOnClickCard}>
             <div className="mb-2">
                 {isLoading ? (
                     'Loading...'
