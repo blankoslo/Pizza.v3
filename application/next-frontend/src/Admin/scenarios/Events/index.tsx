@@ -24,6 +24,7 @@ const Events = () => {
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : ['0', '0']
 
     return (
+        <HoverProvider>
         <CardComponentWrapper title="Events" editIcon>
             {isLoading ? (
                 'Loading...'
@@ -42,6 +43,7 @@ const Events = () => {
             )}
             <div className="mb-8 mt-16 pl-4 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
         </CardComponentWrapper>
+        </HoverProvider>
     )
 }
 

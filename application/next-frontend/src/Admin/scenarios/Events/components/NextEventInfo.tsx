@@ -1,4 +1,4 @@
-import { useHover } from '@/Admin/context/HoverContext'
+import { useHover } from '@/Shared/context/HoverContext'
 import { ApiInvitation, useInvitations } from '@/api/useInvitations'
 
 const InvitationsStatus = ({ invitations }: { invitations: ApiInvitation[] }) => {
