@@ -28,7 +28,7 @@ const CardComponentWrapper = ({
             <div className="mx-auto flex w-[86%] justify-center border border-dashed border-green-primary" />
             <div className="ml-5 px-6 py-3 text-dark">{children}</div>
             {addIcon && (
-                <div className={`absolute bottom-5 right-5 ${isHovered ? 'visible': 'hidden'}`}>
+                <div className={`absolute bottom-5 right-5 ${isHovered ? 'visible' : 'hidden'}`}>
                     <span className="marked-entry-card flex cursor-pointer items-center px-3 font-workSans italic text-green-primary">
                         Add <span className="pl-3 text-2xl font-semibold">+</span>
                     </span>
