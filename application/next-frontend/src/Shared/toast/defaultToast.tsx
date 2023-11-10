@@ -2,7 +2,7 @@ import { toast } from 'react-hot-toast'
 
 const ToastComponent = (text: string) => {
     return (
-        <div className="flex flex-col items-center justify-center p-6 bg-green-light rounded-[8px] w-auto min-w-[550px]">
+        <div className="flex w-auto min-w-[550px] flex-col items-center justify-center rounded-[8px] bg-green-light p-6">
             <span>{text}</span>
         </div>
     )
