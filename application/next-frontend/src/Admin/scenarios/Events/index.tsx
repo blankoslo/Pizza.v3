@@ -25,24 +25,26 @@ const Events = () => {
 
     return (
         <HoverProvider>
-        <CardComponentWrapper title="Events" editIcon>
-            {isLoading ? (
-                'Loading...'
-            ) : error ? (
-                `Failed to load events. ${error?.info.msg}`
-            ) : !data || !data.length || !futureEvents.length ? (
-                ''
-            ) : (
-                <NextEventInfo
-                    event_id={futureEvents[0].id}
-                    resturantName={futureEvents[0].restaurant?.name ?? 'Cannot find resturant name'}
-                    date={eventDateFormatted(futureEvents[0].time)}
-                    time={time}
-                    meridiem={meridiem}
-                />
-            )}
-            <div className="mb-8 mt-16 pl-4 italic text-green-primary">{upcomingEventsMessage(futureEvents.length)}</div>
-        </CardComponentWrapper>
+            <CardComponentWrapper title="Events" editIcon>
+                {isLoading ? (
+                    'Loading...'
+                ) : error ? (
+                    `Failed to load events. ${error?.info.msg}`
+                ) : !data || !data.length || !futureEvents.length ? (
+                    ''
+                ) : (
+                    <NextEventInfo
+                        event_id={futureEvents[0].id}
+                        resturantName={futureEvents[0].restaurant?.name ?? 'Cannot find resturant name'}
+                        date={eventDateFormatted(futureEvents[0].time)}
+                        time={time}
+                        meridiem={meridiem}
+                    />
+                )}
+                <div className="mb-8 mt-16 pl-4 italic text-green-primary">
+                    {upcomingEventsMessage(futureEvents.length)}
+                </div>
+            </CardComponentWrapper>
         </HoverProvider>
     )
 }

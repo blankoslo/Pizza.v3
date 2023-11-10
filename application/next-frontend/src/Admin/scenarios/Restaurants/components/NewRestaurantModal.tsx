@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useModal } from 'Shared/context/ModalContext'
 import { useRestaurants, Restaurant } from '@/api/useRestaurants'
-import Button from 'Admin/components/Button'
 
 const validationSchema = z.object({
     name: z.string().min(1, { message: 'Name required' }),

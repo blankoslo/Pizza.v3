@@ -5,7 +5,7 @@ import { useModal } from 'Shared/context/ModalContext'
 import { useHover } from 'Shared/context/HoverContext'
 
 const Restaurants = () => {
-    const { data, isLoading, error, delRestaurant } = useRestaurants()
+    const { data, isLoading, error } = useRestaurants()
     const { openModal } = useModal()
     const { isHovered } = useHover()
 
