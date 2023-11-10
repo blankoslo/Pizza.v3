@@ -40,8 +40,8 @@ const Navbar = () => {
             {navbarEntries.map((entry) => (
                 <button
                     key={entry.key}
-                    className={`marked-entry relative mr-3 inline-block w-[8rem] transition-all duration-500
-                    ease-in-out hover:translate-x-1 hover:font-bold hover:text-green-primary
+                    className={`marked-entry relative mr-3 inline-block w-[8rem] transition-all duration-300
+                    ease-in-out hover:text-green-primary
                     ${entry.key == activeIndex ? 'font-bold text-green-primary underline underline-offset-2' : ''}`}
                     onClick={() => setActiveIndex(entry.key)}
                 >
