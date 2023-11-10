@@ -38,9 +38,8 @@
         linear-gradient(90deg, #c1c1c1 1px, transparent 1px);
     background-size: 145px 80px;
 }
-  
-.marked-entry {
-    padding: 0 1.5em;
+
+.marked-entry:hover {
     border-radius: 0.8em 0.3em;
     background: transparent;
     background-image: linear-gradient(

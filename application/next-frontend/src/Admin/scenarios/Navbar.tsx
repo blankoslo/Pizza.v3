@@ -6,7 +6,7 @@ import PizzaBotLogo from 'Admin/assets/PizzaBotLogo.svg'
 
 const Navbar = () => {
     const router = useRouter()
-    const [markedIndex, setMarkedIndex] = useState(2)
+    const [activeIndex, setActiveIndex] = useState(2)
 
     const logout = async () => {
         try {
@@ -40,10 +40,10 @@ const Navbar = () => {
             {navbarEntries.map((entry) => (
                 <button
                     key={entry.key}
-                    className={`mr-10 hover:font-bold hover:text-green-primary ${
-                        entry.key == markedIndex ? 'marked-entry font-bold text-green-primary' : ''
-                    }`}
-                    onClick={() => setMarkedIndex(entry.key)}
+                    className={`marked-entry relative mr-3 inline-block w-[8rem] transition-all duration-500
+                    ease-in-out hover:translate-x-1 hover:font-bold hover:text-green-primary
+                    ${entry.key == activeIndex ? 'font-bold text-green-primary underline underline-offset-2' : ''}`}
+                    onClick={() => setActiveIndex(entry.key)}
                 >
                     {entry.text}
                 </button>
