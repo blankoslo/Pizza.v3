@@ -8,13 +8,16 @@ import { z } from 'zod'
 import Button from '@/Admin/components/Button'
 
 const formatTimeInput = (inp: string) => {
+    // Remove non digit chars
     const formatted = inp.replace(/[^\d]/g, '')
 
     return formatted.slice(0, 2)
 }
 
 const formatTimeInpOnBlur = (inp: string, min: number, max: number) => {
+    // Remove non digit chars
     let formatted = inp.replace(/[^\d]/g, '')
+
     if (formatted == '') formatted = '00'
     let timeNumber = parseInt(formatted)
 
@@ -41,11 +44,7 @@ type FormData = {
     participants?: number
 }
 
-type Props = {
-    selectedDate: Date
-}
-
-const CreatePizzaEventCard = ({ selectedDate }: Props) => {
+const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
     const months = Array.from({ length: 12 }, (_, i) => {
         return new Date(0, i).toLocaleString('en-UK', { month: 'long' })
     })
@@ -88,9 +87,6 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
             parseInt(event.eventMinute),
         )
 
-        console.log('Resturant', restaurant)
-        console.log('newEvent', newEventDate)
-
         if (restaurant) {
             const event: ApiEventPost = {
                 time: newEventDate.toISOString(),
@@ -116,12 +112,11 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-green-primary"></div> */}
-                    <div className=" mt-12 grid grid-cols-2 gap-4 font-workSans">
-                        <h3 className="w-full text-left">Date:</h3>
-                        <h3 className="w-full text-left">Time</h3>
+                    <div className=" mt-12 grid grid-cols-2 gap-4 font-workSans font-semibold">
+                        <h3 className="w-full text-left text-2xl italic">Date:</h3>
+                        <h3 className="w-full text-left text-2xl italic">Time:</h3>
 
-                        <div className="flex flex-row items-center text-4xl font-semibold">
+                        <div className="flex flex-row items-center text-4xl">
                             <span className=" text-green-tertiary">{date}.</span>
                             <span className="pl-4 text-green-tertiary">{months[currentMonth]}</span>
                             <Controller
@@ -140,7 +135,7 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                             />
                         </div>
 
-                        <div className="flex flex-row items-center gap-1 text-4xl font-semibold">
+                        <div className="flex flex-row items-center gap-1 text-4xl">
                             <div className="border-2 border-dotted border-[#94DBB6]">
                                 <Controller
                                     name="eventHour"
