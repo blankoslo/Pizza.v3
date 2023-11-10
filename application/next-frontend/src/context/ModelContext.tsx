@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import { ModalWrapper } from '@/Shared/modal/ModalWrapper'
 
 interface ModalContextType {
     isModalOpen: boolean
@@ -34,7 +35,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <ModalContext.Provider value={{ isModalOpen, modalContent, openModal, closeModal }}>
             {children}
-            {isModalOpen && modalContent}
+            {isModalOpen && <ModalWrapper>{modalContent}</ModalWrapper>}
         </ModalContext.Provider>
     )
 }

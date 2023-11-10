@@ -9,7 +9,6 @@ import { ApiEvent, useEvents } from '@/api/useEvents'
 import { useModal } from '@/context/ModelContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
-import { ModalWrapper } from '@/Shared/modal/ModalWrapper'
 
 type ModalData = {
     eventId: string | number
@@ -47,13 +46,11 @@ const EventCalendar = () => {
 
     const handleOnClick = (modalData: ModalData) => {
         openModal(
-            <ModalWrapper>
-                {modalData.event ? (
-                    <DeletePizzaEventCard event={modalData.event} />
-                ) : (
-                    <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
-                )}
-            </ModalWrapper>,
+            modalData.event ? (
+                <DeletePizzaEventCard event={modalData.event} />
+            ) : (
+                <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
+            ),
         )
     }
 
