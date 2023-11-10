@@ -9,12 +9,12 @@ const Restaurants = () => {
     const { openModal } = useModal()
     const { isHovered } = useHover()
 
-    const handleOnClickEditIcon = () => {
+    const handleOnClickCard = () => {
         openModal(<NewRestaurantModal />)
     }
 
     return (
-        <CardComponentWrapper title="Places" editIcon onClickEditIcon={handleOnClickEditIcon}>
+        <CardComponentWrapper title="Places" editIcon onClickCard={handleOnClickCard}>
             <div className="mb-2">
                 {isLoading ? (
                     'Loading...'
