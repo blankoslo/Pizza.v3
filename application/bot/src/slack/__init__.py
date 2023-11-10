@@ -209,7 +209,7 @@ def handle_some_command(ack, body, say, context):
 
         ba.send_slack_message(
             channel_id=message_channel_id,
-            text=translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/login"), 
+            text=translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/admin"), 
             slack_client=client
         )
 
