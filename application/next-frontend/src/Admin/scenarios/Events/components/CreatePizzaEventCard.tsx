@@ -116,21 +116,20 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-green-primary">
-                        <span className="w-[63%] text-left">Date:</span>
-                        <span className="w-[37%] text-left">Time</span>
-                    </div>
+                    {/* <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-green-primary"></div> */}
+                    <div className=" mt-12 grid grid-cols-2 gap-4 font-workSans">
+                        <h3 className="w-full text-left">Date:</h3>
+                        <h3 className="w-full text-left">Time</h3>
 
-                    <div className="mt-5 flex font-workSans text-4xl font-semibold ">
-                        <span className="p-3 text-green-tertiary">{date}.</span>
-                        <Controller
-                            name="eventDate"
-                            control={control}
-                            defaultValue={date}
-                            render={() => <input type="hidden" value={date} />}
-                        />
-                        <div className="ml-2 flex w-[17rem] justify-center p-3">
-                            <span className="text-green-tertiary">{months[currentMonth]}</span>
+                        <div className="flex flex-row items-center text-4xl font-semibold">
+                            <span className=" text-green-tertiary">{date}.</span>
+                            <span className="pl-4 text-green-tertiary">{months[currentMonth]}</span>
+                            <Controller
+                                name="eventDate"
+                                control={control}
+                                defaultValue={date}
+                                render={() => <input type="hidden" value={date} />}
+                            />
                             <Controller
                                 name="eventMonth"
                                 control={control}
@@ -140,10 +139,9 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                                 )}
                             />
                         </div>
-                        {/* [&>*]:border-2 [&>*]:border-dotted [&>*]:border-[#94DBB6] */}
-                        {/* <span className="ml-6 p-3 text-green-quaternary">{time}</span> */}
-                        <div className="flex flex-row items-center gap-1">
-                            <div className="w-fit border-2 border-dotted border-[#94DBB6]">
+
+                        <div className="flex flex-row items-center gap-1 text-4xl font-semibold">
+                            <div className="border-2 border-dotted border-[#94DBB6]">
                                 <Controller
                                     name="eventHour"
                                     control={control}
@@ -166,7 +164,7 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                                 />
                             </div>
                             <span className="text-green-quaternary">:</span>
-                            <div className="w-fit border-2 border-dotted border-[#94DBB6]">
+                            <div className="border-2 border-dotted border-[#94DBB6]">
                                 <Controller
                                     name="eventMinute"
                                     control={control}
@@ -189,16 +187,17 @@ const CreatePizzaEventCard = ({ selectedDate }: Props) => {
                                 />
                             </div>
                         </div>
-                    </div>
-
-                    <div className="my-4 mt-14 flex justify-evenly">
-                        <Button
-                            onClick={() => closeModal()}
-                            text="Cancel"
-                            buttonStyle="secondary"
-                            className="w-[270px]"
-                        />
-                        <Button text="Create Event" buttonStyle="primary" className="w-[270px]" type="submit" />
+                        <div className="mt-8">
+                            <Button
+                                onClick={() => closeModal()}
+                                text="Cancel"
+                                buttonStyle="secondary"
+                                className="w-[270px]"
+                            />
+                        </div>
+                        <div className="mt-8">
+                            <Button text="Create Event" buttonStyle="primary" className="w-[270px]" type="submit" />
+                        </div>
                     </div>
                 </form>
             </FormProvider>
