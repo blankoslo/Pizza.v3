@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from 'Admin/scenarios/Events/components/EventCalendar'
 import { useState, useRef, useEffect } from 'react'
+import { HoverProvider } from 'Shared/context/HoverContext'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
@@ -48,7 +49,9 @@ const AdminMainPage = () => {
                         </div>
                     )}
                     <div className={`${calendarShowing ? 'opacity-25' : ''} `}>
-                        <SlackChannel />
+                        <HoverProvider>
+                            <SlackChannel />
+                        </HoverProvider>
                     </div>
                 </div>
                 <div className={`z-0 w-1/3 p-4 [&>*]:mb-14 ${calendarShowing ? 'opacity-25' : ''} `}>
@@ -59,7 +62,9 @@ const AdminMainPage = () => {
                         width={450}
                         alt="pizza bot mascot with four arms"
                     />
-                    <Restaurants />
+                    <HoverProvider>
+                        <Restaurants />
+                    </HoverProvider>
                 </div>
             </div>
         </div>
