@@ -215,7 +215,6 @@ const EventCalendar = () => {
                 toastOptions={{
                     style: {
                         padding: '28px 24px 28px 25px',
-
                         backgroundColor: '#EDFFF6',
                         borderRadius: '8px',
                         width: 'auto',
