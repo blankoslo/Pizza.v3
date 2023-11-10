@@ -2,8 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { ModalWrapper } from 'Shared/modal/ModalWrapper'
 
 interface ModalContextType {
-    isModalOpen: boolean
-    modalContent: null | React.ReactElement
+    modalStack: React.ReactElement[]
     openModal: (modalContent: React.ReactElement) => void
     closeModal: () => void
 }
@@ -19,23 +18,22 @@ export const useModal = () => {
 }
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [modalContent, setModalContent] = useState<React.ReactElement | null>(null)
+    const [modalStack, setModalStack] = useState<React.ReactElement[]>([])
 
     const openModal = (modalContent: React.ReactElement) => {
-        setIsModalOpen(true)
-        setModalContent(modalContent)
+        setModalStack((prevStack) => [...prevStack, modalContent])
     }
 
     const closeModal = () => {
-        setIsModalOpen(false)
-        setModalContent(null)
+        setModalStack((prevStack) => prevStack.slice(0, -1))
     }
 
     return (
-        <ModalContext.Provider value={{ isModalOpen, modalContent, openModal, closeModal }}>
+        <ModalContext.Provider value={{ modalStack, openModal, closeModal }}>
             {children}
-            {isModalOpen && <ModalWrapper>{modalContent}</ModalWrapper>}
+            {modalStack.map((modal, index) => (
+                <ModalWrapper key={index}>{modal}</ModalWrapper>
+            ))}
         </ModalContext.Provider>
     )
 }
