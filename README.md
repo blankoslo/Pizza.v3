@@ -26,9 +26,10 @@
 20. Click `Create new command`
 21. Fill in `/set-pizza-channel` under `command`, fill in `This sets the current channel as the pizza channel` under `Short Description`
 22. Click `save`
-23. Click `Basic Information` in the menu
-24. Under App Credentials, copy `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `SLACK_SIGNING_SECRET`
-25. You now have `SLACK_APP_TOKEN`, `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `SLACK_SIGNING_SECRET` which is needed in terraform or docker-compose
+23. Add another command `/pizzabot-admin-panel` under `command`, fill in `Link for administrating the pizzabot` under `Short Description`
+24. Click `Basic Information` in the menu
+25. Under App Credentials, copy `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `SLACK_SIGNING_SECRET`
+26. You now have `SLACK_APP_TOKEN`, `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `SLACK_SIGNING_SECRET` which is needed in terraform or docker-compose
 
 ## How to run the system
 
