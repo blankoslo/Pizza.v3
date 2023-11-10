@@ -6,9 +6,6 @@ import MascotHappy from 'Admin/assets/MascotHappy.svg'
 import { EventCalendar } from 'Admin/scenarios/Events/components/EventCalendar'
 import { useState, useRef, useEffect } from 'react'
 import { HoverProvider } from 'Shared/context/HoverContext'
-import Button from 'Admin/components/Button'
-import { sendToast } from '@/Shared/toast/defaultToast'
-import { Toaster } from 'react-hot-toast'
 
 const AdminMainPage = () => {
     const [calendarShowing, setCalendarShowing] = useState(false)
@@ -30,7 +27,6 @@ const AdminMainPage = () => {
 
     return (
         <div>
-            <Toaster />
             <div
                 className={`grid-background flex w-full justify-evenly pt-16 ${
                     calendarShowing ? 'pointer-events-none' : ''
@@ -71,7 +67,6 @@ const AdminMainPage = () => {
                     </HoverProvider>
                 </div>
             </div>
-            <Button buttonStyle="primary" text="toast" onClick={() => sendToast('Toast clicked again')} />
         </div>
     )
 }
