@@ -3,7 +3,12 @@ import '@/styles/reset.css'
 import '@/styles/fonts.css'
 import '@/styles/tailwindComposables.css'
 import type { AppProps } from 'next/app'
+import { ModalProvider } from 'Shared/context/ModalContext'
 
 export default function App({ Component, pageProps }: AppProps) {
-    return <Component {...pageProps} />
+    return (
+        <ModalProvider>
+            <Component {...pageProps} />
+        </ModalProvider>
+    )
 }

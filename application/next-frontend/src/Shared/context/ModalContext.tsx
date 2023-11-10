@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState } from 'react'
+import { ModalWrapper } from 'Shared/modal/ModalWrapper'
 
 interface ModalContextType {
     isModalOpen: boolean
-    openModal: () => void
+    modalContent: null | React.ReactElement
+    openModal: (modalContent: React.ReactElement) => void
     closeModal: () => void
 }
 
@@ -18,14 +20,22 @@ export const useModal = () => {
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [modalContent, setModalContent] = useState<React.ReactElement | null>(null)
 
-    const openModal = () => {
+    const openModal = (modalContent: React.ReactElement) => {
         setIsModalOpen(true)
+        setModalContent(modalContent)
     }
 
     const closeModal = () => {
         setIsModalOpen(false)
+        setModalContent(null)
     }
 
-    return <ModalContext.Provider value={{ isModalOpen, openModal, closeModal }}>{children}</ModalContext.Provider>
+    return (
+        <ModalContext.Provider value={{ isModalOpen, modalContent, openModal, closeModal }}>
+            {children}
+            {isModalOpen && <ModalWrapper>{modalContent}</ModalWrapper>}
+        </ModalContext.Provider>
+    )
 }

@@ -6,9 +6,8 @@ import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
 import PizzaRound from 'Admin/assets/pizza/PizzaRound.svg'
 import PizzaSlice from 'Admin/assets/pizza/PizzaSlice.svg'
 import { ApiEvent, useEvents } from '@/api/useEvents'
-import { useModal } from '@/Admin/context/ModelContext'
+import { useModal } from 'Shared/context/ModalContext'
 import { CreatePizzaEventCard } from './CreatePizzaEventCard'
-import { PizzaEventModal } from './PizzaEventModal'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
 
 type ModalData = {
@@ -43,8 +42,17 @@ const EventCalendar = () => {
     const today = new Date(fullDay.getFullYear(), fullDay.getMonth(), fullDay.getDate())
     const { data } = useEvents()
 
-    const [modalData, setModalData] = useState<ModalData>()
     const { openModal } = useModal()
+
+    const handleOnClick = (modalData: ModalData) => {
+        openModal(
+            modalData.event ? (
+                <DeletePizzaEventCard event={modalData.event} />
+            ) : (
+                <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
+            ),
+        )
+    }
 
     const eventsForCurrentMonth = useMemo(() => {
         const getEventsForCurrentMonth = () => {
@@ -129,12 +137,11 @@ const EventCalendar = () => {
                                         className={styling}
                                         key={`${currentToday}${currentTomorrow.toISOString()}`}
                                         onClick={() => {
-                                            setModalData({
+                                            handleOnClick({
                                                 eventId: eventId,
                                                 selectedDate: currentToday,
                                                 event: eventObject,
                                             })
-                                            openModal()
                                         }}
                                     >
                                         {day}
@@ -196,15 +203,6 @@ const EventCalendar = () => {
                 </thead>
                 <tbody>{renderMonth()}</tbody>
             </table>
-            {modalData && (
-                <PizzaEventModal {...modalData}>
-                    {modalData.event ? (
-                        <DeletePizzaEventCard event={modalData.event} />
-                    ) : (
-                        <CreatePizzaEventCard selectedDate={modalData.selectedDate} />
-                    )}
-                </PizzaEventModal>
-            )}
         </div>
     )
 }

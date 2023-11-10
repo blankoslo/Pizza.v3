@@ -1,6 +1,6 @@
-import { CardComponent } from 'Admin/components/CardComponent'
 import { useCurrentChannel } from '@/api/useCurrentChannel'
 import { SlackUser } from '@/api/useSlackUsers'
+import { CardComponentWrapper } from '../components/CardComponentWrapper'
 
 const numUsersInChannel = (users: SlackUser[]) => {
     if (users.length === 0) return 'No users in channel'
@@ -15,7 +15,7 @@ const SlackChannel = () => {
     const channelMembers = data?.users.filter((user) => user.active) ?? []
 
     return (
-        <CardComponent title="Slack Channel">
+        <CardComponentWrapper title="Slack Channel">
             {isLoading ? (
                 'Loading...'
             ) : error ? (
@@ -32,7 +32,7 @@ const SlackChannel = () => {
                     <span className="mt-4">{numUsersInChannel(channelMembers)}</span>
                 </div>
             )}
-        </CardComponent>
+        </CardComponentWrapper>
     )
 }
 
