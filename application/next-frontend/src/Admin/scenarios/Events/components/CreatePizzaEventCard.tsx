@@ -112,7 +112,7 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className=" mt-12 grid grid-cols-2 gap-4 font-workSans font-semibold">
+                    <div className="mt-12 grid grid-cols-2 gap-4 font-workSans font-semibold">
                         <h3 className="w-full text-left text-2xl italic">Date:</h3>
                         <h3 className="w-full text-left text-2xl italic">Time:</h3>
 
@@ -187,7 +187,7 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
                                 onClick={() => closeModal()}
                                 text="Cancel"
                                 buttonStyle="secondary"
-                                className="w-[270px]"
+                                className="w-[270px] hover:border-neutral hover:text-neutral"
                             />
                         </div>
                         <div className="mt-8">
