@@ -20,6 +20,9 @@ class SlackOrganizationService:
             self._delete_cloudinary_images_for_slack_organization(team_id=team_id, next_cursor=res['next_cursor'])
 
     def delete(self, team_id, enterprise_id=None):
+        if not cloudinary.config().cloud_name:
+            self.logger.warn("Cloudinary not configured. Skipping deletion of cloudinary images.")
+            return SlackOrganizationRepository.delete(id=team_id)
         try:
             self._delete_cloudinary_images_for_slack_organization(team_id=team_id)
             return SlackOrganizationRepository.delete(id=team_id)
