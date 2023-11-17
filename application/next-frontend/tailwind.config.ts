@@ -27,11 +27,11 @@ const config: Config = {
                 fuger: '#C1C1C1',
                 dark: '#303030',
                 green: {
-                    secondary: '#5FE09D',
                     primary: '#05793C',
+                    secondary: '#5FE09D',
                     tertiary: '#003F1E',
                     quaternary: '#004B24',
-                    light: '#EDFFF6',
+                    light: '#CFF6E2',
                 },
                 yellow: '#FFF8C1',
                 shade: '#6A5412',

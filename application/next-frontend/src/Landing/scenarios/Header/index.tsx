@@ -1,30 +1,15 @@
 import Image from 'next/image'
-import PizzaBotTitle from '@/Landing/assets/illustrations/PizzaBotTitle.svg'
-import { AddToSlackButton } from './components/AddToSlackButton'
-import { clientsideApiUri } from '@/api/endpoints'
+import PizzaBotLogo from '@/Landing/assets/illustrations/PizzaBotLogo.svg'
 import { LoginButton } from '@/Shared/components/LoginButton'
 
 const Header = () => {
-    const addToSlack = async () => {
-        const res = await fetch(clientsideApiUri + '/slack/install', { method: 'GET' }).then((res) => res.json())
-        const redirectURL = res.redirect_url
-
-        if (redirectURL) window.location.assign(redirectURL)
-    }
     return (
-        <>
-            <div className="header !static"></div>
-            <nav className="header flex flex-row items-center gap-8">
-                <div className="flex-1">
-                    <Image src={PizzaBotTitle} width={300} alt="Pizza Bot" />
-                </div>
-                <div>
-                    <button className="p-4 font-bold hover:bg-gray-300">About us</button>
-                </div>
-                <LoginButton />
-                <AddToSlackButton onClick={addToSlack} />
-            </nav>
-        </>
+        <div className="sticky top-0 flex w-full items-center gap-4 overflow-hidden bg-green-light py-4">
+            <div className="ml-16 flex-1">
+                <Image priority src={PizzaBotLogo} width={150} alt="pizza bot logo" />
+            </div>
+            <LoginButton />
+        </div>
     )
 }
 
