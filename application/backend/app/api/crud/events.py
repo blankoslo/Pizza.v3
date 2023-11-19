@@ -30,7 +30,6 @@ class Events(views.MethodView):
         new_event = event_service.add(data=new_data, team_id=current_user.slack_organization_id)
         if new_event is None:
             abort(400, message="Something went wrong.")
-        
         return new_event
 
 @bp.route("/<event_id>")
