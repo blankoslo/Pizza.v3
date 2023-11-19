@@ -197,6 +197,7 @@ def handle_some_command(ack, body, say, context):
                 text=translator.translate("pizzaChannelConfirm", channel_id=channel_id),
                 slack_client=client
             )
+            ba.sync_users_from_organization(team_id=team_id, bot_token=context["token"])
 
 @slack_app.command("/pizzabot-admin-panel")
 def handle_some_command(ack, body, say, context):
