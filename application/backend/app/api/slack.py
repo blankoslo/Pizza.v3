@@ -72,9 +72,24 @@ class Slack(views.MethodView):
 
         response = requests.post(url, data=data).json()
 
+        print("-----------------\nresponse: ", response)
+
         if not response['ok']:
             logger.error(response["error"])
             return abort(500)
+        
+        """ 
+        {'ok': True, 
+         'app_id': 'A05P76KCRC2', 
+         'authed_user': {'id': 'U05MHJEHRT8'}, 
+         'scope': 'channels:read,channels:history,channels:join,channels:manage,groups:read,chat:write,files:read,im:history,im:write,users:read,users:read.email,commands', 
+         'token_type': 'bot', 
+         'access_token': 'xoxb-5740709505204-5789298549634-o7zmgqeMwvjv1ovRvNu0UkEl', 
+         'bot_user_id': 'U05P78SG5JN', 
+         'team': {'id': 'T05MSLVEV60', 'name': 'stians testing workspace'}, 
+         'enterprise': None, 
+         'is_enterprise_install': False} 
+         """
 
         if response['is_enterprise_install']:
             logger.warn("NOT SUPPORTED: User tried to install app into enterprise workspace.")
@@ -95,7 +110,8 @@ class Slack(views.MethodView):
 
         BrokerService.publish("new_slack_organization_event", NewSlackOrganizationEventSchema().load({
             'team_id': schema_data['team_id'],
-            'bot_token': schema_data['access_token']
+            'bot_token': schema_data['access_token'],
+            'user_who_installed': response['authed_user']['id']
         }))
 
         return Response(status=200)
