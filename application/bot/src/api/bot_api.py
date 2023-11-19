@@ -56,7 +56,7 @@ class BotApi:
             self.logger.error("Was unable to join channel %s in team: %s", channel_id, team_id)
             return None
         
-        # Send a rpc message to set the channel
+        # Send a rpc message to set the channel in db
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
 
         old_channel = set_channel_response['old_channel_id'] if 'old_channel_id' in set_channel_response else None
@@ -362,10 +362,15 @@ class BotApi:
     # TODO: optimize this. Might need another message to the backend to get active users and see if the list has changed
     def sync_users_from_organization(self, team_id, bot_token):
         installation_info = self.client.get_slack_installation(team_id=team_id)
-        if installation_info is None or 'channel_id' not in installation_info:
+        if installation_info is None:
             self.logger.error("Failed to sync users in workspace %s" % team_id)
             return
-        channel_id = installation_info['channel_id']
+        
+        channel_id = installation_info['channel_id'] if 'channel_id' in installation_info else None
+        if channel_id is None:
+            self.logger.info("Cannot sync team %s, channel id not set" % team_id)
+            return
+
         slack_client = SlackApi(token=bot_token)
         
         users_to_update = slack_client.get_users_to_update_by_channel(channel_id=channel_id)

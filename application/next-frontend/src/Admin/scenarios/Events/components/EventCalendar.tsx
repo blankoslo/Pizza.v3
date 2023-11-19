@@ -11,6 +11,7 @@ import { CreatePizzaEventCard } from './CreatePizzaEventCard'
 import { DeletePizzaEventCard } from './DeletePizzaEventCard'
 import { useRestaurants } from '@/api/useRestaurants'
 import { sendToast } from '@/Shared/toast/defaultToast'
+import { useCurrentChannel } from '@/api/useCurrentChannel'
 
 type ModalData = {
     eventId: string | number
@@ -46,10 +47,13 @@ const EventCalendar = () => {
 
     const { openModal } = useModal()
     const { data: restaurantData } = useRestaurants()
+    const { data: currentChannelData } = useCurrentChannel()
 
     const handleOnClick = (modalData: ModalData) => {
         if ((!restaurantData || !restaurantData.length) && !modalData.event) {
             sendToast('You need to have added restaurants in order to create events.')
+        } else if (!currentChannelData || !currentChannelData.channel_id) {
+            sendToast('You need to have set a channel for the bot in order to create events.')
         } else {
             openModal(
                 modalData.event ? (

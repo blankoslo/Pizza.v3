@@ -3,6 +3,7 @@ import type { SlackUser } from './useSlackUsers'
 
 export type ApiCurrentChannelInfo = {
     channel_name: string
+    channel_id: string
     users: SlackUser[]
 }
 
