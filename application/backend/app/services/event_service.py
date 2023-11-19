@@ -92,7 +92,7 @@ class EventService:
         slack_org = SlackOrganizationRepository.get_by_id(team_id)
         # If channel_id is none, we cant update users about events
         if slack_org is None or slack_org.channel_id is None:
-            return {"channel_id": None}
+            return None
 
         restaurant = RestaurantRepository.get_by_id(data.restaurant_id)
 

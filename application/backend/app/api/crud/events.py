@@ -30,8 +30,7 @@ class Events(views.MethodView):
         new_event = event_service.add(data=new_data, team_id=current_user.slack_organization_id)
         if new_event is None:
             abort(400, message="Something went wrong.")
-        if "channel_id" in new_event and new_event["channel_id"] is None:
-            abort(400, message="Cant create event since the bot is not in a channel.")
+        
         return new_event
 
 @bp.route("/<event_id>")

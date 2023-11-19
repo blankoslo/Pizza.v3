@@ -32,7 +32,10 @@ class TestSlackSuit:
             },
             'app_id': 'dontCareAppId',
             'bot_user_id': 'dontCareUserId',
-            'access_token': 'dontCareAccessToken'
+            'access_token': 'dontCareAccessToken',
+            'authed_user': {
+                'id': 'dontCareAuthedUserId'
+            },
         }
 
         response = self.client.post('/api/slack/callback', method='post', json={'code': 'dontCareCode'})
