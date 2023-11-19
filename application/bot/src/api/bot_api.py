@@ -29,10 +29,10 @@ class BotApi:
     def __exit__(self, type, value, traceback):
         self.client.disconnect()
 
-    def welcome(self, slack_client, team_id):
-        channel_id = self.join_channel(slack_client=slack_client, team_id=team_id)
+    def welcome(self, slack_client, team_id, user_who_installed):
+        #channel_id = self.join_channel(slack_client=slack_client, team_id=team_id)
         self.send_slack_message(
-            channel_id=channel_id,
+            channel_id=user_who_installed,
             text=self.translator.translate("botWelcome"),
             slack_client=slack_client
         )
