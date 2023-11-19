@@ -16,13 +16,8 @@ const LoginButton = () => {
     }
 
     return (
-        <button
-            className="flex w-fit flex-row items-center justify-center gap-4 border-2 border-solid border-black bg-gray-50 p-2 font-bold hover:bg-gray-200"
-            onClick={loginRedirect}
-        >
-            <div className="flex h-8 items-center justify-center px-4">
-                <span>Login</span>
-            </div>
+        <button className="mr-12" onClick={loginRedirect}>
+            <span className="text-base font-black text-dark">Login</span>
         </button>
     )
 }

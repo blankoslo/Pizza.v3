@@ -1,29 +1,27 @@
 import Image from 'next/image'
-import Hello from '@/Landing/assets/illustrations/hello.svg'
+import Line from 'Landing/assets/Line.svg'
+
+import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
+import { clientsideApiUri } from '@/api/endpoints'
+
+const addToSlack = async () => {
+    const res = await fetch(clientsideApiUri + '/slack/install', { method: 'GET' }).then((res) => res.json())
+    const redirectURL = res.redirect_url
+
+    if (redirectURL) window.location.assign(redirectURL)
+}
 
 const FirstPage = () => {
     return (
-        <div className="flex h-fit justify-center bg-green-secondary pb-12">
-            <div className="flex w-4/5">
-                <div className="flex w-1/2 flex-col">
-                    <div className="mb-5 font-spaceGrotesk text-6xl leading-[4rem] text-gray-900">
-                        The sexiest bot for socialising teams on slack through Pizza..
-                    </div>
-
-                    <div className="font-inter text-xl leading-7 text-black">
-                        Once upon a time, in a land where disco balls still reigned supreme, there strutted a human
-                        tornado of coolness named Max Chillington. Legend has it that Max could make ice cubes shiver in
-                        envy just by winking. <br /> <br />
-                        His hair, a perfectly coiffed monument to follicular fortitude, once caused a gust of wind to
-                        bow in admiration.
-                    </div>
-                </div>
-
-                {/* problem: my-auto doesnt care about padding on bottom */}
-                <div className="m-auto">
-                    <Image priority src={Hello} width={450} alt="bot saying hello" />
-                </div>
-            </div>
+        <div className="flex h-[90vh] flex-col items-center bg-green-light">
+            <span className="mt-12 text-center font-queensMedium text-9xl text-green-primary">
+                A slice to <i>socialise</i>
+            </span>
+            <Image height={5.5} src={Line} alt="dotted line" />
+            <span className="mb-5 mt-16 w-1/3 text-center text-3xl font-medium leading-9 text-green-tertiary">
+                Download the PizzaBot to build better work environments.
+            </span>
+            <AddToSlackButton onClick={addToSlack} />
         </div>
     )
 }
