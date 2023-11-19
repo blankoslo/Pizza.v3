@@ -32,7 +32,7 @@ class SlackChannel(views.MethodView):
         channel_id = org.channel_id
 
         if channel_id is None:
-            return jsonify({"channel_name": None, "users": [] })
+            return jsonify({"channel_name": None, "channel_id": None, "users": [] })
 
         # Request channel info from slack
         request_url = f'https://slack.com/api/conversations.info?channel={channel_id}'
@@ -59,7 +59,7 @@ class SlackChannel(views.MethodView):
             } for user in slack_users
         ]
     
-        return jsonify({"channel_name": channel_name, "users": returned_users })
+        return jsonify({"channel_name": channel_name, "channel_id": channel_id, "users": returned_users })
 
 @bp.route("/<slack_user_id>")
 class SlackUsersById(views.MethodView):
