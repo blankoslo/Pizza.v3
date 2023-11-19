@@ -59,7 +59,6 @@ class BotApi:
         # Send a rpc message to set the channel in db
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
 
-        old_channel = set_channel_response['old_channel_id'] if 'old_channel_id' in set_channel_response else None
 
         if not set_channel_response['success']:
             self.send_slack_message(
@@ -86,9 +85,11 @@ class BotApi:
             return None
         
 
+        old_channel = set_channel_response['old_channel_id'] if 'old_channel_id' in set_channel_response else None
+        
         # Leave channel if old and new channel isnt the same
         # they can be the same if someone reinstall the app
-        if  channel_id != old_channel:
+        if old_channel is not None and channel_id != old_channel:
             leave_success = slack_client.leave_channel(set_channel_response['old_channel_id'])
             # If we were unable to leave the channel, we dont exit function as it isnt critical to leave
             if not leave_success:
