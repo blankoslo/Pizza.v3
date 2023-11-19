@@ -29,8 +29,7 @@ class BotApi:
     def __exit__(self, type, value, traceback):
         self.client.disconnect()
 
-    def welcome(self, slack_client, team_id, user_who_installed):
-        #channel_id = self.join_channel(slack_client=slack_client, team_id=team_id)
+    def welcome(self, slack_client, user_who_installed):
         self.send_slack_message(
             channel_id=user_who_installed,
             text=self.translator.translate("botWelcome"),
@@ -43,17 +42,11 @@ class BotApi:
         )
         
 
-    def join_channel(self, slack_client, team_id, channel_id=None):
-        new_installation = channel_id is None
-
-        # Get default channel if non is given
-        if channel_id is None:
-            default_channel = slack_client.get_default_channel()
-            channel_id = default_channel["id"]
+    def join_channel(self, slack_client, team_id, channel_id):
 
         # Log and exit if we were unable to find a channel
         if channel_id is None:
-            self.logger.error("Was unable to find channel")
+            self.logger.error("Bot cannot join None channel")
             return None
 
         # Join channel
@@ -65,6 +58,8 @@ class BotApi:
         
         # Send a rpc message to set the channel
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
+
+        old_channel = set_channel_response['old_channel_id'] if 'old_channel_id' in set_channel_response else None
 
         if not set_channel_response['success']:
             self.send_slack_message(
@@ -78,7 +73,7 @@ class BotApi:
             return None
     
         # If there are scheduled events
-        elif not new_installation and 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
+        elif 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
             self.send_slack_message(
                 channel_id=channel_id,
                 text=self.translator.translate(
@@ -93,7 +88,7 @@ class BotApi:
 
         # Leave channel if old and new channel isnt the same
         # they can be the same if someone reinstall the app
-        if 'old_channel_id' in set_channel_response and channel_id != set_channel_response['old_channel_id']:
+        if  channel_id != old_channel:
             leave_success = slack_client.leave_channel(set_channel_response['old_channel_id'])
             # If we were unable to leave the channel, we dont exit function as it isnt critical to leave
             if not leave_success:
