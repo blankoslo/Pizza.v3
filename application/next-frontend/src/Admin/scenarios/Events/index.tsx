@@ -20,7 +20,7 @@ const eventTimeFormatted = (date: string) =>
 const upcomingEventsMessage = (eventsNumber: number) =>
     eventsNumber === 1 ? 'You have 1 upcoming event.' : `You have ${eventsNumber} upcoming events.`
 
-const Events = () => {
+const Events = ({ clickable = true }: { clickable?: boolean }) => {
     const { data, isLoading, error } = useEvents()
     const futureEvents = data?.filter(futureDate).sort(differenceBetweenTwoDates) ?? []
     const [time, meridiem] = futureEvents.length > 0 ? eventTimeFormatted(futureEvents[0].time) : ['0', '0']
@@ -31,6 +31,7 @@ const Events = () => {
         setEventModalShowing(true)
         openModal(<EventModal />)
     }
+
     useEffect(() => {
         if (modalStack.length == 0) {
             setEventModalShowing(false)
@@ -39,7 +40,7 @@ const Events = () => {
 
     return (
         <div className={`${eventModalShowing ? 'opacity-0' : ''}`}>
-            <CardComponentWrapper title="Events" addIcon onClickCard={handleOnEventClick}>
+            <CardComponentWrapper title="Events" addIcon onClickCard={clickable ? handleOnEventClick : undefined}>
                 {isLoading ? (
                     'Loading...'
                 ) : error ? (

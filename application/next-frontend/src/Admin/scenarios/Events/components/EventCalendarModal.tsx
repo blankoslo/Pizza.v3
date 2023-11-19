@@ -7,10 +7,10 @@ const EventModal = () => {
         <div className="pointer-events-auto flex">
             <div className="grow">
                 <HoverProvider isInsideModal>
-                    <Events />
+                    <Events clickable={false} />
                 </HoverProvider>
             </div>
-            <div className="z-10 flex-none">
+            <div className=" z-10 flex-none">
                 <EventCalendar />
             </div>
         </div>
