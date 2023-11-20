@@ -40,7 +40,12 @@ const Events = ({ clickable = true }: { clickable?: boolean }) => {
 
     return (
         <div className={`${eventModalShowing ? 'opacity-0' : ''}`}>
-            <CardComponentWrapper title="Events" addIcon onClickCard={clickable ? handleOnEventClick : undefined}>
+            <CardComponentWrapper
+                title="Events"
+                addIcon
+                onClickCard={clickable ? handleOnEventClick : undefined}
+                style="h-full"
+            >
                 {isLoading ? (
                     'Loading...'
                 ) : error ? (
