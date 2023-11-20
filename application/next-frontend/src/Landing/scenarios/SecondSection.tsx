@@ -7,7 +7,7 @@ import HappyMascot from 'Landing/assets/illustrations/HappyMascotLanding.svg'
 
 const SecondSection = () => {
     return (
-        <div className="relative h-[90vh] bg-green-primary">
+        <div className="relative h-[100vh] bg-green-primary">
             <div className="absolute left-32 top-20 w-8/12">
                 <div className="flex flex-col gap-10">
                     <span className="font-queensMedium text-8xl text-white">
