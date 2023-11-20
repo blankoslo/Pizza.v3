@@ -31,5 +31,5 @@
   "invitedButLeftChannelUnanswered": "Since you left the PizzaBot channel, I assume you do not want to attend 😕",
   "invitedButLeftChannelWithdrawn": "Since you left the PizzaBot channel, I assume you do not want to attend 😕 You have been withdrawn from the event",
   "userLeftPizzaChannel": "You left the PizzaBot channel 😕 You will no longer receive invitations to future events.",
-  "adminPanelURLCommand": "The admin panel can be found here: <$adminPanelURL | Admin panel>"
+  "adminPanelURLCommand": "The admin panel can be found <$adminPanelURL | here>"
 }
