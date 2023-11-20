@@ -36,7 +36,7 @@ class BotApi:
             slack_client=slack_client
         )
         self.send_slack_message(
-            channel_id=channel_id,
+            channel_id=user_who_installed,
             text=self.translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/admin"),
             slack_client=slack_client
         )
