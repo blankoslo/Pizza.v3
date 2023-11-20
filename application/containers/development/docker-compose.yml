@@ -100,6 +100,7 @@ services:
     volumes:
       - ../../bot:/srv/bot
     environment:
+      FRONTEND_URI: "${FRONTEND_URI}"
       <<:
         [*common-variables, *common-rabbitmq-variables, *common-slack-variables]
       REPLY_DEADLINE_IN_HOURS: 24

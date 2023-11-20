@@ -12,6 +12,8 @@ from src.injector import injector
 import logging
 from src.i18n import Translator
 
+frontend_uri = os.environ["FRONTEND_URI"] if "FRONTEND_URI" in os.environ else None
+
 class BotApi:
     @inject
     def __init__(self, logger: logging.Logger):
@@ -34,6 +36,12 @@ class BotApi:
             text=self.translator.translate("botWelcome"),
             slack_client=slack_client
         )
+        self.send_slack_message(
+            channel_id=channel_id,
+            text=self.translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/admin"),
+            slack_client=slack_client
+        )
+        
 
     def join_channel(self, slack_client, team_id, channel_id=None):
         new_installation = channel_id is None

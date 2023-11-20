@@ -15,10 +15,12 @@ from src.slack.installation_store import BrokerInstallationStore
 from src.api.slack_api import SlackApi
 from src.i18n import Translator
 
+
 slack_signing_secret = os.environ["SLACK_SIGNING_SECRET"]
 client_id = os.environ["SLACK_CLIENT_ID"],
 client_secret = os.environ["SLACK_CLIENT_SECRET"],
 slack_app_token = os.environ["SLACK_APP_TOKEN"]
+frontend_uri = os.environ["FRONTEND_URI"] if "FRONTEND_URI" in os.environ else None
 
 
 slack_app = App(
@@ -195,6 +197,21 @@ def handle_some_command(ack, body, say, context):
                 text=translator.translate("pizzaChannelConfirm", channel_id=channel_id),
                 slack_client=client
             )
+
+@slack_app.command("/pizzabot-admin-panel")
+def handle_some_command(ack, body, say, context):
+    translator = injector.get(Translator)
+    ack()
+    with injector.get(BotApi) as ba:
+        team_id = body["team_id"]
+        message_channel_id = body["channel_id"]
+        client = SlackApi(client=context["client"])
+
+        ba.send_slack_message(
+            channel_id=message_channel_id,
+            text=translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/admin"), 
+            slack_client=client
+        )
 
 # This only exists to make bolt not throw a warning that we dont handle the file_shared event
 # We dont use this as we use the message event with subtype file_shared as that one
