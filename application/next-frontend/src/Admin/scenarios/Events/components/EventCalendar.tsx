@@ -126,7 +126,7 @@ const EventCalendar = () => {
 
                                 // Styling
                                 const image = pizzaImages[Math.floor(Math.random() * pizzaImages.length)]
-                                const styling = `h-[3.75rem] w-[4.15rem] border text-dark
+                                const styling = `h-[3.75rem] w-[4.15rem] border border-green-primary text-dark
                                     ${
                                         today >= currentTomorrow
                                             ? 'opacity-50'
@@ -159,7 +159,7 @@ const EventCalendar = () => {
                                 )
                             }
                         }
-                        return <td className="h-[3.75rem] w-[4.15rem] border" key={dayOfWeek} />
+                        return <td className="h-[3.75rem] w-[4.15rem] border border-green-primary" key={dayOfWeek} />
                     })}
             </tr>
         )
@@ -174,7 +174,7 @@ const EventCalendar = () => {
     }
 
     return (
-        <div className="inline-block bg-green-light px-6 pb-6 pt-3 text-green-primary">
+        <div className="inline-block bg-green-calendar px-6 pb-6 pt-3 text-green-primary">
             <div className="flex justify-center">
                 <Image
                     onClick={() => setPreviousMonth()}

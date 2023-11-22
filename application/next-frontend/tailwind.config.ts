@@ -32,6 +32,7 @@ const config: Config = {
                     tertiary: '#003F1E',
                     quaternary: '#004B24',
                     light: '#CFF6E2',
+                    calendar: '#EDFFF6',
                 },
                 yellow: '#FFF8C1',
                 shade: '#6A5412',
