@@ -5,12 +5,10 @@ import { EventCalendar } from '@/Admin/scenarios/Events/components/EventCalendar
 const EventModal = () => {
     return (
         <div className="pointer-events-auto flex">
-            <div className="grow">
+            <div className="flex">
                 <HoverProvider isInsideModal>
                     <Events clickable={false} />
                 </HoverProvider>
-            </div>
-            <div className=" z-10 flex-none">
                 <EventCalendar />
             </div>
         </div>

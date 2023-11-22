@@ -174,7 +174,7 @@ const EventCalendar = () => {
     }
 
     return (
-        <div className="inline-block min-h-[517px] bg-green-light px-6 pb-6 pt-3 text-green-primary">
+        <div className="inline-block bg-green-light px-6 pb-6 pt-3 text-green-primary">
             <div className="flex justify-center">
                 <Image
                     onClick={() => setPreviousMonth()}

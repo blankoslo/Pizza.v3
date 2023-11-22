@@ -6,18 +6,20 @@ const CardComponentWrapper = ({
     children,
     addIcon,
     onClickCard,
+    className,
 }: {
     title: string
     children?: React.ReactNode
     addIcon?: boolean
     onClickCard?: () => void
+    className?: string
 }) => {
     const { setHovered, isHovered } = useHover()
     return (
         <div
-            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 shadow-2xl shadow-amber-950/25 ${
+            className={`relative min-h-[16rem] w-[25rem] bg-yellow p-4 shadow-2xl shadow-amber-950/25 ${className} ${
                 isHovered ? 'hover:shadow-custom' : ''
-            } ${addIcon && isHovered ? 'hover:cursor-pointer' : ''}`}
+            } ${addIcon && isHovered ? 'hover:cursor-pointer' : ''} `}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             onClick={onClickCard}
