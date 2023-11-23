@@ -2,27 +2,35 @@ import SafeEnvironments from 'Landing/assets/illustrations/SafeEnvironments.svg'
 import EngagedTeams from 'Landing/assets/illustrations/EngagedTeams.svg'
 import Friendships from 'Landing/assets/illustrations/Friendships.svg'
 import GoodTraditions from 'Landing/assets/illustrations/GoodTraditions.svg'
-import { HappyMascot } from 'Landing/components/secondSection/HappyMascot'
+import HappyMascot from 'Landing/assets/illustrations/HappyMascotLanding.svg'
 import { ImageContainer } from 'Landing/components/secondSection/ImageContainer'
+import Image from 'next/image'
 
 const SecondSection = () => {
     return (
-        <section className="flex h-[100vh] flex-col gap-1 bg-green-primary md:grid md:grid-flow-col md:grid-rows-2">
-            <div className="flex items-center justify-center md:w-8/12">
-                <span className="ml-[20%] font-queensMedium text-8xl italic text-white">
-                    Build a work culture with PizzaBot and create...
+        <section className="h-[90vh] bg-green-primary">
+            <div className="h-[20%] w-[100%]">
+                <span className="ml-[10%] mt-[20%] font-queensMedium text-8xl italic text-white">
+                    Create an inclusive work culture
                 </span>
             </div>
-            <div className="flex items-center justify-center">
-                <div className="grid grid-cols-1 gap-4 font-queensRegular text-2xl text-white md:mt-[-20%] md:grid-flow-col md:grid-rows-2">
-                    <ImageContainer img={SafeEnvironments} text="Safe Environments" />
-                    <ImageContainer img={EngagedTeams} text="Engaged Teams" />
-                    <ImageContainer img={Friendships} text="Friendship" />
-                    <ImageContainer img={GoodTraditions} text="Good Traditions" />
+            <div className="flex h-[80%] w-[100%] flex-row">
+                <div className="flex flex-col">
+                    <div className="flex h-[50%] items-center justify-center">
+                        <span className="w-[70%] font-queensRegular text-5xl text-white">
+                            The pizza bot will help you build better performances and stronger teams by building:
+                        </span>
+                    </div>
+                    <div className="flex flex-wrap place-content-center gap-4  font-queensRegular text-4xl text-white ">
+                        <ImageContainer img={SafeEnvironments} text="Safe Environments" />
+                        <ImageContainer img={EngagedTeams} text="Engaged Teams" />
+                        <ImageContainer img={Friendships} text="Friendship" />
+                        <ImageContainer img={GoodTraditions} text="Good Traditions" />
+                    </div>
                 </div>
-            </div>
-            <div className="flex items-center justify-center md:row-span-2 md:mr-[20rem] ">
-                <HappyMascot />
+                <div className="w-[40%]">
+                    <Image src={HappyMascot} alt="Happy Mascot" />
+                </div>
             </div>
         </section>
     )
