@@ -1,6 +1,7 @@
 import { serversideApiUri } from '@/api/endpoints'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
+import { SlackCallbackPageSuccess, SlackCallbackPageError } from 'Landing/scenarios/SlackCallbackPage'
+import { Header } from '@/Landing/scenarios/Header'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const code = query.code
@@ -23,29 +24,19 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     } catch (err) {
         console.error(err)
     }
-    console.log(message)
+
     return { props: { success, message: message ?? null } }
 }
 
 const SlackInstallCallback = ({ success, message }: { success?: boolean; message: string | null }) => {
-    if (!success) {
-        return (
-            <div className="flex w-full flex-col justify-center gap-8">
-                <h1 className="text-center text-xl font-bold">Error adding to workspace </h1>
-                <Link className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300" href={'/'}>
-                    Try again
-                </Link>
-            </div>
-        )
-    }
-
     return (
-        <div className="flex w-full flex-col justify-center gap-8">
-            <h1 className="text-center text-xl font-bold">{message || 'Bot added to workspace!'}</h1>
-            <h2 className="text-center font-bold">Login to administrate the bot </h2>
-            <Link href={'/login'} className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300">
-                Go to login
-            </Link>
+        <div className="relative h-screen overflow-hidden">
+            <Header />
+            {success ? (
+                <SlackCallbackPageSuccess message={message ?? undefined} />
+            ) : (
+                <SlackCallbackPageError message={message ?? undefined} />
+            )}
         </div>
     )
 }

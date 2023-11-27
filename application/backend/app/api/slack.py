@@ -72,9 +72,6 @@ class Slack(views.MethodView):
 
         response = requests.post(url, data=data).json()
 
-        print("---------------------")
-        print(response)
-
         if not response['ok']:
             logger.error(response["error"])
             return abort(500)
@@ -109,7 +106,7 @@ class Slack(views.MethodView):
         if is_reinstalled:
             logger.info(f"Bot reinstalled for team: {schema_data['team_id']}")
             return jsonify({
-                        "message": f"Bot has been reinstalled to the workspace '{schema_data['team_name']}'."
+                        "message": f"Bot has been re-installed to the workspace '{schema_data['team_name']}'."
                     })
                             
         
