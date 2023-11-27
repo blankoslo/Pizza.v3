@@ -16,10 +16,18 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         console.error(err)
     })
 
-    return { props: { success: res?.ok } }
+    const success = res?.ok
+    let message: string | undefined
+    try {
+        message = (await res?.json()).message
+    } catch (err) {
+        console.error(err)
+    }
+    console.log(message)
+    return { props: { success, message: message ?? null } }
 }
 
-const SlackInstallCallback = ({ success }: { success?: boolean }) => {
+const SlackInstallCallback = ({ success, message }: { success?: boolean; message: string | null }) => {
     if (!success) {
         return (
             <div className="flex w-full flex-col justify-center gap-8">
@@ -33,7 +41,7 @@ const SlackInstallCallback = ({ success }: { success?: boolean }) => {
 
     return (
         <div className="flex w-full flex-col justify-center gap-8">
-            <h1 className="text-center text-xl font-bold">Bot added to workspace! </h1>
+            <h1 className="text-center text-xl font-bold">{message || 'Bot added to workspace!'}</h1>
             <h2 className="text-center font-bold">Login to administrate the bot </h2>
             <Link href={'/login'} className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300">
                 Go to login

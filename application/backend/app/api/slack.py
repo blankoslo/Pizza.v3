@@ -72,6 +72,9 @@ class Slack(views.MethodView):
 
         response = requests.post(url, data=data).json()
 
+        print("---------------------")
+        print(response)
+
         if not response['ok']:
             logger.error(response["error"])
             return abort(500)
@@ -91,6 +94,9 @@ class Slack(views.MethodView):
             'bot_user_id': response['bot_user_id'],
             'access_token': response['access_token']
         }
+
+        is_reinstalled = slack_organization_service.get_by_id(schema_data['team_id']) is not None
+
         slack_organization = schema.load(schema_data)
         slack_organization_service.upsert(slack_organization)
 
@@ -100,4 +106,13 @@ class Slack(views.MethodView):
             'user_who_installed': response['authed_user']['id']
         }))
 
-        return Response(status=200)
+        if is_reinstalled:
+            logger.info(f"Bot reinstalled for team: {schema_data['team_id']}")
+            return jsonify({
+                        "message": f"Bot has been reinstalled to the workspace '{schema_data['team_name']}'."
+                    })
+                            
+        
+        return jsonify({
+                        "message": f"Bot has been installed to the workspace '{schema_data['team_name']}'."
+                    })
