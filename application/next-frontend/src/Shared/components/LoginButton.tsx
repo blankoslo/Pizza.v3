@@ -1,6 +1,6 @@
 import { clientsideApiUri } from '@/api/endpoints'
 
-const LoginButton = () => {
+const LoginButton = ({ className }: { className?: string }) => {
     const loginRedirect = async () => {
         try {
             const res = await fetch(clientsideApiUri + '/auth/login')
@@ -16,7 +16,7 @@ const LoginButton = () => {
     }
 
     return (
-        <button className="mr-12" onClick={loginRedirect}>
+        <button className={`mx-12 ${className ?? ''}`} onClick={loginRedirect}>
             <span className="text-base font-black text-dark">Login</span>
         </button>
     )

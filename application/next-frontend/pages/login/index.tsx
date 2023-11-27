@@ -1,11 +1,11 @@
-import { LoginButton } from '@/Shared/components/LoginButton'
+import { Header } from '@/Landing/scenarios/Header'
+import { LoginPage } from 'Landing/scenarios/LoginPage'
 
 const Login = () => {
     return (
-        <div className="flex w-full flex-col items-center justify-center gap-8">
-            <h1 className="text-center text-xl font-bold">Login Page </h1>
-
-            <LoginButton />
+        <div className="relative h-screen overflow-hidden">
+            <Header />
+            <LoginPage />
         </div>
     )
 }
