@@ -1,5 +1,6 @@
 import { FirstSection } from './scenarios/FirstSection'
 import { SecondSection } from './scenarios/SecondSection'
+import { FourthSection } from './scenarios/FourthSection'
 import { SixthSection } from './scenarios/SixthSection'
 
 const Landing = () => {
@@ -7,6 +8,7 @@ const Landing = () => {
         <>
             <FirstSection />
             <SecondSection />
+            <FourthSection />
             <SixthSection />
         </>
     )
