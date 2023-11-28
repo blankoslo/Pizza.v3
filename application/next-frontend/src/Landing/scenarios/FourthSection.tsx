@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.svg'
-import PizzaInvitation from 'Landing/assets/PizzaInvitation.svg'
+import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.png'
+import PizzaInvitation from 'Landing/assets/PizzaInvitation.png'
 import PizzaBotWithFourArms from 'Landing/assets/PizzaBotWithFourArms.svg'
 
 const FourthSection = () => {
