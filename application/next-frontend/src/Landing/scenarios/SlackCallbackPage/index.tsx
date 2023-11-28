@@ -5,12 +5,12 @@ import Link from 'next/link'
 
 const SlackCallbackPageSuccess = ({ message }: { message?: string }) => {
     return (
-        <div className="flex h-full w-full flex-row">
-            <div className="hidden h-full w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
-                <Image src={MascotWithFourArms} alt="Pizzabot logo" width={400} height={400} className="pb-16" />
+        <div className="flex w-full flex-1 flex-row">
+            <div className="hidden w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
+                <Image src={MascotWithFourArms} alt="Pizzabot logo" width={400} height={400} className="" />
             </div>
-            <div className="flex h-full flex-1 flex-col items-center gap-8 px-4 font-workSans">
-                <h1 className="pt-16 text-center text-4xl font-bold text-green-primary">
+            <div className="flex flex-1 flex-col items-center justify-center gap-8 px-4 font-workSans">
+                <h1 className=" max-w-lg text-center text-4xl font-bold text-green-primary">
                     Thanks for installing the PizzaBot!
                 </h1>
                 <p className="max-w-lg text-center text-xl text-green-primary">{message}</p>
@@ -34,12 +34,12 @@ const SlackCallbackPageSuccess = ({ message }: { message?: string }) => {
 
 const SlackCallbackPageError = ({ message }: { message?: string }) => {
     return (
-        <div className="flex h-full w-full flex-row">
-            <div className="hidden h-full w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
-                <Image src={MascotSad} alt="Pizzabot logo" width={400} height={400} className="pb-16" />
+        <div className="flex w-full flex-1 flex-row">
+            <div className="hidden w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
+                <Image src={MascotSad} alt="Pizzabot logo" width={400} height={400} className="" />
             </div>
-            <div className="flex h-full flex-1 flex-col items-center gap-8 px-4 font-workSans">
-                <h1 className="max-w-lg pt-16 text-center text-4xl font-bold text-green-primary">
+            <div className="flex flex-1 flex-col items-center justify-center gap-8 px-4 font-workSans">
+                <h1 className="max-w-lg text-center text-4xl font-bold text-green-primary">
                     Error installing the pizzabot
                 </h1>
                 <p className="max-w-lg text-center text-xl text-red">{message || 'Unknown error occured!'}</p>

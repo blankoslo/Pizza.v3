@@ -3,7 +3,7 @@ import { LoginPage } from 'Landing/scenarios/LoginPage'
 
 const Login = () => {
     return (
-        <div className="relative h-screen overflow-hidden">
+        <div className="relative flex min-h-screen flex-col overflow-auto">
             <Header />
             <LoginPage />
         </div>

@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
 const SlackInstallCallback = ({ success, message }: { success?: boolean; message: string | null }) => {
     return (
-        <div className="relative h-screen overflow-hidden">
+        <div className="relative flex min-h-screen flex-col overflow-auto">
             <Header />
             {success ? (
                 <SlackCallbackPageSuccess message={message ?? undefined} />

@@ -4,14 +4,14 @@ import MascotWithFourArms from 'Landing/assets/illustrations/MascotWithFourArms.
 
 const LoginPage = () => {
     return (
-        <div className="flex h-full w-full flex-row">
-            <div className="hidden h-full w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
-                <Image src={MascotWithFourArms} alt="Pizzabot logo" width={400} height={400} className="pb-16" />
+        <div className="flex w-full flex-1 flex-row">
+            <div className="hidden w-[40%] items-center justify-center bg-green-primary lg:flex lg:flex-col">
+                <Image src={MascotWithFourArms} alt="Pizzabot logo" width={400} height={400} className="" />
             </div>
-            <div className="flex h-full flex-1 flex-col items-center gap-8 font-workSans">
-                <h1 className="pt-16 text-4xl font-bold text-green-primary">Welcome to Pizzabot</h1>
+            <div className="flex flex-1 flex-col items-center justify-center gap-8 p-8 font-workSans">
+                <h1 className="text-4xl font-bold text-green-primary">Welcome to Pizzabot</h1>
                 <p className="text-xl text-green-primary">Please login to continue</p>
-                <LoginButton className="border border-green-secondary bg-green-secondary px-8 py-4 hover:border-green-quaternary" />
+                <LoginButton className="w-fit border border-green-primary px-8 py-2 hover:bg-slate-300" />
                 <Image
                     src={MascotWithFourArms}
                     alt="Pizzabot logo"
