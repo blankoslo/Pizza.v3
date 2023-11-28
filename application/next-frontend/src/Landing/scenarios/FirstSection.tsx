@@ -11,7 +11,7 @@ const addToSlack = async () => {
     if (redirectURL) window.location.assign(redirectURL)
 }
 
-const FirstPage = () => {
+const FirstSection = () => {
     return (
         <div className="flex h-[90vh] flex-col items-center bg-green-light">
             <span className="mt-12 text-center font-queensMedium text-9xl text-green-primary">
@@ -26,4 +26,4 @@ const FirstPage = () => {
     )
 }
 
-export { FirstPage }
+export { FirstSection }

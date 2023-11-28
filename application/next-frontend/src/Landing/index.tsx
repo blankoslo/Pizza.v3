@@ -1,10 +1,12 @@
-import { FirstPage } from './scenarios/FirstPage'
+import { FirstSection } from './scenarios/FirstSection'
+import { SecondSection } from './scenarios/SecondSection'
 import { SixthSection } from './scenarios/SixthSection'
 
 const Landing = () => {
     return (
         <>
-            <FirstPage />
+            <FirstSection />
+            <SecondSection />
             <SixthSection />
         </>
     )
