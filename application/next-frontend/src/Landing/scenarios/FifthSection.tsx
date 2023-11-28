@@ -11,7 +11,7 @@ const FifthSection = () => {
     const postitTexts = [
         "PizzaBot revolutionised our team lunches, effortlessly connecting us over random pizza outings. I even met my boyfriend during one! It's the perfect blend of fun and team building.",
         "PizzaBot revolutionised our team lunches, effortlessly connecting us over random pizza outings. I even met my boyfriend during one! It's the perfect blend of fun and team building.",
-        "PizzaBot revolutionised our team lunches, effortlessly connecting us over random pizza outings. I even met my boyfriend during one! It's the perfect blend of fun and team building.",
+        "PizzaBot revolutionised our team lunches, effortlessly connecting us over random pizza outings. I even met my boyfriend during one! It's the perfect blend of fun and team building!",
     ]
 
     return (
