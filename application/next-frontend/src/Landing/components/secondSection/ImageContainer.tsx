@@ -5,7 +5,7 @@ const ImageContainer = ({ img, text }: { img: string | StaticImport; text: strin
     return (
         <div className="flex flex-col items-center">
             <div className="h-40 w-40">
-                <Image src={img} alt={text} objectFit="contain" />
+                <Image src={img} alt={text} />
             </div>
             <span className="mt-2">{text}</span>
         </div>

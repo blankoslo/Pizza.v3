@@ -10,7 +10,7 @@ const SecondSection = () => {
     return (
         <section className="h-[90vh] bg-green-primary">
             <div className="h-[20%] w-[100%]">
-                <span className="ml-[10%] mt-[20%] font-queensMedium text-8xl italic text-white">
+                <span className="ml-[10%] mt-[20%] font-queensRegular text-8xl italic text-white">
                     Create an inclusive work culture
                 </span>
             </div>
