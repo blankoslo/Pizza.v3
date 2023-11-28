@@ -1,7 +1,13 @@
-import { FirstPage } from './scenarios/FirstPage'
+import { FirstSection } from './scenarios/FirstSection'
+import { SecondSection } from './scenarios/SecondSection'
 
 const Landing = () => {
-    return <FirstPage />
+    return (
+        <>
+            <FirstSection />
+            <SecondSection />
+        </>
+    )
 }
 
 export { Landing }
