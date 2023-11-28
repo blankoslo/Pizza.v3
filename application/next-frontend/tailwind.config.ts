@@ -42,11 +42,6 @@ const config: Config = {
                     light: '#FFB9B9',
                     DEFAULT: '#CB4A4A',
                 },
-                postit: {
-                    green: '#9AE59D',
-                    yellow: '#F0E36F',
-                    pink: '#F8B6B6',
-                },
             },
         },
         plugins: [],
