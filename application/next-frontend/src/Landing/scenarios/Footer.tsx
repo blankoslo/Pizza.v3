@@ -15,14 +15,14 @@ const Footer = () => {
                 <span>Data Protection</span>
             </div>
             <div className="flex flex-col gap-6">
-                <span>feedbacks@blank.no</span>
+                <span>feedback@blank.no</span>
                 <span>
                     Have more questions?
                     <br /> Reach us at <span className="font-semibold">pizzabot@blank.no</span>
                 </span>
                 <span />
                 <span className="text-green-secondary underline">
-                    Made with ❤️ from{' '}
+                    Made with ❤️ from
                     <Link className="font-semibold" href={'https://blank.no'}>
                         Blank AS Oslo
                     </Link>
