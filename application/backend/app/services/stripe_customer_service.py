@@ -3,15 +3,7 @@ from app.models.stripe_customer_schema import StripeCustomerSchema
 
 class StripeCustomerService:
     def get_by_customer_id(self, customer_id):
-        
-
-
         stripe_customer = StripeCustomerRepository.get_by_id(customer_id)
-
-        print("Inside get_by_customer_id")
-        print(f"Fetched customer type: {type(stripe_customer)}")
-        print(f"Fetched customer data: {stripe_customer.__dict__ if stripe_customer else None}")
-
         return stripe_customer
 
 
@@ -28,7 +20,6 @@ class StripeCustomerService:
     
     def add(self, data, team_id):
         stripe_customer = self.get_by_team_id(team_id)
-
         if stripe_customer is not None:
             return None
         
@@ -36,15 +27,8 @@ class StripeCustomerService:
         return StripeCustomerRepository.upsert(data)
     
     def update(self, data, customer_id):
-        print("Inside update method")
-        print("Type of self:", type(self))
-        print("Data:", data)
-        print("Customer ID:", customer_id)
-        print("Type of cusotmer_id: ", type(customer_id))
 
         stripe_customer = self.get_by_customer_id(customer_id)
-        print("Fetched stripe customer:", stripe_customer)
-        print("Fetched stripe customer attributes", stripe_customer.__dict__)
 
         if stripe_customer is None:
             return None
