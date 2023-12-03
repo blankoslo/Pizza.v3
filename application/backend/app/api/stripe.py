@@ -22,8 +22,6 @@ bp = Blueprint("stripe", "stripe", url_prefix="/stripe", description="Stripe pay
 class Stripe(views.MethodView):
     @jwt_required()
     def get(self):
-        identity = get_jwt_identity()
-        user = UserRepository.get_by_id(identity)
         products = stripe.Price.list(expand=['data.product'])
         return jsonify(products)
 
@@ -34,14 +32,11 @@ class Stripe(views.MethodView):
     @jwt_required()
     def post(self):
         
-        
         team_id = current_user.slack_organization_id
         stripe_service:StripeCustomerService = injector.get(StripeCustomerService)
         stripe_customer: StripeCustomer = stripe_service.get_by_team_id(team_id=team_id)
 
-        if stripe_customer: 
-            print(stripe_customer.__dict__)
-
+      
         try:
             prices = stripe.Price.list(
                 expand=['data.product']
