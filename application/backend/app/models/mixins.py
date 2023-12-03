@@ -53,9 +53,7 @@ class CrudMixin():
     @classmethod
     def get_by_id(cls, id, session=db.session):
         return session.get(cls, id)
-        
-
-    
+            
     @classmethod
     def delete(cls, id, session=db.session):
         obj = session.get(cls, id)
