@@ -15,6 +15,7 @@ from app.services.event_service import EventService
 from app.services.restaurant_service import RestaurantService
 from app.services.image_service import ImageService
 from app.services.slack_organization_service import SlackOrganizationService
+from app.services.stripe_customer_service import StripeCustomerService
 
 from flask import Flask
 from flask_smorest import Blueprint
@@ -84,11 +85,13 @@ def create_app(environment):
     invitation_service = InvitationService(app.logger, event_service, restaurant_service)
     image_service = ImageService()
     slack_organization_service = SlackOrganizationService(app.logger)
+    stripe_customer_service = StripeCustomerService()
     injector.binder.bind(SlackOrganizationService, to=slack_organization_service)
     injector.binder.bind(EventService, to=event_service)
     injector.binder.bind(InvitationService, to=invitation_service)
     injector.binder.bind(RestaurantService, to=restaurant_service)
     injector.binder.bind(ImageService, to=image_service)
+    injector.binder.bind(StripeCustomerService, to=stripe_customer_service)
 
     # Setup Talisman
     csp = {
