@@ -6,6 +6,7 @@ from app.repositories.event_repository import EventRepository
 from app.repositories.restaurant_repository import RestaurantRepository
 from app.repositories.group_repository import GroupRepository
 from app.repositories.invitation_repository import InvitationRepository
+from app.repositories.slack_organization_repository import SlackOrganizationRepository
 from app.models.event_schema import EventSchema
 from app.services.broker.schemas.deleted_event_event import DeletedEventEventSchema
 from app.services.broker.schemas.updated_event_event import UpdatedEventEventSchema
@@ -87,6 +88,11 @@ class EventService:
 
     def add(self, data, team_id):
         data.slack_organization_id = team_id
+
+        slack_org = SlackOrganizationRepository.get_by_id(team_id)
+        # If channel_id is none, we cant update users about events
+        if slack_org is None or slack_org.channel_id is None:
+            return None
 
         restaurant = RestaurantRepository.get_by_id(data.restaurant_id)
 

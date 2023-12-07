@@ -9,7 +9,6 @@ from src.api.slack_api import SlackApi
 def new_slack_organization_event(event: dict):
     with injector.get(BotApi) as ba:
         slack_client = SlackApi(token=event['bot_token'])
-        ba.welcome(slack_client=slack_client, team_id=event['team_id'])
-        ba.sync_users_from_organization(team_id=event['team_id'], bot_token=event['bot_token'])
+        ba.welcome(slack_client=slack_client, user_who_installed=event['user_who_installed'])
 
 

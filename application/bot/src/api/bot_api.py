@@ -29,31 +29,24 @@ class BotApi:
     def __exit__(self, type, value, traceback):
         self.client.disconnect()
 
-    def welcome(self, slack_client, team_id):
-        channel_id = self.join_channel(slack_client=slack_client, team_id=team_id)
+    def welcome(self, slack_client, user_who_installed):
         self.send_slack_message(
-            channel_id=channel_id,
+            channel_id=user_who_installed,
             text=self.translator.translate("botWelcome"),
             slack_client=slack_client
         )
         self.send_slack_message(
-            channel_id=channel_id,
+            channel_id=user_who_installed,
             text=self.translator.translate("adminPanelURLCommand", adminPanelURL=f"{frontend_uri}/admin"),
             slack_client=slack_client
         )
         
 
-    def join_channel(self, slack_client, team_id, channel_id=None):
-        new_installation = channel_id is None
-
-        # Get default channel if non is given
-        if channel_id is None:
-            default_channel = slack_client.get_default_channel()
-            channel_id = default_channel["id"]
+    def join_channel(self, slack_client, team_id, channel_id):
 
         # Log and exit if we were unable to find a channel
         if channel_id is None:
-            self.logger.error("Was unable to find channel")
+            self.logger.error("Bot cannot join None channel")
             return None
 
         # Join channel
@@ -63,8 +56,9 @@ class BotApi:
             self.logger.error("Was unable to join channel %s in team: %s", channel_id, team_id)
             return None
         
-        # Send a rpc message to set the channel
+        # Send a rpc message to set the channel in db
         set_channel_response = self.client.set_slack_channel(channel_id=channel_id, team_id=team_id)
+
 
         if not set_channel_response['success']:
             self.send_slack_message(
@@ -78,7 +72,7 @@ class BotApi:
             return None
     
         # If there are scheduled events
-        elif not new_installation and 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
+        elif 'scheduled_events_count' in set_channel_response and set_channel_response['scheduled_events_count'] > 0:
             self.send_slack_message(
                 channel_id=channel_id,
                 text=self.translator.translate(
@@ -91,9 +85,11 @@ class BotApi:
             return None
         
 
+        old_channel = set_channel_response['old_channel_id'] if 'old_channel_id' in set_channel_response else None
+        
         # Leave channel if old and new channel isnt the same
         # they can be the same if someone reinstall the app
-        if 'old_channel_id' in set_channel_response and channel_id != set_channel_response['old_channel_id']:
+        if old_channel is not None and channel_id != old_channel:
             leave_success = slack_client.leave_channel(set_channel_response['old_channel_id'])
             # If we were unable to leave the channel, we dont exit function as it isnt critical to leave
             if not leave_success:
@@ -367,10 +363,15 @@ class BotApi:
     # TODO: optimize this. Might need another message to the backend to get active users and see if the list has changed
     def sync_users_from_organization(self, team_id, bot_token):
         installation_info = self.client.get_slack_installation(team_id=team_id)
-        if installation_info is None or 'channel_id' not in installation_info:
+        if installation_info is None:
             self.logger.error("Failed to sync users in workspace %s" % team_id)
             return
-        channel_id = installation_info['channel_id']
+        
+        channel_id = installation_info['channel_id'] if 'channel_id' in installation_info else None
+        if channel_id is None:
+            self.logger.info("Cannot sync team %s, channel id not set" % team_id)
+            return
+
         slack_client = SlackApi(token=bot_token)
         
         users_to_update = slack_client.get_users_to_update_by_channel(channel_id=channel_id)

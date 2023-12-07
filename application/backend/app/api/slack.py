@@ -76,6 +76,7 @@ class Slack(views.MethodView):
             logger.error(response["error"])
             return abort(500)
 
+
         if response['is_enterprise_install']:
             logger.warn("NOT SUPPORTED: User tried to install app into enterprise workspace.")
             return abort(501)
@@ -95,7 +96,8 @@ class Slack(views.MethodView):
 
         BrokerService.publish("new_slack_organization_event", NewSlackOrganizationEventSchema().load({
             'team_id': schema_data['team_id'],
-            'bot_token': schema_data['access_token']
+            'bot_token': schema_data['access_token'],
+            'user_who_installed': response['authed_user']['id']
         }))
 
         return Response(status=200)
