@@ -106,10 +106,10 @@ class Slack(views.MethodView):
         if is_reinstalled:
             logger.info(f"Bot reinstalled for team: {schema_data['team_id']}")
             return jsonify({
-                        "message": f"Bot has been re-installed to the workspace '{schema_data['team_name']}'."
+                        "message": f"Bot has been re-added to the workspace '{schema_data['team_name']}'."
                     })
                             
         
         return jsonify({
-                        "message": f"Bot has been installed to the workspace '{schema_data['team_name']}'."
+                        "message": f"Bot has been added to the workspace '{schema_data['team_name']}'."
                     })

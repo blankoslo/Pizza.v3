@@ -36,7 +36,7 @@ const SlackCallbackPage = ({
 const SlackCallbackPageSuccess = ({ message }: { message?: string }) => {
     return (
         <SlackCallbackPage
-            header={'Thanks for installing the PizzaBot!'}
+            header={'Thanks for adding the PizzaBot!'}
             message={message}
             actionMessage={'I have sent you a DM to greet you. Check it out!'}
             icon={MascotWithFourArms}
@@ -47,7 +47,7 @@ const SlackCallbackPageSuccess = ({ message }: { message?: string }) => {
 const SlackCallbackPageError = ({ message }: { message?: string }) => {
     return (
         <SlackCallbackPage
-            header={'Error installing the pizzabot'}
+            header={'Error adding the pizzabot'}
             message={message}
             actionMessage={'Go back to try again'}
             icon={MascotSad}
