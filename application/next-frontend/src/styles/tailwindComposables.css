@@ -71,3 +71,11 @@
         0 100%   /* bottom-left point */
     );
 }
+
+.text-border {
+    text-shadow:
+     -1px -1px 0 #05793C,  
+      1px -1px 0 #05793C,
+      -1px 1px 0 #05793C,
+       1px 1px 0 #05793C;
+  }
