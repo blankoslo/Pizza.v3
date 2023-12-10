@@ -16,8 +16,11 @@ const LoginButton = ({ className }: { className?: string }) => {
     }
 
     return (
-        <button className={`mx-12 ${className ?? ''}`} onClick={loginRedirect}>
-            <span className="text-base font-black text-dark">Login</span>
+        <button
+            className={`mx-12 flex items-center justify-center text-base font-black text-dark ${className ?? ''}`}
+            onClick={loginRedirect}
+        >
+            <span>Login</span>
         </button>
     )
 }
