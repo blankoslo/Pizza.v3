@@ -1,6 +1,7 @@
 import { serversideApiUri } from '@/api/endpoints'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
+import { SlackCallbackPageSuccess, SlackCallbackPageError } from 'Landing/scenarios/SlackCallbackPage'
+import { Header } from '@/Landing/scenarios/Header'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const code = query.code
@@ -16,28 +17,26 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         console.error(err)
     })
 
-    return { props: { success: res?.ok } }
-}
-
-const SlackInstallCallback = ({ success }: { success?: boolean }) => {
-    if (!success) {
-        return (
-            <div className="flex w-full flex-col justify-center gap-8">
-                <h1 className="text-center text-xl font-bold">Error adding to workspace </h1>
-                <Link className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300" href={'/'}>
-                    Try again
-                </Link>
-            </div>
-        )
+    const success = res?.ok
+    let message: string | undefined
+    try {
+        message = (await res?.json()).message
+    } catch (err) {
+        console.error(err)
     }
 
+    return { props: { success, message: message ?? null } }
+}
+
+const SlackInstallCallback = ({ success, message }: { success?: boolean; message: string | null }) => {
     return (
-        <div className="flex w-full flex-col justify-center gap-8">
-            <h1 className="text-center text-xl font-bold">Bot added to workspace! </h1>
-            <h2 className="text-center font-bold">Login to administrate the bot </h2>
-            <Link href={'/login'} className="m-auto w-fit border border-black px-8 py-2 hover:bg-slate-300">
-                Go to login
-            </Link>
+        <div className="relative flex min-h-screen flex-col overflow-auto">
+            <Header />
+            {success ? (
+                <SlackCallbackPageSuccess message={message ?? undefined} />
+            ) : (
+                <SlackCallbackPageError message={message ?? undefined} />
+            )}
         </div>
     )
 }
