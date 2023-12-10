@@ -8,27 +8,29 @@ import Image from 'next/image'
 
 const SecondSection = () => {
     return (
-        <section className="h-[90vh] bg-green-primary">
-            <div className="h-[20%] w-[100%]">
-                <span className="ml-[10%] mt-[20%] font-queensRegular text-8xl italic text-white">
-                    Create an inclusive work culture
-                </span>
+        <section className="flex min-h-[90vh] flex-col justify-around gap-16 bg-green-primary p-16 px-20 lg:gap-8">
+            <div className="w-full">
+                <span className="font-queensRegular text-7xl italic text-white">Create an inclusive work culture</span>
             </div>
-            <div className="flex h-[80%] w-[100%] flex-row">
-                <div className="flex flex-col">
-                    <div className="flex h-[50%] items-center justify-center">
-                        <span className="w-[70%] font-queensRegular text-5xl text-white">
+            <div className="flex w-full flex-row items-center">
+                <div className="flex flex-col gap-4">
+                    <div className="flex h-[50%] items-center">
+                        <span className="w-[70%] font-queensRegular text-4xl text-white">
                             The pizza bot will help you build better performances and stronger teams by building:
                         </span>
                     </div>
-                    <div className="flex flex-wrap place-content-center gap-4  font-queensRegular text-4xl text-white ">
-                        <ImageContainer img={SafeEnvironments} text="Safe Environments" />
-                        <ImageContainer img={EngagedTeams} text="Engaged Teams" />
-                        <ImageContainer img={Friendships} text="Friendship" />
-                        <ImageContainer img={GoodTraditions} text="Good Traditions" />
+                    <div className="flex flex-wrap items-center justify-center gap-4 font-queensRegular text-2xl text-white">
+                        <div className="flex flex-row gap-4">
+                            <ImageContainer img={SafeEnvironments} text="Safe Environments" />
+                            <ImageContainer img={EngagedTeams} text="Engaged Teams" />
+                        </div>
+                        <div className="flex flex-row gap-4">
+                            <ImageContainer img={Friendships} text="Friendship" />
+                            <ImageContainer img={GoodTraditions} text="Good Traditions" />
+                        </div>
                     </div>
                 </div>
-                <div className="w-[40%]">
+                <div className="hidden lg:block">
                     <Image src={HappyMascot} alt="Happy Mascot" />
                 </div>
             </div>
