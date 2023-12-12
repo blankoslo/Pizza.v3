@@ -14,7 +14,7 @@ const FourthSection = () => {
                 <Image height={500} src={PizzaInvitation} alt="pizza invitation in slack" />
                 <div className="relative flex items-end">
                     <div className="absolute bottom-[18px] left-[56%] h-20 w-52 bg-green-secondary p-1 pl-10 font-workSans text-xl italic leading-6 text-dark">
-                        The Pizza Bot sends you a private invitation
+                        The PizzaBot sends you a private invitation
                     </div>
                     <Image height={300} className="z-10" src={PizzaBotWithFourArms} alt="pizza bot with four arms" />
                 </div>

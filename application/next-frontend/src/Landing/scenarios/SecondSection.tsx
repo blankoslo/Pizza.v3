@@ -18,7 +18,7 @@ const SecondSection = () => {
                 <div className="flex flex-col">
                     <div className="flex h-[50%] items-center justify-center">
                         <span className="w-[70%] font-queensRegular text-5xl text-white">
-                            The pizza bot will help you build better performances and stronger teams by building:
+                            The PizzaBot will help you build better performances and stronger teams by building:
                         </span>
                     </div>
                     <div className="flex flex-wrap place-content-center gap-4  font-queensRegular text-4xl text-white ">

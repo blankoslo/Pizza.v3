@@ -26,7 +26,7 @@ const ThirdSection = () => {
                                 </div>
                             </div>
                             <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                                <span>Choose the slack channel you want the Pizza Bot to appear in.</span>
+                                <span>Choose the slack channel you want the PizzaBot to appear in.</span>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ const ThirdSection = () => {
                             </div>
                         </div>
                         <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                            <span>Let the Pizza Bot know where it should invite for Pizza.</span>
+                            <span>Let the PizzaBot know where it should invite for Pizza.</span>
                         </div>
                     </div>
                     {/* Part 3 */}
@@ -58,7 +58,7 @@ const ThirdSection = () => {
                                 </div>
                             </div>
                             <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                                <span>Let the Pizza Bot know when to invite for Pizza.</span>
+                                <span>Let the PizzaBot know when to invite for Pizza.</span>
                             </div>
                         </div>
                     </div>
