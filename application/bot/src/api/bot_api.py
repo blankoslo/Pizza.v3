@@ -23,7 +23,7 @@ class BotApi:
         self.translator: Translator = injector.get(Translator)
 
     def __enter__(self):
-        self.client = injector.get(BrokerClient)
+        self.client: BrokerClient = injector.get(BrokerClient)
         return self
 
     def __exit__(self, type, value, traceback):
@@ -96,6 +96,26 @@ class BotApi:
                 self.logger.error("Was unable to leave channel %s", channel_id)
 
         return channel_id
+    
+    def handle_user_joined_channel(self, team_id, user_id, channel_id):
+        slack_installation = self.client.get_slack_installation(team_id=team_id)
+        if slack_installation is None or 'channel_id' not in slack_installation:
+            self.logger.error("Failed to get slack installation for team %s", team_id)
+            return
+        if slack_installation['channel_id'] != channel_id:
+            return
+        
+        self.logger.info(f"User {user_id} joined channel in organization {team_id}")
+
+        # set active active
+        user_to_update = {
+            'id': user_id,
+            'team_id': team_id,
+            'active': True
+        }
+
+        self.client.update_slack_users(slack_users=[user_to_update])
+
     
     def handle_user_left_channel(self, team_id, user_id, channel_id, slack_client):
         slack_installation = self.client.get_slack_installation(team_id=team_id)
@@ -354,13 +374,6 @@ class BotApi:
     def get_invited_users(self):
         return self.client.get_invited_unanswered_user_ids()
 
-    def sync_users_from_organizations(self):
-        slack_organizations = self.client.get_slack_organizations()
-        for slack_organization in slack_organizations:
-            self.sync_users_from_organization(team_id=slack_organization['team_id'], bot_token=slack_organization['bot_token'])
-
-    # This updates all users on all user for all organizations, regardless if they are in the channel or not. This wont scale
-    # TODO: optimize this. Might need another message to the backend to get active users and see if the list has changed
     def sync_users_from_organization(self, team_id, bot_token):
         installation_info = self.client.get_slack_installation(team_id=team_id)
         if installation_info is None:
