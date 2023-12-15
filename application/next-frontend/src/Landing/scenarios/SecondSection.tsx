@@ -8,30 +8,34 @@ import Image from 'next/image'
 
 const SecondSection = () => {
     return (
-        <section className="flex min-h-[90vh] flex-col justify-around gap-16 bg-green-primary p-16 px-20 lg:gap-8">
-            <div className="w-full">
-                <span className="font-queensRegular text-7xl italic text-white">Create an inclusive work culture</span>
-            </div>
-            <div className="flex w-full flex-row items-center">
-                <div className="flex flex-col gap-4">
-                    <div className="flex h-[50%] items-center">
-                        <span className="w-[70%] font-queensRegular text-4xl text-white">
-                            The pizza bot will help you build better performances and stronger teams by building:
-                        </span>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-4 font-queensRegular text-2xl text-white">
-                        <div className="flex flex-row gap-4">
+        <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20 ">
+            <div className="flex w-full max-w-6xl flex-col gap-16 text-white">
+                {/* Title */}
+                <div className="w-full font-queensRegular text-7xl">
+                    <span className="inline-block max-w-[10em]">
+                        Build a work culture with the PizzaBot and create...
+                    </span>
+                </div>
+                <div className="flex w-full flex-row flex-wrap justify-around gap-16">
+                    {/* Icon grid */}
+                    <div className="grid grid-cols-2 grid-rows-2 gap-16 px-12 text-center font-workSans text-2xl">
+                        <div className="flex items-center justify-center">
                             <ImageContainer img={SafeEnvironments} text="Safe Environments" />
+                        </div>
+                        <div className="flex items-center justify-center">
                             <ImageContainer img={EngagedTeams} text="Engaged Teams" />
                         </div>
-                        <div className="flex flex-row gap-4">
-                            <ImageContainer img={Friendships} text="Friendship" />
+                        <div className="flex items-center justify-center">
                             <ImageContainer img={GoodTraditions} text="Good Traditions" />
                         </div>
+                        <div className="flex items-center justify-center">
+                            <ImageContainer img={Friendships} text="Friendship" />
+                        </div>
                     </div>
-                </div>
-                <div className="hidden lg:block">
-                    <Image src={HappyMascot} alt="Happy Mascot" />
+                    {/* Bot icon */}
+                    <div className="flex flex-1 items-end justify-end">
+                        <Image src={HappyMascot} alt="Happy Mascot" className="min-w-[15rem] max-w-[20rem]" />
+                    </div>
                 </div>
             </div>
         </section>
