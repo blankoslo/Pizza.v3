@@ -9,9 +9,9 @@ import Image from 'next/image'
 const SecondSection = () => {
     return (
         <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20 ">
-            <div className="flex w-full max-w-6xl flex-col gap-16 text-white">
+            <div className="flex w-full max-w-6xl flex-col gap-16 italic text-white">
                 {/* Title */}
-                <div className="w-full font-queensRegular text-7xl">
+                <div className="w-full font-queensRegular text-[60px] lg:text-[88px]">
                     <span className="inline-block max-w-[10em]">
                         Build a work culture with the PizzaBot and create...
                     </span>

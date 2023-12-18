@@ -2,14 +2,19 @@ import ChooseChannel from 'Landing/assets/chooseChannel.svg'
 import ChooseRestaurants from 'Landing/assets/chooseRestaurants.svg'
 import ChooseDate from 'Landing/assets/chooseDate.svg'
 import Image from 'next/image'
+import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
 
 const ThirdSection = () => {
     return (
-        <div className="flex justify-center bg-green-light p-16 font-queensRegular italic">
-            <div className="flex w-full flex-col lg:w-fit">
-                <div className="flex flex-col text-[5.5rem] text-green-primary">
-                    <span>Fun to use,</span>
-                    <span className="-mt-8">Easy to manage</span>
+        <section className="flex justify-center bg-green-light p-16 font-queensMedium lg:px-20">
+            <div className="flex w-full max-w-6xl flex-col lg:w-fit">
+                <div className="w-full">
+                    <span className="inline-block max-w-[5em] font-queensRegular text-[60px] text-green-primary lg:text-[88px]">
+                        Fun to use, Easy to setup
+                    </span>
+                </div>
+                <div className="font-workSans text-[24px]  text-[#003A1C] lg:-mt-8 lg:text-[32px]">
+                    <span>After you add this to Slack..</span>
                 </div>
 
                 <div className="mt-12 grid w-full grid-cols-[1fr_auto] grid-rows-[1fr_auto_1fr_auto_1fr_auto] gap-4 lg:grid-cols-[1fr_auto_1fr]">
@@ -17,48 +22,48 @@ const ThirdSection = () => {
                     <div className="col-start-1 row-start-1 flex justify-end">
                         <div className="mr-8 flex max-w-[38rem] flex-col">
                             <div className="mt-12 flex">
-                                <div className="flex flex-col text-[200px] leading-none text-[#9AE59D]">
+                                <div className="flex flex-col text-[130px] italic leading-none text-[#9AE59D] lg:text-[200px]">
                                     <span className="text-border">1.</span>
                                 </div>
-                                <div className="ml-4 flex flex-col text-[72px] leading-none text-green-primary">
-                                    <span className=" mt-4">Choose</span>
+                                <div className="ml-4 flex flex-col text-[52px] italic leading-none text-green-primary lg:text-[72px]">
+                                    <span className="mt-4">Choose</span>
                                     <span>Channel</span>
                                 </div>
                             </div>
-                            <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                                <span>Choose the slack channel you want the Pizza Bot to appear in.</span>
+                            <div className="font-workSans text-[24px] text-[#003A1C] lg:-mt-8 lg:text-[28px]">
+                                <span>Choose the slack channel you want the PizzaBot to send invites on.</span>
                             </div>
                         </div>
                     </div>
                     {/* Part 2 */}
                     <div className="col-start-1 row-start-3 flex max-w-[38rem] flex-col pl-10 lg:col-start-3">
                         <div className="mt-12 flex">
-                            <div className="flex flex-col text-[200px] leading-none text-[#F0E36F]">
+                            <div className="flex flex-col text-[130px] italic leading-none text-[#F0E36F] lg:text-[200px]">
                                 <span className="text-border">2.</span>
                             </div>
-                            <div className="ml-4 flex flex-col text-[72px] leading-none text-green-primary">
-                                <span className=" mt-4">Add</span>
+                            <div className="ml-4 flex flex-col text-[72px] italic leading-none text-green-primary">
+                                <span className="mt-4">Add</span>
                                 <span>Restaurants</span>
                             </div>
                         </div>
-                        <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                            <span>Let the Pizza Bot know where it should invite for Pizza.</span>
+                        <div className="font-workSans text-[24px] text-[#003A1C] lg:-mt-8 lg:text-[28px]">
+                            <span>The PizzaBot chooses from one of the restaurants added.</span>
                         </div>
                     </div>
                     {/* Part 3 */}
                     <div className="col-start-1 row-start-5 flex justify-end">
                         <div className="mr-8 flex max-w-[38rem] flex-col">
                             <div className="mt-12 flex">
-                                <div className="flex flex-col text-[200px] leading-none text-[#F8B6B6]">
+                                <div className="flex flex-col text-[130px] italic leading-none text-[#F8B6B6] lg:text-[200px]">
                                     <span className="text-border">3.</span>
                                 </div>
-                                <div className="ml-4 flex flex-col text-[72px] leading-none text-green-primary">
+                                <div className="ml-4 flex flex-col text-[72px] italic leading-none text-green-primary">
                                     <span className=" mt-4">Set</span>
                                     <span>Events</span>
                                 </div>
                             </div>
-                            <div className="-mt-8 font-workSans text-[32px] not-italic text-[#003A1C]">
-                                <span>Let the Pizza Bot know when to invite for Pizza.</span>
+                            <div className="font-workSans text-[24px] text-[#003A1C] lg:-mt-8 lg:text-[28px]">
+                                <span>The PizzaBot sets up the event after you pick date & time</span>
                             </div>
                         </div>
                     </div>
@@ -84,9 +89,13 @@ const ThirdSection = () => {
                     <div className="col-start-1 row-start-6 flex justify-end">
                         <Image src={ChooseDate} alt="Choose Date" />
                     </div>
+
+                    <div className="col-start-1 row-start-7 mt-8 flex">
+                        <AddToSlackButton />
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

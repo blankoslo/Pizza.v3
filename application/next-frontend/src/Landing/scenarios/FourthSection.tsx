@@ -2,16 +2,24 @@ import Image from 'next/image'
 import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.png'
 import PizzaInvitation from 'Landing/assets/PizzaInvitation.png'
 import PizzaBotWithFourArms from 'Landing/assets/PizzaBotWithFourArms.png'
+import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 
 const FourthSection = () => {
     return (
         <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20">
             <div className="flex w-full max-w-6xl flex-col items-center gap-16 text-white">
-                <div className="w-full">
-                    <span className="inline-block max-w-[10em] font-queensRegular text-7xl">
-                        Picks 5 people from the slack channel randomly...
+                <div className="w-full gap-4">
+                    <span className="inline-block max-w-[14em] font-queensRegular text-[60px] text-green-light lg:text-[88px]">
+                        The PizzaBot picks 5 people from the slack channel randomly..
                     </span>
+                    <div className="font-workSans text-[24px] text-light lg:text-[32px]">
+                        <span>and invites them for an event</span>
+                    </div>
+                    <div className="my-10">
+                        <AddToSlackButtonWhite />
+                    </div>
                 </div>
+
                 <div className="flex flex-row flex-wrap">
                     <div className="w-full max-w-[700px] pb-24">
                         <Image src={PizzaInvitation} alt="pizza invitation in slack" />
