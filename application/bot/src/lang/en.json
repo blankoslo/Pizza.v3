@@ -2,7 +2,7 @@
   "thanksForFile": "Thanks for the file! 🤙",
   "pizzaChannelError": "Something went wrong. Couldn't set Pizza channel.",
   "pizzaChannelErrorScheduledEvents": "There are $count scheduled events in the previous pizza channel. Please cancel them in the admin panel before switching channel.",
-  "pizzaChannelConfirm": "Pizza channel has now been set to <#$channel_id>",
+  "pizzaChannelConfirm": "Pizza channel has now been set to <#$channel_id> 🍕 Members of this channel will now receive invitations to future events.",
   "botWelcome": "Hello! I'm the pizza bot. If you want to change the channel I use, you can go to the appropriate channel and use the command '/set-pizza-channel'. If the channel is private, you need to add me first.",
   "eventReminder": "Hey there! I didn't hear any more from you. Are you coming?",
   "eventFinalized": "Hello there! $user_ids! You're going to have 🍕 at $restaurant_name, $time_stamp. $booker is booking the table!",
@@ -31,5 +31,6 @@
   "invitedButLeftChannelUnanswered": "Since you left the PizzaBot channel, I assume you do not want to attend 😕",
   "invitedButLeftChannelWithdrawn": "Since you left the PizzaBot channel, I assume you do not want to attend 😕 You have been withdrawn from the event",
   "userLeftPizzaChannel": "You left the PizzaBot channel 😕 You will no longer receive invitations to future events.",
+  "userJoinedPizzaChannel": "You joined the PizzaBot channel 🍕 You will receive invitations to future events.",
   "adminPanelURLCommand": "The admin panel can be found <$adminPanelURL | here>"
 }

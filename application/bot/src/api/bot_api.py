@@ -97,7 +97,8 @@ class BotApi:
 
         return channel_id
     
-    def handle_user_joined_channel(self, team_id, user_id, channel_id):
+    def handle_user_joined_channel(self, team_id, user_id, channel_id, slack_client):
+        translator = injector.get(Translator)
         slack_installation = self.client.get_slack_installation(team_id=team_id)
         if slack_installation is None or 'channel_id' not in slack_installation:
             self.logger.error("Failed to get slack installation for team %s", team_id)
@@ -115,6 +116,8 @@ class BotApi:
         }
 
         self.client.update_slack_users(slack_users=[user_to_update])
+
+        self.send_slack_message(channel_id=user_id, text=translator.translate("userJoinedPizzaChannel"), slack_client=slack_client)
 
     
     def handle_user_left_channel(self, team_id, user_id, channel_id, slack_client):

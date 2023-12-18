@@ -14,8 +14,7 @@ class SlackApi:
             raise ValueError("Either 'client' or 'token' must be provided.")
         self.logger: logging.Logger = injector.get(logging.Logger)
 
-    # Returns a list of users in the workspace, 
-    # with their active status updated.
+
     def get_users_to_update_by_channel(self, channel_id):
         # list of user ids in channel
         members = self.get_channel_users(channel_id=channel_id)

@@ -89,6 +89,7 @@ def handle_event(body, say, context):
 @slack_app.event("member_joined_channel")
 def handle_event(body, say, context):
     event = body["event"]
+    client = SlackApi(client=context["client"])
     # Handle a user joining the channel
     if "channel" in event and "user" in event and "team" in event:
         channel_id = event["channel"]
@@ -96,7 +97,7 @@ def handle_event(body, say, context):
         user_id = event["user"]
         ba: BotApi
         with injector.get(BotApi) as ba:
-            ba.handle_user_joined_channel(channel_id=channel_id, team_id=team_id, user_id=user_id)
+            ba.handle_user_joined_channel(channel_id=channel_id, team_id=team_id, user_id=user_id, slack_client=client)
 
 
 def handle_rsvp(body, ack, attending, client):
