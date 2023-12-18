@@ -5,24 +5,26 @@ import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 
 const SixthSection = () => {
     return (
-        <div className="flex bg-green-primary">
-            <div className="flex w-[60%] flex-col">
-                <span className="mb-6 ml-64 mt-10 font-queensRegular text-[60px] italic text-green-light lg:text-[80px]">
-                    Add the PizzaBot to slack now
-                </span>
-                <div className="mb-3 ml-64">
-                    <AddToSlackButtonWhite />
+        <section className="flex justify-center bg-green-primary p-16 font-queensMedium lg:px-20">
+            <div className="flex w-full max-w-6xl">
+                <div className="flex flex-col">
+                    <span className="inline-block max-w-[7em] font-queensRegular text-[60px] text-green-light lg:text-[80px]">
+                        Add the PizzaBot to slack now
+                    </span>
+                    <div>
+                        <AddToSlackButtonWhite />
+                    </div>
+                    <div className="ml-[200px]">
+                        <Image src={HandWithTopping} alt="hand with topping" />
+                    </div>
                 </div>
-                <div className="ml-[400px]">
-                    <Image src={HandWithTopping} alt="hand with topping" />
+                <div className="flex justify-end">
+                    <div className="mb-10 mt-auto">
+                        <Image src={PizzaBotYellow} alt="yellow pizza bot" />
+                    </div>
                 </div>
             </div>
-            <div className="flex justify-end">
-                <div className="mb-10 mt-auto">
-                    <Image src={PizzaBotYellow} alt="yellow pizza bot" />
-                </div>
-            </div>
-        </div>
+        </section>
     )
 }
 
