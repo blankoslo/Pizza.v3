@@ -43,7 +43,6 @@ class BotApi:
         
 
     def join_channel(self, slack_client, team_id, channel_id):
-
         # Log and exit if we were unable to find a channel
         if channel_id is None:
             self.logger.error("Bot cannot join None channel")
@@ -376,6 +375,11 @@ class BotApi:
 
     def get_invited_users(self):
         return self.client.get_invited_unanswered_user_ids()
+    
+    def sync_users_from_organizations(self):
+        slack_organizations = self.client.get_slack_organizations()
+        for slack_organization in slack_organizations:
+            self.sync_users_from_organization(team_id=slack_organization['team_id'], bot_token=slack_organization['bot_token'])
 
     def sync_users_from_organization(self, team_id, bot_token):
         installation_info = self.client.get_slack_installation(team_id=team_id)
