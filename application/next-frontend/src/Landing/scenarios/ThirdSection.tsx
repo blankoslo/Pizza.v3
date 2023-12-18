@@ -5,14 +5,14 @@ import Image from 'next/image'
 
 const ThirdSection = () => {
     return (
-        <div className="relative h-[400vh] bg-green-light font-queensRegular italic">
-            <div className="absolute top-20 w-full px-44">
-                <div className="flex flex-col text-[88px] text-green-primary">
+        <div className="flex justify-center bg-green-light p-16 font-queensRegular italic">
+            <div className="flex w-full flex-col lg:w-fit">
+                <div className="flex flex-col text-[5.5rem] text-green-primary">
                     <span>Fun to use,</span>
                     <span className="-mt-8">Easy to manage</span>
                 </div>
 
-                <div className="mt-12 grid w-full grid-cols-[1fr_auto_1fr] grid-rows-[1fr_auto_1fr_auto_1fr_auto] gap-4">
+                <div className="mt-12 grid w-full grid-cols-[1fr_auto] grid-rows-[1fr_auto_1fr_auto_1fr_auto] gap-4 lg:grid-cols-[1fr_auto_1fr]">
                     {/* Part 1 */}
                     <div className="col-start-1 row-start-1 flex justify-end">
                         <div className="mr-8 flex max-w-[38rem] flex-col">
@@ -31,7 +31,7 @@ const ThirdSection = () => {
                         </div>
                     </div>
                     {/* Part 2 */}
-                    <div className="col-start-3 row-start-3 flex max-w-[38rem] flex-col pl-10">
+                    <div className="col-start-1 row-start-3 flex max-w-[38rem] flex-col pl-10 lg:col-start-3">
                         <div className="mt-12 flex">
                             <div className="flex flex-col text-[200px] leading-none text-[#F0E36F]">
                                 <span className="text-border">2.</span>
@@ -78,7 +78,7 @@ const ThirdSection = () => {
                     <div className="col-start-1 row-start-2 mr-8 flex justify-end">
                         <Image src={ChooseChannel} alt="Choose Slack Channel" />
                     </div>
-                    <div className="col-start-3 row-start-4 pl-10">
+                    <div className="col-start-1 row-start-4 pl-10 lg:col-start-3">
                         <Image src={ChooseRestaurants} alt="Choose Restaurants" />
                     </div>
                     <div className="col-start-1 row-start-6 flex justify-end">

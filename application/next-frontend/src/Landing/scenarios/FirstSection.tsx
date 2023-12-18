@@ -13,7 +13,7 @@ const addToSlack = async () => {
 
 const FirstSection = () => {
     return (
-        <div className="flex h-[90vh] flex-col items-center bg-green-light">
+        <div className="flex min-h-[50rem] flex-col items-center bg-green-light">
             <span className="mt-12 text-center font-queensMedium text-9xl text-green-primary">
                 A slice to <i>socialise</i>
             </span>
