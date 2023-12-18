@@ -1,26 +1,17 @@
 import Image from 'next/image'
 import HandWithTopping from 'Landing/assets/illustrations/HandWithTopping.svg'
 import PizzaBotYellow from 'Landing/assets/illustrations/PizzaBotYellow.svg'
-
-import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtonWhite'
-import { clientsideApiUri } from '@/api/endpoints'
-
-const addToSlack = async () => {
-    const res = await fetch(clientsideApiUri + '/slack/install', { method: 'GET' }).then((res) => res.json())
-    const redirectURL = res.redirect_url
-
-    if (redirectURL) window.location.assign(redirectURL)
-}
+import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 
 const SixthSection = () => {
     return (
         <div className="flex bg-green-primary">
             <div className="flex w-[60%] flex-col">
-                <span className="mb-6 ml-64 mt-10 font-queensRegular text-8xl italic text-green-light">
-                    Add the PizzaBot to slack <i>now</i>
+                <span className="mb-6 ml-64 mt-10 font-queensRegular text-[60px] italic text-green-light lg:text-[80px]">
+                    Add the PizzaBot to slack now
                 </span>
                 <div className="mb-3 ml-64">
-                    <AddToSlackButtonWhite onClick={addToSlack} />
+                    <AddToSlackButtonWhite />
                 </div>
                 <div className="ml-[400px]">
                     <Image src={HandWithTopping} alt="hand with topping" />
