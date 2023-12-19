@@ -6,8 +6,8 @@ import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
 
 const ThirdSection = () => {
     return (
-        <section className="flex justify-center bg-green-light p-16 font-queensMedium lg:px-20">
-            <div className="flex w-full max-w-6xl flex-col lg:w-fit">
+        <section className="flex justify-center bg-green-light p-16 font-queensMedium lg:px-20 ">
+            <div className="flex w-full max-w-[1500px] flex-col lg:w-fit">
                 <div className="w-full">
                     <span className="inline-block max-w-[5em] font-queensRegular text-[60px] text-green-primary lg:text-[88px]">
                         Fun to use, Easy to setup
@@ -66,17 +66,6 @@ const ThirdSection = () => {
                                 <span>The PizzaBot sets up the event after you pick date & time</span>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Circles */}
-                    <div className="col-start-2 row-start-1 flex items-center justify-center">
-                        <div className="h-[64px] w-[64px] rounded-full border-[6px] border-green-primary bg-[#9AE59D]"></div>
-                    </div>
-                    <div className="col-start-2 row-start-3 flex items-center justify-center">
-                        <div className="h-[64px] w-[64px] rounded-full border-[6px] border-green-primary bg-[#F0E36F]"></div>
-                    </div>
-                    <div className="col-start-2 row-start-5 flex items-center justify-center">
-                        <div className="h-[64px] w-[64px] rounded-full border-[6px] border-green-primary bg-[#F8B6B6]"></div>
                     </div>
 
                     {/* Images */}

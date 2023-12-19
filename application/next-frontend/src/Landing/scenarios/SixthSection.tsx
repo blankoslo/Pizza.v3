@@ -5,23 +5,21 @@ import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 
 const SixthSection = () => {
     return (
-        <section className="flex justify-center bg-green-primary p-16 font-queensMedium lg:px-20">
-            <div className="flex w-full max-w-6xl">
-                <div className="flex flex-col">
-                    <span className="inline-block max-w-[7em] font-queensRegular text-[60px] text-green-light lg:text-[80px]">
+        <section className="flex justify-center bg-green-primary px-16 pt-16 font-queensMedium lg:px-20">
+            <div className="flex w-full max-w-[1500px] flex-col lg:flex-row">
+                <div className="order-1 flex flex-1 flex-col">
+                    <span className="font-queensRegular text-[60px] text-green-light lg:text-[80px]">
                         Add the PizzaBot to slack now
                     </span>
-                    <div>
+                    <div className="mt-4">
                         <AddToSlackButtonWhite />
                     </div>
                     <div className="ml-[200px]">
-                        <Image src={HandWithTopping} alt="hand with topping" />
+                        <Image src={HandWithTopping} alt="hand with topping" className="w-[15rem] min-w-[10rem]" />
                     </div>
                 </div>
-                <div className="flex justify-end">
-                    <div className="mb-10 mt-auto">
-                        <Image src={PizzaBotYellow} alt="yellow pizza bot" />
-                    </div>
+                <div className="order-2 my-8 flex flex-1 justify-center">
+                    <Image src={PizzaBotYellow} alt="yellow pizza bot" className="w-[15rem] min-w-[10rem]" />
                 </div>
             </div>
         </section>

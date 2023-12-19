@@ -7,7 +7,7 @@ import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 const FourthSection = () => {
     return (
         <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20">
-            <div className="flex w-full max-w-6xl flex-col items-center gap-16 text-white">
+            <div className="flex w-full max-w-[1500px] flex-col items-center gap-16 text-white">
                 <div className="w-full gap-4">
                     <span className="inline-block max-w-[14em] font-queensRegular text-[60px] text-green-light lg:text-[88px]">
                         The PizzaBot picks 5 people from the slack channel randomly..

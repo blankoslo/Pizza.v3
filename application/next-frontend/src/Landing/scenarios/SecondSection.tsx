@@ -5,11 +5,12 @@ import GoodTraditions from 'Landing/assets/illustrations/GoodTraditions.svg'
 import HappyMascot from 'Landing/assets/illustrations/HappyMascotLanding.svg'
 import { ImageContainer } from 'Landing/components/secondSection/ImageContainer'
 import Image from 'next/image'
+import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
 
 const SecondSection = () => {
     return (
-        <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20 ">
-            <div className="flex w-full max-w-6xl flex-col gap-16 italic text-white">
+        <section className="flex items-center justify-center bg-green-primary p-16 lg:px-20">
+            <div className="flex w-full max-w-[1500px] flex-col gap-16 italic text-white">
                 {/* Title */}
                 <div className="w-full font-queensRegular text-[60px] lg:text-[88px]">
                     <span className="inline-block max-w-[10em]">
@@ -31,10 +32,13 @@ const SecondSection = () => {
                         <div className="flex items-center justify-center">
                             <ImageContainer img={Friendships} text="Friendship" />
                         </div>
+                        <div className="my-16">
+                            <AddToSlackButtonWhite />
+                        </div>
                     </div>
                     {/* Bot icon */}
                     <div className="flex flex-1 items-end justify-end">
-                        <Image src={HappyMascot} alt="Happy Mascot" className="min-w-[15rem] max-w-[20rem]" />
+                        <Image src={HappyMascot} alt="Happy Mascot" className="w-[34rem] min-w-[17rem]" />
                     </div>
                 </div>
             </div>
