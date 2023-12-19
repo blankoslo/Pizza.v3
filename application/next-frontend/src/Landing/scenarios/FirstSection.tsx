@@ -4,7 +4,7 @@ import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
 
 const FirstSection = () => {
     return (
-        <div className="flex min-h-[50rem] flex-col items-center bg-green-light">
+        <section className="flex min-h-[50rem] flex-col items-center bg-green-light">
             <span className="mt-12 text-center font-queensMedium text-9xl text-green-primary">
                 A slice to <i>socialise</i>
             </span>
@@ -13,7 +13,7 @@ const FirstSection = () => {
                 Download the PizzaBot to build better work environments.
             </span>
             <AddToSlackButton />
-        </div>
+        </section>
     )
 }
 
