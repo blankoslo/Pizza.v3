@@ -54,7 +54,7 @@ const FifthSection = () => {
                                 Explore <b>PizzaBot premium</b> to gather pictures from pizza events, along with many
                                 other fun features{' '}
                             </span>
-                            <AddToSlackButton onClick={() => null} />
+                            <AddToSlackButton />
                         </div>
                     </div>
                     <div></div>
