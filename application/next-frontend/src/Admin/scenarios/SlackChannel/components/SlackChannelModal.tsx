@@ -32,8 +32,8 @@ const SlackChannelModal = () => {
                         <div className="text-2xl font-semibold">
                             <span className={``}>#{channelName}</span>
                         </div>
-                        <div className="">{numUsersInChannel(channelMembers)}</div>
-                        <div className="mt-8 break-keep">
+                        <div className="text-xl">{numUsersInChannel(channelMembers)}</div>
+                        <div className="my-8 break-keep text-xl">
                             If you want to change the channel I work in, use the command{' '}
                             <b>/set&#8209;pizza&#8209;channel</b> in your preferred slack-channel to set.
                         </div>
