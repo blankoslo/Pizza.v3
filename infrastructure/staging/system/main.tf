@@ -52,6 +52,7 @@ resource "heroku_app" "bot" {
     "MQ_EVENT_KEY" =  var.MQ_EVENT_KEY
     "REPLY_DEADLINE_IN_HOURS" = var.REPLY_DEADLINE_IN_HOURS
     "HOURS_BETWEEN_REMINDERS" = var.HOURS_BETWEEN_REMINDERS
+    "FRONTEND_URI" = "https://${var.FRONTEND_URI}"
   }
 
   sensitive_config_vars = {
