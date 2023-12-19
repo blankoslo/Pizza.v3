@@ -13,10 +13,10 @@ const FifthSection = () => {
 
     return (
         <section className="flex items-center justify-center bg-green-light p-16 lg:px-20 ">
-            <div className="w-full max-w-6xl text-green-primary">
+            <div className="w-full max-w-[1500px] text-green-primary">
                 {/* grid def */}
                 <div className="grid w-full grid-cols-1 gap-16 lg:grid-cols-2">
-                    <div className="flex w-full flex-col items-center justify-center font-queensRegular text-7xl">
+                    <div className="flex w-full flex-col items-center justify-center font-queensRegular text-[60px] lg:text-[75px]">
                         <div className="flex flex-col font-[500]">
                             <span className="inline-block">Create</span>
                             <span className="inline-block">
