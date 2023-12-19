@@ -44,7 +44,7 @@ const Events = ({ clickable = true }: { clickable?: boolean }) => {
                 title="Events"
                 addIcon
                 onClickCard={clickable ? handleOnEventClick : undefined}
-                className="h-full"
+                className="h-full w-full"
             >
                 {isLoading ? (
                     'Loading...'
