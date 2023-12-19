@@ -19,7 +19,7 @@ const SixthSection = () => {
                     </div>
                 </div>
                 <div className="order-2 my-8 flex flex-1 justify-center">
-                    <Image src={PizzaBotYellow} alt="yellow pizza bot" className="w-[15rem] min-w-[10rem]" />
+                    <Image src={PizzaBotYellow} alt="yellow pizza bot" className="w-[25rem] min-w-[10rem]" />
                 </div>
             </div>
         </section>
