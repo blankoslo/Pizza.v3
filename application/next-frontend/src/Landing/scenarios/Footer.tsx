@@ -22,7 +22,7 @@ const Footer = () => {
                 </span>
                 <span />
                 <span className="text-green-secondary underline">
-                    Made with ❤️ from
+                    Made with ❤️ from{' '}
                     <Link className="font-semibold" href={'https://blank.no'}>
                         Blank AS Oslo
                     </Link>
