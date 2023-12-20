@@ -107,7 +107,6 @@ class BotApi:
         
         self.logger.info(f"User {user_id} joined channel in organization {team_id}")
 
-        # set active active
         user_to_update = {
             'id': user_id,
             'team_id': team_id,
@@ -128,6 +127,7 @@ class BotApi:
             return
         
         scheduled_events = self.client.get_scheduled_events_for_user(team_id=team_id, user_id=user_id)
+        
         if scheduled_events == False:
             self.logger.error("Failed to get scheduled events for user %s", user_id)
             return
@@ -168,7 +168,7 @@ class BotApi:
                 
         # Send message to user that they no longer will be invited to events
         self.send_slack_message(
-            channel_id=scheduled_event['slack_message_channel'],
+            channel_id=user_id,
             text=self.translator.translate("userLeftPizzaChannel"),
             slack_client=slack_client
         )

@@ -38,7 +38,7 @@ def clean_up_invitations():
 @scheduler.scheduled_job('date')
 def sync_users_from_organizations():
     logger = injector.get(logging.Logger)
-    logger.info("Syncing db with slack on startup")
+    logger.info("Syncing users in db with slack on startup")
     with injector.get(BotApi) as ba:
         ba.sync_users_from_organizations()
 
