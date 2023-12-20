@@ -2,7 +2,7 @@ import Mathilde from 'Landing/assets/Mathilde.svg'
 import Amalie from 'Landing/assets/Amalie.svg'
 import Vilde from 'Landing/assets/Vilde.svg'
 import { ImageWithPostit } from 'Landing/components/ImageWithPostit'
-import { AddToSlackButton } from '../components/AddToSlackButton'
+import { AddToSlackButton } from '../components/AddToSlackButtons'
 
 const FifthSection = () => {
     const postitTexts = [
@@ -54,7 +54,7 @@ const FifthSection = () => {
                                 Explore <b>PizzaBot premium</b> to gather pictures from pizza events, along with many
                                 other fun features{' '}
                             </span>
-                            <AddToSlackButton onClick={() => null} />
+                            <AddToSlackButton />
                         </div>
                     </div>
                     <div></div>
