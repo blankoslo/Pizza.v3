@@ -2,7 +2,7 @@ import ChooseChannel from 'Landing/assets/chooseChannel.svg'
 import ChooseRestaurants from 'Landing/assets/chooseRestaurants.svg'
 import ChooseDate from 'Landing/assets/chooseDate.svg'
 import Image from 'next/image'
-import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
+import { AddToSlackButton } from '@/Landing/components/AddToSlackButtons'
 
 const ThirdSection = () => {
     return (

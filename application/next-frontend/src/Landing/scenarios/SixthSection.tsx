@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import HandWithTopping from 'Landing/assets/illustrations/HandWithTopping.svg'
 import PizzaBotYellow from 'Landing/assets/illustrations/PizzaBotYellow.svg'
-import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
+import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
 
 const SixthSection = () => {
     return (

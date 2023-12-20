@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Line from 'Landing/assets/Line.svg'
-import { AddToSlackButton } from '@/Landing/components/AddToSlackButton'
+import { AddToSlackButton } from '@/Landing/components/AddToSlackButtons'
 
 const FirstSection = () => {
     return (

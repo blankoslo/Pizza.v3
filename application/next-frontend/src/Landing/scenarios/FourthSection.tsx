@@ -2,7 +2,7 @@ import Image from 'next/image'
 import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.png'
 import PizzaInvitation from 'Landing/assets/PizzaInvitation.png'
 import PizzaBotWithFourArms from 'Landing/assets/PizzaBotWithFourArms.png'
-import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButton'
+import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
 
 const FourthSection = () => {
     return (
