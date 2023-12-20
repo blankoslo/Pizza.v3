@@ -1,10 +1,8 @@
-import Image from 'next/image'
-import Leaves1 from 'Landing/assets/illustrations/Leaves1.svg'
-import Leaves2 from 'Landing/assets/illustrations/Leaves2.svg'
 import Mathilde from 'Landing/assets/Mathilde.svg'
 import Amalie from 'Landing/assets/Amalie.svg'
 import Vilde from 'Landing/assets/Vilde.svg'
 import { ImageWithPostit } from 'Landing/components/ImageWithPostit'
+import { AddToSlackButton } from '../components/AddToSlackButtons'
 
 const FifthSection = () => {
     const postitTexts = [
@@ -14,51 +12,67 @@ const FifthSection = () => {
     ]
 
     return (
-        <div className="flex bg-green-light">
-            <div className="flex w-1/2 flex-col items-center">
-                <span className="my-24 font-queensRegular text-7xl text-green-primary">Eat pizza</span>
-                <ImageWithPostit
-                    src={Vilde}
-                    text={postitTexts[0]}
-                    styles={{
-                        tape: 'ml-72 mt-[-10px] rotate-[18deg]',
-                        postit: 'ml-44 bg-postit-yellow',
-                        postitHover: 'z-20 mt-14',
-                        postitHoverAlternative: 'mt-16',
-                    }}
-                />
-                <span className="ml-20 mt-6 font-queensRegular text-7xl italic text-green-primary">fun memories</span>
-                <span className="ml-12 mt-2 w-80 font-workSans text-2xl text-dark">
-                    Click pictures and the bot will post them in a thread in the channel!
-                </span>
-                <Image className="ml-14" src={Leaves1} alt="leaves 1" />
+        <section className="flex items-center justify-center bg-green-light p-16 lg:px-20 ">
+            <div className="w-full max-w-[1500px] text-green-primary">
+                {/* grid def */}
+                <div className="grid w-full grid-cols-1 gap-16 lg:grid-cols-2">
+                    <div className="flex w-full flex-col items-center justify-center font-queensRegular text-[60px] lg:text-[75px]">
+                        <div className="flex flex-col font-[500]">
+                            <span className="inline-block">Create</span>
+                            <span className="inline-block">
+                                <i>fun</i> memories
+                            </span>
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <ImageWithPostit
+                            src={Mathilde}
+                            text={postitTexts[1]}
+                            styles={{
+                                tape: '-rotate-[9deg] -left-8',
+                                postit: ' -left-8 top-4 rotate-[-2deg] bg-postit-green',
+                                postitHover: 'z-20 mt-10',
+                                postitHoverAlternative: 'mt-12',
+                            }}
+                        />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <ImageWithPostit
+                            src={Vilde}
+                            text={postitTexts[0]}
+                            styles={{
+                                tape: '-right-4 rotate-[18deg]',
+                                postit: ' -top-4 -right-8 bg-postit-yellow rotate-[3deg]',
+                                postitHover: 'z-20 mt-14',
+                                postitHoverAlternative: 'mt-16',
+                            }}
+                        />
+                    </div>
+                    <div className="row-start-6 flex items-center justify-center font-workSans lg:row-start-[unset]">
+                        <div className="flex w-full max-w-[15em] flex-col gap-8 text-2xl">
+                            <span className="text-black ">
+                                Explore <b>PizzaBot premium</b> to gather pictures from pizza events, along with many
+                                other fun features{' '}
+                            </span>
+                            <AddToSlackButton />
+                        </div>
+                    </div>
+                    <div></div>
+                    <div className="flex items-center justify-center">
+                        <ImageWithPostit
+                            src={Amalie}
+                            text={postitTexts[2]}
+                            styles={{
+                                tape: '-left-4 rotate-[-6deg]',
+                                postit: '-left-8 top-8 rotate-2 bg-postit-pink',
+                                postitHover: 'z-20 mt-5',
+                                postitHoverAlternative: 'mt-7',
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
-
-            <div className="my-16 flex w-1/2 flex-col items-start">
-                <ImageWithPostit
-                    src={Mathilde}
-                    text={postitTexts[1]}
-                    styles={{
-                        tape: 'ml-72 mt-[-20px] rotate-[9deg]',
-                        postit: 'ml-44 rotate-[-2deg] bg-postit-green',
-                        postitHover: 'z-20 mt-10',
-                        postitHoverAlternative: 'mt-12',
-                    }}
-                />
-                <span className="ml-10 mt-8 font-queensRegular text-7xl italic text-green-primary">& create</span>
-                <Image src={Leaves2} alt="leaves 2" className="mb-8 ml-72 mt-4" />
-                <ImageWithPostit
-                    src={Amalie}
-                    text={postitTexts[2]}
-                    styles={{
-                        tape: 'ml-[-20px] mt-[-40px] rotate-2',
-                        postit: 'ml-[-50px] rotate-2 bg-postit-pink',
-                        postitHover: 'z-20 mt-5',
-                        postitHoverAlternative: 'mt-7',
-                    }}
-                />
-            </div>
-        </div>
+        </section>
     )
 }
 
