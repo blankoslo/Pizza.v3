@@ -19,7 +19,7 @@ const ThirdSection = () => {
 
                 <div className="mt-12 grid w-full grid-cols-[1fr_auto] grid-rows-[1fr_auto_1fr_auto_1fr_auto] gap-4 lg:grid-cols-[1fr_auto_1fr]">
                     {/* Part 1 */}
-                    <div className="col-start-1 row-start-1 flex justify-end">
+                    <div className="col-start-1 row-start-1 flex lg:justify-end">
                         <div className="mr-8 flex max-w-[38rem] flex-col">
                             <div className="mt-12 flex">
                                 <div className="flex flex-col text-[130px] italic leading-none text-[#9AE59D] lg:text-[200px]">
@@ -36,12 +36,12 @@ const ThirdSection = () => {
                         </div>
                     </div>
                     {/* Part 2 */}
-                    <div className="col-start-1 row-start-3 flex max-w-[38rem] flex-col pl-10 lg:col-start-3">
+                    <div className="col-start-1 row-start-3 flex max-w-[38rem] flex-col lg:col-start-3 lg:pl-10">
                         <div className="mt-12 flex">
                             <div className="flex flex-col text-[130px] italic leading-none text-[#F0E36F] lg:text-[200px]">
                                 <span className="text-border">2.</span>
                             </div>
-                            <div className="ml-4 flex flex-col text-[72px] italic leading-none text-green-primary">
+                            <div className="ml-4 flex flex-col text-[52px] italic leading-none text-green-primary lg:text-[72px]">
                                 <span className="mt-4">Add</span>
                                 <span>Restaurants</span>
                             </div>
@@ -51,13 +51,13 @@ const ThirdSection = () => {
                         </div>
                     </div>
                     {/* Part 3 */}
-                    <div className="col-start-1 row-start-5 flex justify-end">
+                    <div className="col-start-1 row-start-5 flex lg:justify-end">
                         <div className="mr-8 flex max-w-[38rem] flex-col">
                             <div className="mt-12 flex">
                                 <div className="flex flex-col text-[130px] italic leading-none text-[#F8B6B6] lg:text-[200px]">
                                     <span className="text-border">3.</span>
                                 </div>
-                                <div className="ml-4 flex flex-col text-[72px] italic leading-none text-green-primary">
+                                <div className="ml-4 flex flex-col text-[52px] italic leading-none text-green-primary lg:text-[72px]">
                                     <span className=" mt-4">Set</span>
                                     <span>Events</span>
                                 </div>
@@ -69,13 +69,13 @@ const ThirdSection = () => {
                     </div>
 
                     {/* Images */}
-                    <div className="col-start-1 row-start-2 mr-8 flex justify-end">
+                    <div className="col-start-1 row-start-2 mr-8 flex w-full max-w-[500px] justify-end">
                         <Image src={ChooseChannel} alt="Choose Slack Channel" />
                     </div>
-                    <div className="col-start-1 row-start-4 pl-10 lg:col-start-3">
+                    <div className="col-start-1 row-start-4 w-full max-w-[500px] pl-10 lg:col-start-3">
                         <Image src={ChooseRestaurants} alt="Choose Restaurants" />
                     </div>
-                    <div className="col-start-1 row-start-6 flex justify-end">
+                    <div className="col-start-1 row-start-6 flex w-full max-w-[550px] justify-end">
                         <Image src={ChooseDate} alt="Choose Date" />
                     </div>
 

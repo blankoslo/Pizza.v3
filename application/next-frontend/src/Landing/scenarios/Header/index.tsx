@@ -12,7 +12,7 @@ const Header = () => {
 
     return (
         <>
-            <div className="fixed top-0 z-50 flex h-16 w-full items-center gap-4 overflow-hidden bg-green-light py-4 after:top-0">
+            <div className="top-0 z-50 flex h-[10vh] w-full items-center gap-4 overflow-hidden bg-green-tertiary py-4">
                 <div className="ml-16 flex-1">
                     <Image
                         priority

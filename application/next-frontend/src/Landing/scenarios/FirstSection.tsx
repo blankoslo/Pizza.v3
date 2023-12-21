@@ -4,7 +4,7 @@ import { AddToSlackButton } from '@/Landing/components/AddToSlackButtons'
 
 const FirstSection = () => {
     return (
-        <section className="flex min-h-[50rem] flex-col items-center bg-green-light">
+        <section className="flex min-h-[80vh] flex-col items-center bg-green-light lg:max-h-[80vh]">
             <span className="mt-12 text-center font-queensMedium text-9xl text-green-primary">
                 A slice to <i>socialise</i>
             </span>
