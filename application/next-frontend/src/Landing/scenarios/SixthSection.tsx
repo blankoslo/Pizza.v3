@@ -14,8 +14,8 @@ const SixthSection = () => {
                     <div className="mt-4">
                         <AddToSlackButtonWhite />
                     </div>
-                    <div className="ml-[200px]">
-                        <Image src={HandWithTopping} alt="hand with topping" className="w-[15rem] min-w-[10rem]" />
+                    <div className="ml-[100px] lg:ml-[200px]">
+                        <Image src={HandWithTopping} alt="hand with topping" className="w-[10rem] lg:w-[15rem]" />
                     </div>
                 </div>
                 <div className="order-2 my-8 flex flex-1 justify-center">

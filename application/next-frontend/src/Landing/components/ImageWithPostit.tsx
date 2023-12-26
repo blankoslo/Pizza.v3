@@ -21,7 +21,7 @@ const ImageWithPostit = ({ src, text, styles }: Props) => {
             <Image src={Tape} alt="tape" className={`absolute z-30 ${styles.tape}`} />
             <Image src={src} alt="fun" className="z-10" />
             <div
-                className={`absolute min-h-[350px] w-[350px] p-10 font-workSans text-xl ${styles.postit} ${
+                className={`absolute min-h-[350px] w-[320px] p-10 font-workSans text-xl lg:w-[350px] ${styles.postit} ${
                     isHovered ? styles.postitHover : styles.postitHoverAlternative
                 }`}
             >
