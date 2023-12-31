@@ -42,7 +42,7 @@ def update_invitation(request: dict):
 @MessageHandler.handle('update_slack_user', UpdateSlackUserRequestSchema, UpdateSlackUserResponseSchema)
 def update_slack_user(request: dict):
     logger = injector.get(logging.Logger)
-    slack_user_service = injector.get(SlackUserService)
+    slack_user_service:SlackUserService = injector.get(SlackUserService)
     users_to_update = request['users_to_update']
 
     success = True

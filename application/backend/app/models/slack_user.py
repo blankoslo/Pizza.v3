@@ -10,7 +10,7 @@ class SlackUser(db.Model):
     slack_id = sa.Column(sa.String, primary_key=True)
     current_username = sa.Column(sa.String, nullable=False)
     first_seen = sa.Column(sa.DateTime(timezone=True), nullable=False, server_default=func.now())
-    active = sa.Column(sa.Boolean, nullable=False, server_default='t')
+    active = sa.Column(sa.Boolean, nullable=False, server_default='f')
     priority = sa.Column(sa.Integer, nullable=False, server_default='1')
     email = sa.Column(sa.String, nullable=True)
     ratings = relationship("Rating", backref="slack_user", cascade="all, delete-orphan")
