@@ -27,7 +27,7 @@ const RightSideMascot = () => {
 
 const FirstSection = () => {
     return (
-        <section className="flex min-h-[50rem] flex-col items-center justify-center gap-14 bg-green-tertiary">
+        <section className="flex min-h-[50rem] flex-col items-center justify-center gap-14 overflow-x-hidden bg-green-tertiary">
             <div className="flex flex-row flex-wrap gap-16 lg:flex-nowrap lg:gap-8">
                 <div className="flex flex-col items-center gap-8 p-16">
                     <span className="text-center font-queensMedium text-7xl text-green-secondary lg:text-9xl">
