@@ -1,8 +1,8 @@
 import Mathilde from 'Landing/assets/Mathilde.svg'
 import Amalie from 'Landing/assets/Amalie.svg'
 import Vilde from 'Landing/assets/Vilde.svg'
-import { ImageWithPostit } from 'Landing/components/ImageWithPostit'
-import { AddToSlackButton } from '../components/AddToSlackButtons'
+import { ImageWithPostit } from './components/ImageWithPostit'
+import { AddToSlackButton } from 'Landing/components/AddToSlackButtons'
 
 const FifthSection = () => {
     const postitTexts = [

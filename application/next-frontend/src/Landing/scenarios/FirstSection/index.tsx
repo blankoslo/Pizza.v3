@@ -2,8 +2,8 @@ import Image from 'next/image'
 import { AddToSlackButtonWhiteRounded } from '@/Landing/components/AddToSlackButtons'
 import Mascot from '@/Landing/assets/illustrations/MascotWithFourArmsGreen.svg'
 import SpeachBubble from '@/Landing/assets/illustrations/SpeachBubble.svg'
-import { MadeByBlank } from '../components/firstSection/madeByBlank'
-import { QuoteBubbles } from '../components/firstSection/quotesBubbles'
+import { MadeByBlank } from './components/madeByBlank'
+import { QuoteBubbles } from './components/quotesBubbles'
 
 const RightSideMascot = () => {
     return (
