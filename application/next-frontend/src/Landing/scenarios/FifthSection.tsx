@@ -36,7 +36,7 @@ const FifthSection = () => {
                             }}
                         />
                     </div>
-                    <div className="flex min-h-[450px] items-center justify-center lg:mt-0">
+                    <div className="flex min-h-[450px] items-center justify-center">
                         <ImageWithPostit
                             src={Vilde}
                             text={postitTexts[0]}
@@ -48,7 +48,7 @@ const FifthSection = () => {
                             }}
                         />
                     </div>
-                    <div className="row-start-6 flex min-h-[450px] items-center justify-center font-workSans lg:row-start-[unset] lg:mt-0">
+                    <div className="row-start-6 flex min-h-[450px] items-center justify-center font-workSans lg:row-start-[unset]">
                         <div className="flex w-full max-w-[15em] flex-col gap-8 text-2xl">
                             <span className="text-black ">
                                 Explore <b>PizzaBot premium</b> to gather pictures from pizza events, along with many
@@ -58,7 +58,7 @@ const FifthSection = () => {
                         </div>
                     </div>
                     <div className="hidden lg:block"></div>
-                    <div className="flex min-h-[450px] items-center justify-center lg:mt-0">
+                    <div className="flex min-h-[450px] items-center justify-center">
                         <ImageWithPostit
                             src={Amalie}
                             text={postitTexts[2]}
