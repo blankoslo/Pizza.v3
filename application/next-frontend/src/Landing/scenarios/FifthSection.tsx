@@ -12,7 +12,7 @@ const FifthSection = () => {
     ]
 
     return (
-        <section className="flex items-center justify-center bg-green-light p-16 lg:px-20 ">
+        <section className="flex items-center justify-center bg-green-light p-12 lg:px-20 ">
             <div className="w-full max-w-[1500px] text-green-primary">
                 {/* grid def */}
                 <div className="grid w-full grid-cols-1 gap-16 lg:grid-cols-2">
@@ -36,7 +36,7 @@ const FifthSection = () => {
                             }}
                         />
                     </div>
-                    <div className="mt-44 flex items-center justify-center lg:mt-0">
+                    <div className="flex min-h-[450px] items-center justify-center lg:mt-0">
                         <ImageWithPostit
                             src={Vilde}
                             text={postitTexts[0]}
@@ -48,7 +48,7 @@ const FifthSection = () => {
                             }}
                         />
                     </div>
-                    <div className="row-start-6 mt-44 flex items-center justify-center font-workSans lg:row-start-[unset] lg:mt-0">
+                    <div className="row-start-6 flex min-h-[450px] items-center justify-center font-workSans lg:row-start-[unset] lg:mt-0">
                         <div className="flex w-full max-w-[15em] flex-col gap-8 text-2xl">
                             <span className="text-black ">
                                 Explore <b>PizzaBot premium</b> to gather pictures from pizza events, along with many
@@ -57,8 +57,8 @@ const FifthSection = () => {
                             <AddToSlackButton />
                         </div>
                     </div>
-                    <div></div>
-                    <div className="mt-44 flex items-center justify-center lg:mt-0">
+                    <div className="hidden lg:block"></div>
+                    <div className="flex min-h-[450px] items-center justify-center lg:mt-0">
                         <ImageWithPostit
                             src={Amalie}
                             text={postitTexts[2]}
