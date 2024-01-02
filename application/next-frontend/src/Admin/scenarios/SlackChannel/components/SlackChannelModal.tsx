@@ -30,7 +30,7 @@ const SlackChannelModal = () => {
                 ) : (
                     <div className="mt-5 flex flex-col gap-4 pl-3 font-workSans">
                         <div className="text-2xl font-semibold">
-                            <span className={``}>#{channelName}</span>
+                            <span>#{channelName}</span>
                         </div>
                         <div className="text-xl">{numUsersInChannel(channelMembers)}</div>
                         <div className="my-8 break-keep text-xl">
