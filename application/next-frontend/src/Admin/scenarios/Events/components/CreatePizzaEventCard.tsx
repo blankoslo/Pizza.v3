@@ -99,24 +99,21 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
     }
 
     return (
-        <div className="h-[448px] w-[703px] rounded-[32px] border bg-green-light px-14 py-10">
-            <div className="flex justify-between">
+        <div className="w-[min(90wv,_50rem)] rounded-[32px] border bg-green-light px-14 py-10">
+            <div className="flex justify-between gap-4">
                 <span className="font-queensRegular text-5xl text-green-primary">Create Pizza Event?</span>
-                <span
-                    className="m-0 cursor-pointer text-4xl font-light text-green-quaternary"
-                    onClick={() => closeModal()}
-                >
+                <span className="cursor-pointer text-4xl font-light text-green-quaternary" onClick={() => closeModal()}>
                     &times;
                 </span>
             </div>
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-12 grid grid-cols-2 gap-4 font-workSans font-semibold">
-                        <h3 className="w-full text-left text-2xl italic">Date:</h3>
-                        <h3 className="w-full text-left text-2xl italic">Time:</h3>
+                    <div className="mt-12 grid grid-flow-row grid-cols-1 gap-4 font-workSans font-semibold lg:grid-cols-2">
+                        <h3 className="w-full text-left text-2xl italic lg:row-start-auto">Date:</h3>
+                        <h3 className="row-start-3 w-full text-left text-2xl italic lg:row-start-auto">Time:</h3>
 
-                        <div className="flex flex-row items-center text-4xl">
+                        <div className="flex flex-row items-center text-4xl lg:row-start-auto">
                             <span className=" text-green-tertiary">{date}.</span>
                             <span className="pl-4 text-green-tertiary">{months[currentMonth]}</span>
                             <Controller
@@ -135,7 +132,7 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
                             />
                         </div>
 
-                        <div className="flex flex-row items-center gap-1 text-4xl">
+                        <div className="flex flex-row items-center gap-1 text-4xl lg:row-start-auto">
                             <div className="border-2 border-dotted border-[#94DBB6]">
                                 <Controller
                                     name="eventHour"
@@ -182,7 +179,7 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
                                 />
                             </div>
                         </div>
-                        <div className="mt-8">
+                        <div className="mt-8 flex justify-center">
                             <Button
                                 onClick={() => closeModal()}
                                 text="Cancel"
@@ -190,7 +187,7 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
                                 className="w-[270px] hover:border-neutral hover:text-neutral"
                             />
                         </div>
-                        <div className="mt-8">
+                        <div className="row-start-5 mt-8 flex justify-center lg:row-start-auto">
                             <Button text="Create Event" buttonStyle="primary" className="w-[270px]" type="submit" />
                         </div>
                     </div>
