@@ -36,4 +36,17 @@ const AddToSlackButtonWhite = () => {
     )
 }
 
-export { AddToSlackButton, AddToSlackButtonWhite }
+const AddToSlackButtonWhiteRounded = () => {
+    return (
+        <button
+            className="flex w-[270px] justify-center rounded-full
+            bg-white py-8 font-workSans font-bold italic text-black hover:bg-green-secondary "
+            onClick={addToSlack}
+        >
+            <Image src={SlackLogo} width={30} alt="slack logo" />
+            <span className="my-auto ml-3 text-2xl font-bold">Add to Slack</span>
+        </button>
+    )
+}
+
+export { AddToSlackButton, AddToSlackButtonWhite, AddToSlackButtonWhiteRounded }
