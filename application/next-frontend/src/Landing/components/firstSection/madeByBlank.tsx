@@ -11,7 +11,7 @@ const MadeByBlank = () => {
 
     return (
         <div
-            className="mb-8 flex flex-row gap-3 text-xl text-white hover:text-yellow"
+            className="mb-8 flex min-h-[70px] flex-row gap-3 text-xl text-white hover:text-yellow"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
