@@ -16,7 +16,7 @@ const RightSideMascot = () => {
                 </div>
             </div>
             <div className="relative flex min-w-[16rem] max-w-[32rem] justify-center">
-                <Image src={Mascot} alt="Mascot" className="px-8" />
+                <Image src={Mascot} alt="Mascot" className="animate-bobber px-8" />
                 <div className="absolute bottom-0 right-0">
                     <QuoteBubbles />
                 </div>

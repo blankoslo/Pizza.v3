@@ -23,7 +23,7 @@ const Header = () => {
                         className="hover:cursor-pointer hover:outline-dashed hover:outline-green-secondary"
                     />
                 </div>
-                <LoginButton />
+                <LoginButton className="text-green-light" />
             </div>
             {/* This is a placeholder for the header so that the content doesn't get hidden behind the header
             <div className="h-16 w-full bg-green-tertiary"></div> */}

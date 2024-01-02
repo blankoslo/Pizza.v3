@@ -93,3 +93,16 @@
 .blank-logo-icon:hover g path {
     fill: red; /* Fill color on hover */
 }
+
+@keyframes bobber-animation {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-1.2rem);
+    }
+}
+
+.animate-bobber {
+    animation: bobber-animation 3s ease-in-out infinite;
+}
