@@ -12,7 +12,7 @@ const FifthSection = () => {
     ]
 
     return (
-        <section className="flex items-center justify-center bg-green-light p-12 lg:px-20 ">
+        <section className="flex items-center justify-center bg-green-light p-12 lg:px-20">
             <div className="w-full max-w-[1500px] text-green-primary">
                 {/* grid def */}
                 <div className="grid w-full grid-cols-1 gap-16 lg:grid-cols-2">

@@ -13,9 +13,7 @@ const SecondSection = () => {
             <div className="flex w-full max-w-[1500px] flex-col italic text-white">
                 {/* Title */}
                 <div className="w-full font-queensRegular text-[60px] lg:text-[88px]">
-                    <span className="inline-block max-w-[10em]">
-                        Build a work culture with the PizzaBot and create...
-                    </span>
+                    <span className="inline-block max-w-[10em]">Together with the PizzaBot create...</span>
                 </div>
                 <div className="flex w-full flex-row justify-around">
                     {/* Grid def */}
@@ -38,7 +36,11 @@ const SecondSection = () => {
 
                         {/* Bot icon */}
                         <div className="flex flex-1 justify-end">
-                            <Image src={HappyMascot} alt="Happy Mascot" className="w-[30rem] min-w-[17rem]" />
+                            <Image
+                                src={HappyMascot}
+                                alt="Happy Mascot"
+                                className="w-full max-w-[20rem] lg:max-w-[30rem]"
+                            />
                         </div>
                         <AddToSlackButtonWhite />
                     </div>
