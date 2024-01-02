@@ -4,14 +4,12 @@ import { EventCalendar } from '@/Admin/scenarios/Events/components/EventCalendar
 
 const EventModal = () => {
     return (
-        <div className="pointer-events-auto flex">
-            <div className="flex">
-                <HoverProvider isInsideModal>
-                    <Events clickable={false} />
-                </HoverProvider>
+        <HoverProvider isInsideModal>
+            <div className="pointer-events-auto flex flex-col lg:flex-row">
+                <Events clickable={false} />
                 <EventCalendar />
             </div>
-        </div>
+        </HoverProvider>
     )
 }
 
