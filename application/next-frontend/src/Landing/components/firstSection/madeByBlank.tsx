@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import BlankTextWhite from '@/Landing/assets/Blank/BlankTextWhite.svg'
-import BlankTextYellow from '@/Landing/assets/Blank/BlankTextYellow.svg'
-import BlankLogoWhite from '@/Landing/assets/Blank/BlankLogoWhite.svg'
-import BlankLogoYellow from '@/Landing/assets/Blank/BlankLogoYellow.svg'
+import BlankTextWhite from '@/Landing/assets/blank/BlankTextWhite.svg'
+import BlankTextYellow from '@/Landing/assets/blank/BlankTextYellow.svg'
+import BlankLogoWhite from '@/Landing/assets/blank/BlankLogoWhite.svg'
+import BlankLogoYellow from '@/Landing/assets/blank/BlankLogoYellow.svg'
 
 import { useState } from 'react'
 
