@@ -21,7 +21,7 @@ class SlackApi:
         
         # list of full user info in workspace
         full_users = self.get_slack_users()
-        users_to_update = self.get_real_users(full_users)
+        users_to_update = self.get_real_users(full_users) # includes active field
 
 
         for user_id in members:
@@ -71,10 +71,14 @@ class SlackApi:
 
         return members
 
-    def get_real_users(self, all_users):
+    def get_real_users(self, all_users) -> dict:
         # 'is_restricted': is multichannel guest.
         # 'is_ultra_restricted': is singlechannel guest.
-        return {u["id"]: u for u in all_users if not u['deleted'] and not u['is_bot'] and not u['name'] == "slackbot"} # type : dict
+        return {
+                u["id"]: dict({"active": False}, **u) # extend users with active field
+                    for u in all_users 
+                        if not u['deleted'] and not u['is_bot'] and not u['name'] == "slackbot"
+                }
 
     def send_slack_message(self, channel_id, text=None, blocks=None, thread_ts=None):
         return self.client.chat_postMessage(
