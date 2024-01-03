@@ -1,6 +1,6 @@
-# pizza-app
+# PizzaBot v3
 
-![Infrastructure Diagram](https://github.com//blankoslo/Pizza.v2/blob/main/README/infrastructure.png?raw=true)
+![Infrastructure Diagram](https://github.com//blankoslo/Pizza.v3/blob/main/README/infrastructure.png?raw=true)
 
 ## Slack App Bot setup
 
@@ -41,6 +41,11 @@ As we use Ouath2 for authentication we are forced to use https. Nginx needs vali
 
 **NB:** You'll need to supply the docker-compose file with slack credentials as mention in the `Slack App Bot setup` section. These are defined in a `.env` file in `application/containers/development` folder of the project. This file is not commited to the repository, so you have to create it manually. You can use the `.env.example` file as a template inside `application/containers/development`. You'll also need to supply cloudinary credentials if you want the uninstall handler to properly delete images, you should also update the `upload_preset` in `handle_file_share` in `bot/src/slack/__init__.py` to point to your own cloudinary account.
 
+### Slack integration flow
+
+For flow of how the bot is added to a slack workspace, see digram in README/InstallFlow.png
+For flow of how login is handled with Slack, see diagram in README/LoginFlow.png
+
 ### Good to know
 
 Locales doesnt work properly in the alpine container used, meaning it's not a bug if stuff is localized wrong, such as the time string send in pizza event invites.
@@ -49,24 +54,28 @@ Locales doesnt work properly in the alpine container used, meaning it's not a bu
 
 #### Terraform Cloud
 
-This repository is connected to Terraform Cloud where it is automatically planned and then manually applied whenever a new tag is created.
-The branch used in Terraform Cloud is the `Build` branch, which gets created on every new version. This branch is the same as master, but it also contains the build files for the frontend application.
-A tag is automatically created through GitHub actions when a PR is merged into Main.
+This repository is connected to Terraform Cloud where it is planned and then manually applied whenever a new tag is created.
+
+Prod and staging live as separate workspaces in Terraform Cloud. The branch used in Terraform Cloud is `main` for the staging environment, and `prod` for the production environment. The `prod` branch is merged from main after the staging environment is tested. Terraform is not set up to automatically listen for changes on the branches (TODO), and a manual update of the target branch might be required to plan a new version.
+
+When a planned version is applied, the changed environments are pushed to Heroku
 
 #### Heroku
 
 We are using terraform to describe the infrastructure, which can be found in the `/infrastructure` folder. In addition to this the backend/bot have `Procfile`, `runtime.txt`, and `.locales` files that describe the process, heroku runtime and additional locales to include. While the frontend have `.static` in the `public` folder to indicate the application folder for the nginx buildpacker, and a `.gitignore` file to keep the files and folder in git.
 
 1. Go into the `infrastructure` folder and run `terraform apply` (not needed if using Terraform Cloud).
-2. Go to the app settings of the frontend app in Heroku at `https://dashboard.heroku.com/apps/pizzabot-v2-stag-frontend/settings` (where the text after `/apps/` will be your app's name) and under `Domains` copy the `DNS Target`.
-3. Go to the app settings of the backend app in Heroku at `https://dashboard.heroku.com/apps/pizzabot-v2-stag-backend/settings` (where the text after `/apps/` will be your app's name) and under `Domains` copy the `DNS Target`.
-4. Create a CNAME record with the hostname specified in the main terraform file for both the frontend and the backend and point them to the `DNS TARGET`s from heroku. After a while routing and SSL should work flawlesly.
+2. Go to the app settings of the frontend app in Heroku and under `Domains` copy the `DNS Target`.
+3. Go to the app settings of the backend app in Heroku and under `Domains` copy the `DNS Target`.
+4. Create a CNAME record with the hostname specified in the main terraform file for both the frontend and the backend and point them to the `DNS TARGET`s from heroku. After a while routing and SSL should work flawlessly.
 
 Infrastructure:
 
-- Backend-app: contains the database, papertrail instance, Rabbitmq instance, and backend application
-- Bot-app: contains an attachement to the database, an attachement to the papertrail instance, an attachement to the Rabbitmq instance, the bot worker
-- Frontend-app: contains a nginx instance with the build files from the `public` folder
+- prod/stag-backend: contains the database, papertrail instance, Rabbitmq instance, and backend application
+- prod/stag-bot: contains an attachement to the database, an attachement to the papertrail instance, an attachement to the Rabbitmq instance, the bot worker
+- prod/stag-frontend: contains source code of the Next.js-application, which is automatically detected and built by Heroku. The app is then automatically launched using by heroku with `npm run start`, where the correct port is provided with the env-var `$PORT`.
+
+**NOTE** Promoting apps from staging to prod has not been tested. We manually apply new prod and staging instances using Terraform.
 
 ## Tests
 
@@ -99,11 +108,11 @@ Please follow these guidelines when contributing to this project:
 
 ## Code of Conduct
 
-We expect all contributors to adhere to our [Code of Conduct](https://github.com/blankoslo/Pizza.v2/blob/main/CODE_OF_CONDUCT.md). Please read it before contributing.
+We expect all contributors to adhere to our [Code of Conduct](https://github.com/blankoslo/Pizza.v3/blob/main/CODE_OF_CONDUCT.md). Please read it before contributing.
 
 ## Issue Tracker
 
-If you find any issues or have feature requests, please submit them on the [issue tracker](https://github.com/blankoslo/Pizza.v2/issues).
+If you find any issues or have feature requests, please submit them on the [issue tracker](https://github.com/blankoslo/Pizza.v3/issues).
 
 ## Contact
 
@@ -113,4 +122,4 @@ Thank you for your contributions!
 
 ## License
 
-By contributing to Pizza.v2, you agree that your contributions will be licensed under the GNU General Public License v3.0 license. Please see the [LICENSE](https://github.com/blankoslo/Pizza.v2/blob/main/LICENSE) file for more information.
+By contributing to Pizza.v3, you agree that your contributions will be licensed under the GNU General Public License v3.0 license. Please see the [LICENSE](https://github.com/blankoslo/Pizza.v3/blob/main/LICENSE) file for more information.
