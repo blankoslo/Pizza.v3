@@ -27,12 +27,13 @@ const SlackChannel = () => {
             ) : error ? (
                 `Failed to load channel info due to the following error: ${error?.info.msg}`
             ) : !data || !data.channel_id ? (
-                <div className="mt-5 break-keep font-workSans">
+                <div className="flex max-w-[325px] flex-col pt-5 font-workSans">
                     No slack channel has been set for the PizzaBot. Please use the command{' '}
-                    <b>/set&#8209;pizza&#8209;channel</b> in your preferred slack-channel to set.
+                    <b>/set&#8209;pizza&#8209;channel</b>
+                    in your preferred slack-channel to set.
                 </div>
             ) : (
-                <div className="mt-5 flex flex-col font-workSans">
+                <div className="flex flex-col pt-5 font-workSans">
                     <span className="text-2xl font-semibold leading-10">
                         <span className={`px-3 ${isHovered ? 'marked-entry-card' : ''}`}>#{channelName}</span>
                     </span>
