@@ -48,6 +48,8 @@ For flow of how login is handled with Slack, see diagram in README/LoginFlow.png
 
 ### Good to know
 
+The legacy React app from PizzaBot.v2 is located in application/frontend. This is only used as a reference point for the new frontend with Next.js
+
 Locales doesnt work properly in the alpine container used, meaning it's not a bug if stuff is localized wrong, such as the time string send in pizza event invites.
 
 ### Production
