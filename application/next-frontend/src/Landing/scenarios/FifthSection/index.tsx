@@ -1,8 +1,10 @@
 import Mathilde from 'Landing/assets/Mathilde.svg'
 import Amalie from 'Landing/assets/Amalie.svg'
 import Vilde from 'Landing/assets/Vilde.svg'
-import { ImageWithPostit } from 'Landing/components/ImageWithPostit'
-import { AddToSlackButton } from '../components/AddToSlackButtons'
+import Leaves1 from 'Landing/assets/illustrations/Leaves1.svg'
+import { ImageWithPostit } from './components/ImageWithPostit'
+import { AddToSlackButton } from 'Landing/components/AddToSlackButtons'
+import Image from 'next/image'
 
 const FifthSection = () => {
     const postitTexts = [
@@ -57,7 +59,9 @@ const FifthSection = () => {
                             <AddToSlackButton />
                         </div>
                     </div>
-                    <div className="hidden lg:block"></div>
+                    <div className="hidden items-center justify-center lg:flex">
+                        <Image src={Leaves1} className="w-full max-w-[400px]" alt="Basil leaves" />
+                    </div>
                     <div className="flex min-h-[450px] items-center justify-center">
                         <ImageWithPostit
                             src={Amalie}

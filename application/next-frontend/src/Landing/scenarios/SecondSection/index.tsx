@@ -3,7 +3,7 @@ import EngagedTeams from 'Landing/assets/illustrations/EngagedTeams.svg'
 import Friendships from 'Landing/assets/illustrations/Friendships.svg'
 import GoodTraditions from 'Landing/assets/illustrations/GoodTraditions.svg'
 import HappyMascot from 'Landing/assets/illustrations/HappyMascotLanding.svg'
-import { ImageContainer } from 'Landing/components/secondSection/ImageContainer'
+import { ImageContainer } from './components/ImageContainer'
 import Image from 'next/image'
 import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
 
