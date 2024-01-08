@@ -39,7 +39,7 @@ const Events = ({ clickable = true }: { clickable?: boolean }) => {
     }, [modalStack])
 
     return (
-        <div className={`${eventModalShowing ? 'opacity-0' : ''}`}>
+        <div className={` ${eventModalShowing ? 'opacity-0' : ''}`}>
             <CardComponentWrapper
                 title="Events"
                 addIcon

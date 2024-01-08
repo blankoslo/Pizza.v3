@@ -43,10 +43,10 @@
     border-radius: 0.8em 0.3em;
     background: transparent;
     background-image: linear-gradient(
-      to right,
-      rgba(95, 224, 157, 0.1),
-      rgb(95, 224, 157, 0.7) 4%,
-      rgb(95, 224, 157, 0.3)
+        to right,
+        rgba(95, 224, 157, 0.1),
+        rgb(95, 224, 157, 0.7) 4%,
+        rgb(95, 224, 157, 0.3)
     );
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
@@ -56,26 +56,53 @@
     border-radius: 0.8em 0.3em;
     background: transparent;
     background-image: linear-gradient(
-      to right,
-      rgba(95, 224, 157, 0.1),
-      rgb(95, 224, 157, 0.7) 4%,
-      rgb(95, 224, 157, 0.3)
+        to right,
+        rgba(95, 224, 157, 0.1),
+        rgb(95, 224, 157, 0.7) 4%,
+        rgb(95, 224, 157, 0.3)
     );
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 
     clip-path: polygon(
-        10px 0,    /* top-left point shifted down by 20% of the height */
-        100% 0,  /* top-right point */
-        100% 100%,  /* bottom-right point */
-        0 100%   /* bottom-left point */
+        10px 0,
+        /* top-left point shifted down by 20% of the height */ 100% 0,
+        /* top-right point */ 100% 100%,
+        /* bottom-right point */ 0 100% /* bottom-left point */
     );
 }
 
 .text-border {
     text-shadow:
-     -1px -1px 0 #05793C,  
-      1px -1px 0 #05793C,
-      -1px 1px 0 #05793C,
-       1px 1px 0 #05793C;
-  }
+        -1px -1px 0 #05793c,
+        1px -1px 0 #05793c,
+        -1px 1px 0 #05793c,
+        1px 1px 0 #05793c;
+}
+
+.custom-cursor {
+    cursor:
+        url('../Landing/assets/illustrations/CustomCursor.svg') 41 41,
+        auto;
+}
+
+.blank-logo-icon g path {
+    fill: white; /* Default fill color */
+}
+
+.blank-logo-icon:hover g path {
+    fill: red; /* Fill color on hover */
+}
+
+@keyframes bobber-animation {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-1.2rem);
+    }
+}
+
+.animate-bobber {
+    animation: bobber-animation 3s ease-in-out infinite;
+}

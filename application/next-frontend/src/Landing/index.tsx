@@ -1,3 +1,4 @@
+import { Header } from './scenarios/Header'
 import { FirstSection } from './scenarios/FirstSection'
 import { SecondSection } from './scenarios/SecondSection'
 import { ThirdSection } from './scenarios/ThirdSection'
@@ -9,7 +10,10 @@ import { Footer } from './scenarios/Footer'
 const Landing = () => {
     return (
         <>
-            <FirstSection />
+            <div className="custom-cursor">
+                <Header />
+                <FirstSection />
+            </div>
             <SecondSection />
             <ThirdSection />
             <FourthSection />

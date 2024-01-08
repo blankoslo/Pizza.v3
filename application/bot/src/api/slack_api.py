@@ -12,23 +12,25 @@ class SlackApi:
             self.client = WebClient(token=token)
         else:
             raise ValueError("Either 'client' or 'token' must be provided.")
-        self.logger = injector.get(logging.Logger)
+        self.logger: logging.Logger = injector.get(logging.Logger)
 
-    # Returns a list of users in the workspace, 
-    # with their active status updated.
+
     def get_users_to_update_by_channel(self, channel_id):
         # list of user ids in channel
         members = self.get_channel_users(channel_id=channel_id)
         
         # list of full user info in workspace
         full_users = self.get_slack_users()
-        users_to_update = self.get_real_users(full_users)
+        users_to_update = self.get_real_users(full_users) # includes active field
 
-        for user in users_to_update:
-            user["active"] = user["id"] in members
-            user["email"] = user["profile"]["email"]
 
-        return users_to_update
+        for user_id in members:
+            user = users_to_update.get(user_id)
+            if user:
+                user["active"] = True
+                user["email"] = user["profile"]["email"]
+
+        return list(users_to_update.values())
 
 
     def get_channel_users(self, channel_id: str) -> list[str]:
@@ -69,10 +71,14 @@ class SlackApi:
 
         return members
 
-    def get_real_users(self, all_users):
+    def get_real_users(self, all_users) -> dict:
         # 'is_restricted': is multichannel guest.
         # 'is_ultra_restricted': is singlechannel guest.
-        return [u for u in all_users if not u['deleted'] and not u['is_bot'] and not u['name'] == "slackbot"] # type : list
+        return {
+                u["id"]: dict({"active": False}, **u) # extend users with active field
+                    for u in all_users 
+                        if not u['deleted'] and not u['is_bot'] and not u['name'] == "slackbot"
+                }
 
     def send_slack_message(self, channel_id, text=None, blocks=None, thread_ts=None):
         return self.client.chat_postMessage(

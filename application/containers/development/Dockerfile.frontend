@@ -2,4 +2,6 @@ FROM node:16
 
 WORKDIR /srv/frontend
 
-CMD npm cache verify && npm install && npm run start:dev
+# disabled
+# CMD npm cache verify && npm install && npm run start:dev
+CMD echo "Old frontend container is disabled. Exiting..."

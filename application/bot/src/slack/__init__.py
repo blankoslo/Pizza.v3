@@ -82,8 +82,22 @@ def handle_event(body, say, context):
         channel_id = event["channel"]
         team_id = event["team"]
         user_id = event["user"]
+        ba: BotApi
         with injector.get(BotApi) as ba:
             ba.handle_user_left_channel(channel_id=channel_id, team_id=team_id, user_id=user_id, slack_client=client)
+
+@slack_app.event("member_joined_channel")
+def handle_event(body, say, context):
+    event = body["event"]
+    client = SlackApi(client=context["client"])
+    # Handle a user joining the channel
+    if "channel" in event and "user" in event and "team" in event:
+        channel_id = event["channel"]
+        team_id = event["team"]
+        user_id = event["user"]
+        ba: BotApi
+        with injector.get(BotApi) as ba:
+            ba.handle_user_joined_channel(channel_id=channel_id, team_id=team_id, user_id=user_id, slack_client=client)
 
 
 def handle_rsvp(body, ack, attending, client):
@@ -186,6 +200,7 @@ def handle_file_share(event, say, token, client):
 def handle_some_command(ack, body, say, context):
     translator = injector.get(Translator)
     ack()
+    ba: BotApi
     with injector.get(BotApi) as ba:
         team_id = body["team_id"]
         message_channel_id = body["channel_id"]

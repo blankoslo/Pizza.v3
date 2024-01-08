@@ -152,7 +152,7 @@ services:
       context: ./
       dockerfile: Dockerfile.nginx
     depends_on:
-      - frontend
+      # - frontend
       - next-frontend
       - backend
     networks:

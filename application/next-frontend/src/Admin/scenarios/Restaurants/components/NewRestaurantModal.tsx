@@ -30,7 +30,7 @@ const NewRestaurantModal = () => {
     }
 
     return (
-        <div className="relative w-[28rem] bg-yellow p-4">
+        <div className="relative min-w-[min(28rem,_90vw)] bg-yellow p-4">
             <div className="flex justify-between text-green-primary">
                 <h5 className="mb-2 ml-6 pt-3 font-queensRegular text-3xl font-semibold">Places</h5>
                 <span className="cursor-pointer text-4xl" onClick={() => closeModal()}>

@@ -23,7 +23,7 @@ const DeletePizzaEventCard = ({ event }: Props) => {
     const { closeModal } = useModal()
 
     return (
-        <div className="h-[448px] w-[703px] rounded-[32px] border bg-green-light px-14 py-10">
+        <div className="flex w-[min(90wv,_50rem)] flex-col gap-8 rounded-[32px] border bg-green-light p-10">
             <div className="flex justify-between">
                 <span className="font-queensRegular text-5xl text-green-primary">Delete Pizza Event?</span>
                 <span
@@ -33,20 +33,21 @@ const DeletePizzaEventCard = ({ event }: Props) => {
                     &times;
                 </span>
             </div>
+            <div className="flex gap-8">
+                <div className="flex flex-col font-workSans ">
+                    <span className="text-2xl font-semibold italic text-green-primary">Date:</span>
+                    <span className="text-3xl font-semibold">
+                        {ordinal(date)} of {months[month]}
+                    </span>
+                </div>
 
-            <div className="mt-14 flex font-workSans text-2xl font-semibold italic text-green-primary">
-                <span className="w-[70%]">Date:</span>
-                <span className="w-[30%]">Time</span>
+                <div className="flex flex-col font-workSans">
+                    <span className="text-2xl font-semibold italic text-green-primary">Time</span>
+                    <span className="text-3xl font-semibold">{time}</span>
+                </div>
             </div>
 
-            <div className="mt-5 flex font-workSans text-3xl font-semibold">
-                <span className="w-[70%]">
-                    {ordinal(date)} of {months[month]}
-                </span>
-                <span className="w-[30%]">{time}</span>
-            </div>
-
-            <div className="my-4 mt-14 flex justify-evenly">
+            <div className="my-4 flex justify-evenly">
                 <Button onClick={() => closeModal()} text="Cancel" buttonStyle="secondary" className="w-[270px]" />
                 <Button
                     onClick={() => {

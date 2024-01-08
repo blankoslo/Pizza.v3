@@ -21,7 +21,7 @@ const Restaurants = () => {
                 ) : error ? (
                     `Failed to load users due to the following error: ${error?.info.msg}`
                 ) : (
-                    <div className="mt-5 flex flex-col pb-16">
+                    <div className="mt-5 flex flex-col">
                         <div className="pl-4 italic text-green-primary">
                             {!data || data.length == 0 ? 'No restaurants found...' : 'You have added...'}
                         </div>
