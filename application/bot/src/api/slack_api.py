@@ -169,3 +169,14 @@ class SlackApi:
         except:
             return False
         return True
+
+
+    def get_user_info(self, user_id):
+        try:
+            result = self.client.users_info(
+                user=user_id
+            )
+        except SlackApiError as e:
+            self.logger.error(e)
+            return None
+        return result
