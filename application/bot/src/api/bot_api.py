@@ -115,8 +115,8 @@ class BotApi:
             'id': user_id,
             'team_id': team_id,
             'active': True,
-            'name': ['user']['name'],
-            'email': ['user']['profile']['email']
+            'name': user_info['user']['name'],
+            'email': user_info['user']['profile']['email']
         }
 
         response = self.client.update_slack_users(slack_users=[user_to_update])
