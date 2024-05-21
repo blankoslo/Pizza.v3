@@ -105,17 +105,31 @@ class BotApi:
         if slack_installation['channel_id'] != channel_id:
             return
         
+        #TODO: Fix this, shouldnt have to fetch details from slack api for existing users
+        user_info = slack_client.get_user_info(user_id=user_id)
+        
         self.logger.info(f"User {user_id} joined channel in organization {team_id}")
+
 
         user_to_update = {
             'id': user_id,
             'team_id': team_id,
-            'active': True
+            'active': True,
+            'name': user_info['user']['name'],
+            'email': user_info['user']['profile']['email']
         }
 
-        self.client.update_slack_users(slack_users=[user_to_update])
+        response = self.client.update_slack_users(slack_users=[user_to_update])
 
-        self.send_slack_message(channel_id=user_id, text=translator.translate("userJoinedPizzaChannel"), slack_client=slack_client)
+        updated_users = response['updated_users']
+        for user in updated_users:
+            self.logger.info("Updated user %s" % user)
+        failed_users = response['failed_users']
+        for user in failed_users:
+            self.logger.warning("Was unable to update %s" % user)
+
+        if response['success']:
+            self.send_slack_message(channel_id=user_id, text=translator.translate("userJoinedPizzaChannel"), slack_client=slack_client)
 
     
     def handle_user_left_channel(self, team_id, user_id, channel_id, slack_client):
