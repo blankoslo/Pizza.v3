@@ -22,6 +22,8 @@ class Base(object):
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SECURE = True
+    # Stripe secret key
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 
 
 class Test(Base):

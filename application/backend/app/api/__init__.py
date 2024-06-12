@@ -14,6 +14,7 @@ from app.api.crud.slack_users import bp as users_bp
 from app.api.crud.groups import bp as groups_bp
 from app.api.auth import bp as auth_bp
 from app.api.slack import bp as slack_bp
+from app.api.stripe import bp as stripe_bp
 
 from flask_smorest import Api
 from flask_marshmallow import Marshmallow
