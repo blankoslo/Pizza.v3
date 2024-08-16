@@ -171,7 +171,7 @@ def handle_rsvp_withdraw(ack, body, context):
 
 
 def handle_file_share(event, say, token, client):
-    #return
+    return
     translator = injector.get(Translator)
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:
