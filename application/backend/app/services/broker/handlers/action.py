@@ -84,6 +84,8 @@ def invite_multiple_if_needed():
 def deleted_slack_organization_event(request: dict):
     logger = injector.get(logging.Logger)
     slack_organization_service = injector.get(SlackOrganizationService)
+    logger.info("Received deleted_slack_organization_event")
+    logger.info("Request: %s" % request)
 
     team_id = request.get('team_id')
     enterprise_id = request.get('enterprise_id')

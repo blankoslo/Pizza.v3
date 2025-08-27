@@ -7,6 +7,7 @@ import time
 from marshmallow import Schema
 
 from src.injector import injector, inject
+from src.api.slack_api import SlackApi
 from src.broker.amqp_connection import AmqpConnection
 from src.broker.schemas.message import MessageSchema
 from src.broker.schemas.invite_multiple_if_needed import InviteMultipleIfNeededResponseSchema
@@ -82,6 +83,14 @@ class BrokerClient:
         request_payload = {
             "team_id": team_id
         }
+
+        slack_installation = self.get_slack_installation(team_id)
+        print("Deleting slack installation for team_id %s: %s" % (team_id))
+        
+        if slack_installation is not None and slack_installation.get('channel_id', None) is not None:
+            with injector.get(SlackApi) as slack_api:
+                slack_api.send_slack_message(channel_id=slack_installation['channel_id'], text="Im leaving :(. This workspace has uninstalled Pizzabot or I have been removed from the workspace. The pizzabot will no longer function until reinstalled.")
+
         if enterprise_id is not None:
             request_payload['enterprise_id'] = enterprise_id
         request_payload_schema = DeletedSlackOrganizationEventSchema()
