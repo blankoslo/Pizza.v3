@@ -85,8 +85,8 @@ class BrokerClient:
         }
 
         slack_installation = self.get_slack_installation(team_id)
-        print("Deleting slack installation for team_id %s: %s" % (team_id))
-        
+        print(f"Deleting slack installation for team_id {team_id}")
+
         if slack_installation is not None and slack_installation.get('channel_id', None) is not None:
             with injector.get(SlackApi) as slack_api:
                 slack_api.send_slack_message(channel_id=slack_installation['channel_id'], text="Im leaving :(. This workspace has uninstalled Pizzabot or I have been removed from the workspace. The pizzabot will no longer function until reinstalled.")
