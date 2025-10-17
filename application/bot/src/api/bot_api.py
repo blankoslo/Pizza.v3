@@ -436,7 +436,7 @@ class BotApi:
             # Send the user a message that the event has been cancelled
             slack_client.send_slack_message(
                 channel_id=slack_id,
-                text=self.translator.translate("unfinalizedEventCancelled", restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B %H:%M"))
+                text=self.translator.translate("unfinalizedEventCancelled", time_stamp=time.strftime("%A %d. %B %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -468,7 +468,7 @@ class BotApi:
         for slack_id in slack_ids:
             slack_client.send_slack_message(
                 channel_id=slack_id,
-                text=self.translator.translate("unfinalizedEventUpdate", old_restaurant_name=old_restaurant_name, old_time_stamp=old_time.strftime("%A %d. %B %H:%M"),restaurant_name=restaurant_name, time_stamp=time.strftime("%A %d. %B  %H:%M"))
+                text=self.translator.translate("unfinalizedEventUpdate", old_time_stamp=old_time.strftime("%A %d. %B %H:%M"), time_stamp=time.strftime("%A %d. %B  %H:%M"))
             )
             self.logger.info("Informed user: %s" % slack_id)
 
@@ -488,7 +488,7 @@ class BotApi:
         return slack_client.update_slack_message(channel_id, ts, text, blocks)
 
     def send_pizza_invite(self, channel_id, event_id, place, datetime, deadline, slack_client):
-        top_level_title_text = self.translator.translate("topLevelPizzaInvitation", restaurant_name=place, time_stamp=datetime)
+        top_level_title_text = self.translator.translate("topLevelPizzaInvitation", time_stamp=datetime)
         blocks = [
             {
                 "type": "header",
@@ -501,7 +501,7 @@ class BotApi:
                 "type": "section",
                 "text": {
                     "type": "plain_text",
-                    "text": self.translator.translate("pizzaInvitationBody", restaurant_name=place, time_stamp=datetime, deadline=deadline)
+                    "text": self.translator.translate("pizzaInvitationBody", time_stamp=datetime, deadline=deadline)
                 }
             },
             {
