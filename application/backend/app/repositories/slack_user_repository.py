@@ -43,20 +43,27 @@ class SlackUserRepository(SlackUser, CrudMixin):
 
         AliasInvitation = aliased(Invitation)
 
-        # Get events to be regarded in counting
-        subquery_join = session.query(
+        # Determine relevant events: latest N finalized past events + all future events
+        subquery_join_in_past = session.query(
             Event.id
         ).filter(
             sa.and_(
-                Event.time < datetime.now(),
-                Event.finalized == True
-            )
+                Event.time < sa.func.now(),
+                Event.finalized.is_(True)
+            ),
         ).order_by(
             Event.time.desc()
         ).limit(
             number_of_events_regarded
         )
-        # Only get invitations that are connected specified event and given slack_user
+
+        subquery_join_in_future = session.query(
+            Event.id
+        ).filter(
+            Event.time > sa.func.now(),
+        )
+
+        # Exclude users already invited to the specified event
         subquery_filter = session.query(
             AliasInvitation
         ).filter(
@@ -65,7 +72,8 @@ class SlackUserRepository(SlackUser, CrudMixin):
                 AliasInvitation.slack_id == cls.slack_id
             )
         )
-        # Get valid slack_user ids from slack organization and group if it is specified
+
+        # Group constraint: same org as event and (no group on event OR user in that group)
         subquery_group = session.query(
             SlackUser.slack_id
         ).distinct().outerjoin(
@@ -80,34 +88,57 @@ class SlackUserRepository(SlackUser, CrudMixin):
             )
         )
 
-        # Main query
-        subquery_query_main = session.query(
-            cls.slack_id
-        ).join(
-            Invitation,
+        # Correlated scalar subqueries per user
+        considered_event_clause = sa.or_(
+            Invitation.event_id.in_(subquery_join_in_future),
+            Invitation.event_id.in_(subquery_join_in_past)
+        )
+
+        attending_or_unanswered_count_sq = sa.select(
+            func.count()
+        ).select_from(Invitation).join(
+            Event, Invitation.event_id == Event.id
+        ).where(
             sa.and_(
-                cls.slack_id == Invitation.slack_id,
-                sa.and_(
-                    Invitation.rsvp == RSVP.attending,
-                    Invitation.event_id.in_(subquery_join)
-                )
-            ),
-            isouter=True
+                Invitation.slack_id == cls.slack_id,
+                Invitation.rsvp.in_([RSVP.attending, RSVP.unanswered]),
+                considered_event_clause
+            )
+        ).correlate(cls).scalar_subquery()
+
+
+        # Total number of invites (only needs to consider non-attending as this is the only type not counted in the main considered_event_clause constraint)
+        rejected_count_sq = sa.select(
+            func.count()
+        ).select_from(Invitation).join(
+            Event, Invitation.event_id == Event.id
+        ).where(
+            sa.and_(
+                Invitation.slack_id == cls.slack_id,
+                Invitation.rsvp == RSVP.not_attending,
+                considered_event_clause
+            )
+        ).correlate(cls).scalar_subquery()
+
+        # Build main selectable of users with computed metrics
+        query = session.query(
+            cls.slack_id.label('slack_id'),
+            attending_or_unanswered_count_sq.label('attending_or_unanswered_count'),
+            rejected_count_sq.label('rejected_invites_count')
         ).filter(
             sa.and_(
                 ~subquery_filter.exists(),
-                cls.active
+                cls.active,
+                cls.slack_id.in_(subquery_group)
             )
-        ).group_by(
-            cls.slack_id
         ).order_by(
-            func.count(Invitation.rsvp), func.random()
-        ).subquery()
-
-        # Filter out ids that isnt in the specified group if the group isnt null and limit to the number to be invited
-        query = session.query(subquery_query_main).filter(subquery_query_main.c.slack_id.in_(subquery_group)).limit(
-            number_of_users_to_invite
-        )
+            # Priority 1: fewer attended events first (most attended last)
+            attending_or_unanswered_count_sq.asc(),
+            # Priority 2: fewer answered invites (yes/no) first
+            rejected_count_sq.asc(),
+            # Priority 3: random tiebreaker
+            func.random()
+        ).limit(number_of_users_to_invite)
 
         return query.all()
 

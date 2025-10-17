@@ -17,7 +17,7 @@ lang_timezone_map = {
 supported_format = ["json"]
 
 class Translator:
-    def __init__(self, language_folder="./lang", default_locale="en") -> None:
+    def __init__(self, language_folder="./lang", default_locale="no") -> None:
         self.data = {}
         self.locale = default_locale
         self.logger: logging.Logger = injector.get(logging.Logger)

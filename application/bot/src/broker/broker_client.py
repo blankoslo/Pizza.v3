@@ -7,6 +7,7 @@ import time
 from marshmallow import Schema
 
 from src.injector import injector, inject
+from src.api.slack_api import SlackApi
 from src.broker.amqp_connection import AmqpConnection
 from src.broker.schemas.message import MessageSchema
 from src.broker.schemas.invite_multiple_if_needed import InviteMultipleIfNeededResponseSchema
@@ -82,6 +83,13 @@ class BrokerClient:
         request_payload = {
             "team_id": team_id
         }
+
+        slack_installation = self.get_slack_installation(team_id)
+        print(f"Deleting slack installation for team_id {team_id}")
+
+        if slack_installation is not None and slack_installation.get('channel_id', None) is not None:
+            self.logger.info(f"Bot uninstalled from workspace {team_id} (channel: {slack_installation['channel_id']})")
+
         if enterprise_id is not None:
             request_payload['enterprise_id'] = enterprise_id
         request_payload_schema = DeletedSlackOrganizationEventSchema()

@@ -17,8 +17,8 @@ from src.i18n import Translator
 
 
 slack_signing_secret = os.environ["SLACK_SIGNING_SECRET"]
-client_id = os.environ["SLACK_CLIENT_ID"],
-client_secret = os.environ["SLACK_CLIENT_SECRET"],
+client_id = os.environ["SLACK_CLIENT_ID"]
+client_secret = os.environ["SLACK_CLIENT_SECRET"]
 slack_app_token = os.environ["SLACK_APP_TOKEN"]
 frontend_uri = os.environ["FRONTEND_URI"] if "FRONTEND_URI" in os.environ else None
 
@@ -197,8 +197,9 @@ def handle_file_share(event, say, token, client):
                     title=file['title'])
 
 @slack_app.command("/set-pizza-channel")
-def handle_some_command(ack, body, say, context):
+def handle_set_pizza_channel_command(ack, body, say, context):
     translator = injector.get(Translator)
+
     ack()
     ba: BotApi
     with injector.get(BotApi) as ba:
@@ -215,7 +216,7 @@ def handle_some_command(ack, body, say, context):
             ba.sync_users_from_organization(team_id=team_id, bot_token=context["token"])
 
 @slack_app.command("/pizzabot-admin-panel")
-def handle_some_command(ack, body, say, context):
+def handle_pizzabot_admin_panel_command2(ack, body, say, context):
     translator = injector.get(Translator)
     ack()
     with injector.get(BotApi) as ba:
