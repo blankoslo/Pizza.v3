@@ -1,0 +1,5 @@
+FROM stripe/stripe-cli:latest
+
+WORKDIR /srv/stripe-cli
+
+
