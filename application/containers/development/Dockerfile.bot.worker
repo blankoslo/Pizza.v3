@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.14-slim
 
 WORKDIR /srv/bot
 
@@ -6,19 +6,17 @@ COPY bot/requirements.txt /tmp/
 WORKDIR /tmp
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq5 \
-    liblmdb0 \
-    && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    liblmdb-dev \
-    && pip install --no-cache-dir -r requirements.txt \
-    && apt-get purge -y --auto-remove \
-    libpq-dev \
-    liblmdb-dev \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        libc6-dev \
+        libpq5 \
+        libpq-dev \
+        liblmdb0 \
+        liblmdb-dev && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apt-get purge -y --auto-remove libpq-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv/bot
 

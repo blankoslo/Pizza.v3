@@ -30,7 +30,7 @@ class EventSchema(SQLAlchemySchema):
     group = fields.Nested(GroupSchema, dump_only=True)
 
     @validates('people_per_event')
-    def validate_people_per_event(self, value):
+    def validate_people_per_event(self, value, **kwargs):
         if value < 2:
             raise ValidationError('People per event must be at least 2')
         elif value > 100:
@@ -46,7 +46,7 @@ class EventResponseSchema(EventSchema):
 
 
 class EventQueryArgsSchema(Schema):
-    time = fields.DateTime(timezone=True)
+    time = fields.DateTime()
     restaurant_id = fields.String()
     age = EnumField(Age, by_value=True)
 
