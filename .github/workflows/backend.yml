@@ -19,10 +19,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Set up Python 3.x
+      - name: Set up Python 3.14
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9.13
+          python-version: 3.14.2
       - name: Install dependencies
         working-directory: application/backend
         run: pip install -r requirements.txt
