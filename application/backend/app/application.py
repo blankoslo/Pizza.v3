@@ -42,7 +42,11 @@ def create_app(environment):
     app.wsgi_app = ReverseProxied(app.wsgi_app)
     # Turn of redirect from /[endpoint] to /[endpoint]/ (as this gives a CORS error on preflight redirect)
     app.url_map.strict_slashes = False
-    app.config.from_object(environment.get(app.config["ENV"]))
+
+    # Get environment from FLASK_ENV environment variable, default to 'base'
+    env = os.environ.get('FLASK_ENV', 'base')
+    app.config.from_object(environment.get(env, environment['base']))
+    app.config['ENV'] = env
     app.secret_key = app.config["SECRET_KEY"]
     FRONTEND_URI = app.config["FRONTEND_URI"]
     # Logging for heroku

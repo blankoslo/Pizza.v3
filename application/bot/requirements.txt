@@ -11,3 +11,4 @@ apscheduler
 marshmallow
 marshmallow_enum
 lmdb
+setuptools
