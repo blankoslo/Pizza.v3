@@ -9,5 +9,5 @@ if [ $# -eq 0 ]; then
     docker-compose exec backend su - postgres -c "cd /srv/backend && python3 -m pytest tests"
 else
     # With arguments
-    docker-compose exec backend su - postgres bash -c "cd /srv/backend && python3 -m pytest tests $*"
+    docker-compose exec backend su - postgres bash -c 'cd /srv/backend && python3 -m pytest tests "$@"' -- "$@"
 fi

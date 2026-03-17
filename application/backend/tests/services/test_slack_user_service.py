@@ -14,7 +14,7 @@ class TestSlackUserServiceSuit:
     def test_get(self, slack_organizations, slack_users, slack_user_service):
         team_id = slack_organizations[0].team_id
         slack_users = slack_users.get(team_id)
-        test_slack_users = slack_user_service.get(filters={}, page=1, per_page=10, team_id=team_id)
+        test_slack_users = slack_user_service.get(filters={}, team_id=team_id)
 
         sorted_slack_users = sorted(slack_users, key=lambda x: x.slack_id)
         sorted_test_slack_users = sorted(test_slack_users[1], key=lambda x: x.slack_id)

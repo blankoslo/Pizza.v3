@@ -12,7 +12,7 @@ class TestRestaurantServiceSuit:
     def test_get(self, slack_organizations, restaurants, restaurant_service):
         team_id = slack_organizations[0].team_id
         restaurants = restaurants.get(team_id)
-        test_restaurants = restaurant_service.get(filters={}, page=1, per_page=10, team_id=team_id)
+        test_restaurants = restaurant_service.get(filters={}, team_id=team_id)
 
         sorted_restaurants = sorted(restaurants, key=lambda x: x.id)
         sorted_test_restaurants = sorted(test_restaurants[1], key=lambda x: x.id)

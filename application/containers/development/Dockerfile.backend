@@ -15,7 +15,7 @@ RUN apt-get update && \
         postgresql-contrib && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r requirements-test.txt && \
-    apt-get purge -y --auto-remove gcc libc6-dev libpq-dev && \
+    apt-get purge -y --auto-remove gcc libc6-dev libpq-dev postgresql-client postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv/backend

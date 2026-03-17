@@ -13,7 +13,7 @@ class TestGroupServiceSuit:
     def test_get(self, slack_organizations, groups, group_service):
         team_id = slack_organizations[0].team_id
         groups = groups.get(team_id)
-        test_groups = group_service.get(filters={}, page=1, per_page=10, team_id=team_id)
+        test_groups = group_service.get(team_id=team_id)
 
         sorted_groups = sorted(groups, key=lambda x: x.id)
         sorted_test_groups = sorted(test_groups[1], key=lambda x: x.id)
