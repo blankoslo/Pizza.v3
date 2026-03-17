@@ -2,8 +2,8 @@ from app.repositories.restaurant_repository import RestaurantRepository
 from app.models.restaurant_schema import RestaurantSchema
 
 class RestaurantService:
-    def get(self, filters, page, per_page, team_id):
-        return RestaurantRepository.get(filters = filters, page = page, per_page = per_page, team_id = team_id)
+    def get(self, filters, team_id, page=None, per_page=None):
+        return RestaurantRepository.get(filters=filters, page=page, per_page=per_page, team_id=team_id)
 
     def get_by_id(self, restaurant_id, team_id = None):
         restaurant = RestaurantRepository.get_by_id(restaurant_id)

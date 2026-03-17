@@ -180,3 +180,5 @@ terraform.rc
 # lmdb
 data.mdb
 lock.mdb
+
+.claude

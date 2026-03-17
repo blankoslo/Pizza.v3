@@ -10,13 +10,11 @@ bp = Blueprint("groups", "groups", url_prefix="/groups", description="Operations
 @bp.route("/")
 class Groups(views.MethodView):
     @bp.response(200, GroupResponseSchema(many=True))
-    @bp.paginate()
     @jwt_required()
-    def get(self, pagination_parameters):
+    def get(self):
         """List groups"""
         group_service = injector.get(GroupService)
-        total, groups = group_service.get(page=pagination_parameters.page, per_page=pagination_parameters.page_size, team_id=current_user.slack_organization_id)
-        pagination_parameters.item_count = total
+        _, groups = group_service.get(team_id=current_user.slack_organization_id)
         return groups
 
     @bp.arguments(GroupCreateSchema)

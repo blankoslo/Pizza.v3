@@ -39,8 +39,8 @@ class EventService:
         updated_invitation = EventSchema().load(data=update_data, instance=event, partial=True)
         EventRepository.upsert(updated_invitation)
 
-    def get(self, filters, page, per_page, team_id):
-        return EventRepository.get(filters = filters, page = page, per_page = per_page, team_id = team_id)
+    def get(self, filters, team_id, page=None, per_page=None):
+        return EventRepository.get(filters=filters, page=page, per_page=per_page, team_id=team_id)
 
     def get_by_id(self, event_id, team_id = None):
         event = EventRepository.get_by_id(id=event_id)

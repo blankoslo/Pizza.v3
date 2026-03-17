@@ -4,7 +4,7 @@ from app.models.slack_user_schema import SlackUserSchema
 from app.repositories.group_repository import GroupRepository
 
 class GroupService:
-    def get(self, page, per_page, team_id, filters=None):
+    def get(self, team_id, filters=None, page=None, per_page=None):
         return GroupRepository.get(filters=filters, page=page, per_page=per_page, team_id=team_id)
 
     def get_by_id(self, group_id, team_id=None):

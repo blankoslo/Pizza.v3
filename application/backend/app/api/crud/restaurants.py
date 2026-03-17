@@ -11,13 +11,11 @@ bp = Blueprint("restaurants", "restaurants", url_prefix="/restaurants", descript
 class Restaurants(views.MethodView):
     @bp.arguments(RestaurantQueryArgsSchema, location="query")
     @bp.response(200, RestaurantResponseSchema(many=True))
-    @bp.paginate()
     @jwt_required()
-    def get(self, args, pagination_parameters):
+    def get(self, args):
         """List restaurants"""
         restaurant_service = injector.get(RestaurantService)
-        total, restaurants = restaurant_service.get(filters=args, page=pagination_parameters.page, per_page=pagination_parameters.page_size, team_id=current_user.slack_organization.team_id)
-        pagination_parameters.item_count = total
+        _total, restaurants = restaurant_service.get(filters=args, team_id=current_user.slack_organization.team_id)
         return restaurants
     
     @bp.arguments(RestaurantCreateSchema)

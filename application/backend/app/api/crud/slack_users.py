@@ -13,13 +13,11 @@ bp = Blueprint("users", "users", url_prefix="/users", description="Operations on
 class SlackUsers(views.MethodView):
     @bp.arguments(SlackUserQueryArgsSchema, location="query")
     @bp.response(200, SlackUserResponseSchema(many=True))
-    @bp.paginate()
     @jwt_required()
-    def get(self, args, pagination_parameters):
+    def get(self, args):
         """List slack_users"""
         slack_user_service = injector.get(SlackUserService)
-        total, slack_users = slack_user_service.get(filters=args, page=pagination_parameters.page, per_page=pagination_parameters.page_size, order_by_ascending=True, team_id=current_user.slack_organization_id)
-        pagination_parameters.item_count = total
+        _, slack_users = slack_user_service.get(filters=args, order_by_ascending=True, team_id=current_user.slack_organization_id)
         return slack_users
     
 @bp.route("/current-channel")

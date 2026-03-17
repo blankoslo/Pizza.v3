@@ -12,13 +12,11 @@ bp = Blueprint("events", "events", url_prefix="/events", description="Operations
 class Events(views.MethodView):
     @bp.arguments(EventQueryArgsSchema, location="query")
     @bp.response(200, EventResponseSchema(many=True))
-    @bp.paginate()
     @jwt_required()
-    def get(self, args, pagination_parameters):
+    def get(self, args):
         """List events"""
         event_service = injector.get(EventService)
-        total, events = event_service.get(filters=args, page=pagination_parameters.page, per_page=pagination_parameters.page_size, team_id=current_user.slack_organization_id)
-        pagination_parameters.item_count = total
+        _, events = event_service.get(filters=args, team_id=current_user.slack_organization_id)
         return events
 
     @bp.arguments(EventCreateSchema)
