@@ -18,7 +18,7 @@ module "production" {
   # TODO: Consider upgrading to cloudamqp:lemming (free) if lemur is insufficient
   CLOUDAMQP_PLAN = "cloudamqp:lemur"
   PAPERTRAIL_PLAN = "papertrail:choklad"
-  POSTGRES_PLAN = "heroku-postgresql:essential-1"
+  POSTGRES_PLAN = "heroku-postgresql:standard-0"
   FORMATION_SIZE_FRONTEND = "Basic"
   FORMATION_SIZE_BACKEND = "Basic"
   FORMATION_SIZE_BOT_WORKER = "Basic"
