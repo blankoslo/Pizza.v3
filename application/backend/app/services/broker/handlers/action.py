@@ -53,7 +53,7 @@ def invite_multiple_if_needed():
     # Get numbers of users to invite
     events_where_users_were_invited = []
     for event in events:
-        number_of_user, users = slack_user_service.get()
+        number_of_user, users = slack_user_service.get(team_id=event['team_id'])
         number_to_invite = event["people_per_event"] - event['number_of_already_invited']
         user_ids_to_invite = slack_user_service.get_user_ids_to_invite(number_to_invite, event['event_id'], number_of_user, event["people_per_event"])
 
