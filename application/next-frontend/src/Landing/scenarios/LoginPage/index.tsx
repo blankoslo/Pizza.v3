@@ -1,5 +1,5 @@
 import { LoginButton } from '@/Shared/components/LoginButton'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import MascotWithFourArms from 'Landing/assets/illustrations/MascotWithFourArms.svg'
 
 const LoginPage = () => {

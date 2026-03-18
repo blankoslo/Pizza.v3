@@ -1,7 +1,7 @@
 import { Events } from 'Admin/scenarios/Events'
 import { Restaurants } from 'Admin/scenarios/Restaurants'
 import { SlackChannel } from '@/Admin/scenarios/SlackChannel'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import MascotHappy from 'Admin/assets/MascotHappy.svg'
 
 import { HoverProvider } from 'Shared/context/HoverContext'

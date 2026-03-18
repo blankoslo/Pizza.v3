@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import PizzaBotLogo from '@/Landing/assets/illustrations/PizzaBotLogo.svg'
 import { LoginButton } from '@/Shared/components/LoginButton'
 import { useRouter } from 'next/router'

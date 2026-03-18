@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Mascot from 'Admin/assets/MascotChilling.svg'
 import TextBackground from 'Admin/assets/AdminSidebarBackground.svg'
 

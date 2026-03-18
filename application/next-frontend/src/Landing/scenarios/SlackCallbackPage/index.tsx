@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import MascotWithFourArms from 'Landing/assets/illustrations/MascotWithFourArms.svg'
 import MascotSad from 'Landing/assets/illustrations/MascotSad.svg'
 import Link from 'next/link'

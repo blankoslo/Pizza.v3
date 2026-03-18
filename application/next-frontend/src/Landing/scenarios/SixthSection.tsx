@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import HandWithTopping from 'Landing/assets/illustrations/HandWithTopping.svg'
 import PizzaBotYellow from 'Landing/assets/illustrations/PizzaBotYellow.svg'
 import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'

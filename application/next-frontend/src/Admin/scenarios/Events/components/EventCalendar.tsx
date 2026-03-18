@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Triangle from 'Admin/assets/Triangle.svg'
 import Line from 'Admin/assets/Line.svg'
 import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'

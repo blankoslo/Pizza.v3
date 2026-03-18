@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.png'
 import PizzaInvitation from 'Landing/assets/PizzaInvitation.png'
 import PizzaBotWithFourArms from 'Landing/assets/PizzaBotWithFourArms.png'

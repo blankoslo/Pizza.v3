@@ -1,5 +1,5 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const ImageContainer = ({ img, text }: { img: string | StaticImport; text: string }) => {
     return (

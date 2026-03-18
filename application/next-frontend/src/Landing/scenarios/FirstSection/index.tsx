@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import { AddToSlackButtonWhiteRounded } from '@/Landing/components/AddToSlackButtons'
 import Mascot from '@/Landing/assets/illustrations/MascotWithFourArmsGreen.svg'
 import SpeachBubble from '@/Landing/assets/illustrations/SpeachBubble.svg'

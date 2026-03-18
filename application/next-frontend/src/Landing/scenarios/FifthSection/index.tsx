@@ -4,7 +4,7 @@ import Vilde from 'Landing/assets/Vilde.svg'
 import Leaves1 from 'Landing/assets/illustrations/Leaves1.svg'
 import { ImageWithPostit } from './components/ImageWithPostit'
 import { AddToSlackButton } from 'Landing/components/AddToSlackButtons'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const FifthSection = () => {
     const postitTexts = [

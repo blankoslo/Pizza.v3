@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Tape from 'Landing/assets/illustrations/Tape.svg'
 import { useState } from 'react'
 

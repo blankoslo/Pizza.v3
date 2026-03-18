@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import BlankTextWhite from '@/Landing/assets/blank/BlankTextWhite.svg'
 import BlankTextYellow from '@/Landing/assets/blank/BlankTextYellow.svg'
 import BlankLogoWhite from '@/Landing/assets/blank/BlankLogoWhite.svg'

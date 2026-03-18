@@ -4,7 +4,7 @@ import Friendships from 'Landing/assets/illustrations/Friendships.svg'
 import GoodTraditions from 'Landing/assets/illustrations/GoodTraditions.svg'
 import HappyMascot from 'Landing/assets/illustrations/HappyMascotLanding.svg'
 import { ImageContainer } from './components/ImageContainer'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
 
 const SecondSection = () => {

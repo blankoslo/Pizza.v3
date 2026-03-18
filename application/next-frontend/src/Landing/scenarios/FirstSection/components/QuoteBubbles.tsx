@@ -1,6 +1,6 @@
 import MathildeRound from '@/Landing/assets/MathildeRound.svg'
 import AmalieRound from '@/Landing/assets/AmalieRound.svg'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const QuoteBubbles = () => {
     return (

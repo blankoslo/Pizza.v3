@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import SlackLogo from '@/Landing/assets/illustrations/SlackLogo.svg'
 import SlackLogoWhite from '@/Landing/assets/illustrations/SlackLogoWhite.svg'
 import { clientsideApiUri } from '@/api/endpoints'
