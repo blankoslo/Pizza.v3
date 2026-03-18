@@ -77,13 +77,13 @@ const RestaurantsConfig = (props: RestaurantsConfigProps) => {
                 <div className="flex justify-end">
                     <Button
                         onClick={handleAddClick}
-                        className="my-4 min-w-[7rem] text-xl hover:bg-green-secondary"
+                        className="my-4 min-w-28 text-xl hover:bg-green-secondary"
                         text="Add"
                         buttonStyle="primary"
                     />
                     <Button
                         onClick={addAllRestaurants}
-                        className={`my-4 min-w-[7rem] text-xl ${
+                        className={`my-4 min-w-28 text-xl ${
                             restaurants.length === 0 ? 'cursor-default opacity-20' : 'hover:bg-green-secondary'
                         }`}
                         text="Continue"

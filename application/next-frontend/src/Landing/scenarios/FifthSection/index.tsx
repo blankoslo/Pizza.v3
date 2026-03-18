@@ -4,7 +4,7 @@ import Vilde from 'Landing/assets/Vilde.svg'
 import Leaves1 from 'Landing/assets/illustrations/Leaves1.svg'
 import { ImageWithPostit } from './components/ImageWithPostit'
 import { AddToSlackButton } from 'Landing/components/AddToSlackButtons'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 
 const FifthSection = () => {
     const postitTexts = [
@@ -60,7 +60,15 @@ const FifthSection = () => {
                         </div>
                     </div>
                     <div className="hidden items-center justify-center lg:flex">
-                        <Image src={Leaves1} className="w-full max-w-[400px]" alt="Basil leaves" />
+                        <Image
+                            src={Leaves1}
+                            className="w-full max-w-[400px]"
+                            alt="Basil leaves"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                     <div className="flex min-h-[450px] items-center justify-center">
                         <ImageWithPostit

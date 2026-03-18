@@ -3,7 +3,7 @@ import { useEvents } from '@/api/useEvents'
 import { ApiEvent } from '@/api/useEvents'
 import { format } from 'date-fns'
 import { NextEventInfo } from './components/NextEventInfo'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useModal } from 'Shared/context/ModalContext'
 import { EventModal } from 'Admin/scenarios/Events/components/EventCalendarModal'
 
@@ -32,14 +32,11 @@ const Events = ({ clickable = true }: { clickable?: boolean }) => {
         openModal(<EventModal />)
     }
 
-    useEffect(() => {
-        if (modalStack.length == 0) {
-            setEventModalShowing(false)
-        }
-    }, [modalStack])
+    const isModalOpen = modalStack.length > 0
+    const showEvent = eventModalShowing && isModalOpen
 
     return (
-        <div className={` ${eventModalShowing ? 'opacity-0' : ''}`}>
+        <div className={` ${showEvent ? 'opacity-0' : ''}`}>
             <CardComponentWrapper
                 title="Events"
                 addIcon

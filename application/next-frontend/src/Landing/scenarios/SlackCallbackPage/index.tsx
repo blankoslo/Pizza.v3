@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import MascotWithFourArms from 'Landing/assets/illustrations/MascotWithFourArms.svg'
 import MascotSad from 'Landing/assets/illustrations/MascotSad.svg'
 import Link from 'next/link'
@@ -27,7 +27,16 @@ const SlackCallbackPage = ({
                 >
                     Go back
                 </Link>
-                <Image src={icon} alt="Pizzabot logo" width={400} height={400} />
+                <Image
+                    src={icon}
+                    alt="Pizzabot logo"
+                    width={400}
+                    height={400}
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                />
             </div>
         </div>
     )

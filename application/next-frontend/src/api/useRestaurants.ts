@@ -22,10 +22,10 @@ const useRestaurants = () => {
         try {
             mutate(
                 async () => {
-                    await post<Restaurant>(endpoint, newRestaurant)
+                    const created = await post<ApiRestaurant>(endpoint, newRestaurant)
 
                     if (data) {
-                        return [...data, newRestaurant]
+                        return [...data, created]
                     }
                 },
                 {

@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import SlackLogo from '@/Landing/assets/illustrations/SlackLogo.svg'
 import SlackLogoWhite from '@/Landing/assets/illustrations/SlackLogoWhite.svg'
 import { clientsideApiUri } from '@/api/endpoints'
@@ -17,7 +17,15 @@ const AddToSlackButton = () => {
             py-2 font-workSans font-bold italic text-green-primary hover:bg-green-secondary focus:outline-none"
             onClick={addToSlack}
         >
-            <Image src={SlackLogo} width={30} alt="slack logo" />
+            <Image
+                src={SlackLogo}
+                width={30}
+                alt="slack logo"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
             <span className="my-auto ml-3 text-2xl">Add to Slack</span>
         </button>
     )
@@ -30,7 +38,15 @@ const AddToSlackButtonWhite = () => {
             py-2 font-workSans font-bold italic text-white hover:bg-green-secondary focus:outline-none"
             onClick={addToSlack}
         >
-            <Image src={SlackLogoWhite} width={30} alt="slack logo" />
+            <Image
+                src={SlackLogoWhite}
+                width={30}
+                alt="slack logo"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
             <span className="my-auto ml-3 text-2xl">Add to Slack</span>
         </button>
     )
@@ -43,7 +59,15 @@ const AddToSlackButtonWhiteRounded = () => {
             bg-white py-8 font-workSans font-bold italic text-black hover:bg-green-secondary "
             onClick={addToSlack}
         >
-            <Image src={SlackLogo} width={30} alt="slack logo" />
+            <Image
+                src={SlackLogo}
+                width={30}
+                alt="slack logo"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
             <span className="my-auto ml-3 text-2xl font-bold">Add to Slack</span>
         </button>
     )

@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import PizzaBotLogo from '@/Landing/assets/illustrations/PizzaBotLogo.svg'
 import { LoginButton } from '@/Shared/components/LoginButton'
 import { useRouter } from 'next/router'
@@ -21,6 +21,10 @@ const Header = () => {
                         alt="pizza bot logo"
                         onClick={routeToRoot}
                         className="hover:cursor-pointer hover:outline-dashed hover:outline-green-secondary"
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
                     />
                 </div>
                 <LoginButton className="text-green-light" />

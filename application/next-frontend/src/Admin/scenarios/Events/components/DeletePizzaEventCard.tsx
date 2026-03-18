@@ -51,7 +51,7 @@ const DeletePizzaEventCard = ({ event }: Props) => {
                 <Button onClick={() => closeModal()} text="Cancel" buttonStyle="secondary" className="w-[270px]" />
                 <Button
                     onClick={() => {
-                        typeof eventId === 'string' ? delEvent(eventId) : ''
+                        if (typeof eventId === 'string') delEvent(eventId)
                         closeModal()
                     }}
                     className="w-[270px] hover:bg-red-light"

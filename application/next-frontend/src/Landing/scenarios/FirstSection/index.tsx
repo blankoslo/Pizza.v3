@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { AddToSlackButtonWhiteRounded } from '@/Landing/components/AddToSlackButtons'
 import Mascot from '@/Landing/assets/illustrations/MascotWithFourArmsGreen.svg'
 import SpeachBubble from '@/Landing/assets/illustrations/SpeachBubble.svg'
@@ -8,15 +8,31 @@ import { QuoteBubbles } from './components/QuoteBubbles'
 const RightSideMascot = () => {
     return (
         <div className="flex w-full min-w-[360px] flex-col items-center justify-center">
-            <div className="relative min-w-[24rem] max-w-[32rem]">
-                <Image src={SpeachBubble} className="w-full" alt="Speachbubble" />
+            <div className="relative min-w-96 max-w-lg">
+                <Image
+                    src={SpeachBubble}
+                    className="w-full"
+                    alt="Speachbubble"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                />
                 <div className="absolute top-[10%] z-10 flex flex-col justify-center px-8 font-workSans text-green-light">
                     <span className="text-2xl">Buongiorno!</span>
                     <span className="text-xl">You 5 have been selected to go out to eat 🍕pizza!🍕</span>
                 </div>
             </div>
-            <div className="relative flex min-w-[16rem] max-w-[32rem] justify-center">
-                <Image src={Mascot} alt="Mascot" className="animate-bobber px-8" />
+            <div className="relative flex min-w-64 max-w-lg justify-center">
+                <Image
+                    src={Mascot}
+                    alt="Mascot"
+                    className="animate-bobber px-8"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                />
                 <div className="absolute bottom-0 right-0">
                     <QuoteBubbles />
                 </div>

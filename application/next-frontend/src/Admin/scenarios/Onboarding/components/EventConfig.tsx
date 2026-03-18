@@ -8,6 +8,7 @@ import { useRestaurants } from '@/api/useRestaurants'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useRouter } from 'next/router'
 import Button from '@/Admin/components/Button'
+import { useMemo } from 'react'
 
 const EventConfig = () => {
     const router = useRouter()
@@ -21,14 +22,10 @@ const EventConfig = () => {
 
     const { data: restaurantData } = useRestaurants()
 
-    const findRestauarant = () => {
-        if (restaurantData === undefined || restaurantData.length === 0) {
-            return
-        }
-
-        const randomIndex = Math.floor(Math.random() * restaurantData.length)
-        return restaurantData[randomIndex]
-    }
+    const randomRestaurant = useMemo(() => {
+        if (!restaurantData || restaurantData.length === 0) return undefined
+        return restaurantData[Math.floor(Math.random() * restaurantData.length)]
+    }, [restaurantData])
 
     const today = new Date()
 
@@ -43,7 +40,7 @@ const EventConfig = () => {
     const { addEvent } = useEvents()
 
     const onSubmit = (data: FormData) => {
-        const restaurant = findRestauarant()
+        const restaurant = randomRestaurant
 
         if (restaurant) {
             const event: ApiEventPost = {
@@ -87,14 +84,14 @@ const EventConfig = () => {
                         <div className="my-4 flex place-content-evenly">
                             <Button
                                 onClick={() => router.push('/admin')}
-                                className="min-w-[7rem] text-lg"
+                                className="min-w-28 text-lg"
                                 text="Skip"
                                 buttonStyle="primary"
                             />
                             <Button
                                 type="submit"
                                 onClick={() => router.push('/admin')}
-                                className="min-w-[7rem] text-lg"
+                                className="min-w-28 text-lg"
                                 text="Create"
                                 buttonStyle="primary"
                             />

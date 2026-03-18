@@ -1,7 +1,7 @@
 import ChooseChannel from 'Landing/assets/chooseChannel.svg'
 import ChooseRestaurants from 'Landing/assets/chooseRestaurants.svg'
 import ChooseDate from 'Landing/assets/chooseDate.svg'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { AddToSlackButton } from '@/Landing/components/AddToSlackButtons'
 
 const ThirdSection = () => {
@@ -34,7 +34,14 @@ const ThirdSection = () => {
                                 <span>Choose the slack channel you want the PizzaBot to send invites on.</span>
                             </div>
 
-                            <Image src={ChooseChannel} alt="Choose Slack Channel" />
+                            <Image
+                                src={ChooseChannel}
+                                alt="Choose Slack Channel"
+                                style={{
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                }}
+                            />
                         </div>
                     </div>
                     {/* Part 2 */}
@@ -51,7 +58,14 @@ const ThirdSection = () => {
                         <div className="font-workSans text-[24px] text-[#003A1C] lg:-mt-8 lg:text-[28px]">
                             <span>The PizzaBot chooses from one of the restaurants added.</span>
                         </div>
-                        <Image src={ChooseRestaurants} alt="Choose Restaurants" />
+                        <Image
+                            src={ChooseRestaurants}
+                            alt="Choose Restaurants"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                     {/* Part 3 */}
                     <div className="col-start-1 row-start-3 flex lg:justify-end">
@@ -68,7 +82,14 @@ const ThirdSection = () => {
                             <div className="font-workSans text-[24px] text-[#003A1C] lg:-mt-8 lg:text-[28px]">
                                 <span>The PizzaBot sets up the event after you pick date & time</span>
                             </div>
-                            <Image src={ChooseDate} alt="Choose Date" />
+                            <Image
+                                src={ChooseDate}
+                                alt="Choose Date"
+                                style={{
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                }}
+                            />
                         </div>
                     </div>
 

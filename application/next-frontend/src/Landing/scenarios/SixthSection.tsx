@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import HandWithTopping from 'Landing/assets/illustrations/HandWithTopping.svg'
 import PizzaBotYellow from 'Landing/assets/illustrations/PizzaBotYellow.svg'
 import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
@@ -15,11 +15,27 @@ const SixthSection = () => {
                         <AddToSlackButtonWhite />
                     </div>
                     <div className="ml-[100px] lg:ml-[200px]">
-                        <Image src={HandWithTopping} alt="hand with topping" className="w-[10rem] lg:w-[15rem]" />
+                        <Image
+                            src={HandWithTopping}
+                            alt="hand with topping"
+                            className="w-40 lg:w-60"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                 </div>
                 <div className="order-2 my-8 flex flex-1 justify-center">
-                    <Image src={PizzaBotYellow} alt="yellow pizza bot" className="w-[25rem] min-w-[10rem]" />
+                    <Image
+                        src={PizzaBotYellow}
+                        alt="yellow pizza bot"
+                        className="w-[25rem] min-w-40"
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
+                    />
                 </div>
             </div>
         </section>

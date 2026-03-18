@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Triangle from 'Admin/assets/Triangle.svg'
 import Line from 'Admin/assets/Line.svg'
 import PizzaEaten from 'Admin/assets/pizza/PizzaEaten.svg'
@@ -135,8 +135,8 @@ const EventCalendar = () => {
                                         today >= currentTomorrow
                                             ? 'opacity-50'
                                             : eventsForCurrentMonth.some(([, d]) => d == day)
-                                            ? 'cursor-pointer bg-green-primary text-white hover:bg-red-highlight'
-                                            : 'cursor-pointer bg-white hover:bg-green-secondary'
+                                              ? 'cursor-pointer bg-green-primary text-white hover:bg-red-highlight'
+                                              : 'cursor-pointer bg-white hover:bg-green-secondary'
                                     }`
 
                                 return today >= currentTomorrow ? (
@@ -157,7 +157,16 @@ const EventCalendar = () => {
                                     >
                                         {day}
                                         {eventId != -1 && (
-                                            <Image className="mx-auto" src={image} width={43} alt="pizza" />
+                                            <Image
+                                                className="mx-auto"
+                                                src={image}
+                                                width={43}
+                                                alt="pizza"
+                                                style={{
+                                                    maxWidth: '100%',
+                                                    height: 'auto',
+                                                }}
+                                            />
                                         )}
                                     </td>
                                 )
@@ -186,6 +195,10 @@ const EventCalendar = () => {
                     src={Triangle}
                     className="rotate-180 cursor-pointer"
                     alt="show previous month"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
                 />
                 <span className="mx-4 font-queensRegular text-4xl">{months[currentDate.getMonth()]}</span>
                 <Image
@@ -194,6 +207,10 @@ const EventCalendar = () => {
                     src={Triangle}
                     alt="show next month"
                     className="cursor-pointer"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
                 />
             </div>
             <Image
@@ -201,6 +218,10 @@ const EventCalendar = () => {
                 className="mx-auto mb-9 mt-3"
                 width={440}
                 alt="line separating calendar and month display"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
             />
             <table className="mx-auto italic">
                 <thead>

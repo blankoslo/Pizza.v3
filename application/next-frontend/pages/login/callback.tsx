@@ -15,10 +15,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
         return { props: { errorMsg: 'Something went wrong when logging inn through Slack.' } }
     }
 
-    const cookie = response.headers.get('set-cookie')
-    if (!cookie) return { props: { errorMsg: 'Login credentials were not set correctly.' } }
+    const cookies = response.headers.getSetCookie()
+    if (!cookies.length) return { props: { errorMsg: 'Login credentials were not set correctly.' } }
 
-    res.setHeader('set-cookie', cookie)
+    res.setHeader('set-cookie', cookies)
     return { redirect: { destination: '/admin', permanent: false }, props: {} }
 }
 

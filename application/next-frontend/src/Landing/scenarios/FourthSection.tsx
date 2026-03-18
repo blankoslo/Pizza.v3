@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import PizzaAnnouncement from 'Landing/assets/PizzaAnnouncement.png'
 import PizzaInvitation from 'Landing/assets/PizzaInvitation.png'
 import PizzaBotWithFourArms from 'Landing/assets/PizzaBotWithFourArms.png'
@@ -21,36 +21,58 @@ const FourthSection = () => {
                 </div>
 
                 <div className="flex w-full max-w-[700px] flex-row flex-wrap">
-                    <div className="-mb-6 w-full max-w-[700px]">
-                        <Image src={PizzaInvitation} alt="pizza invitation in slack" />
+                    <div className="w-full max-w-[700px]">
+                        <Image
+                            src={PizzaInvitation}
+                            alt="pizza invitation in slack"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                     <div className="relative min-h-[300px] min-w-[250px] flex-1">
-                        <div className="absolute right-[6rem] top-20 w-[11em] bg-postit-yellow px-4 py-5 font-workSans text-lg italic leading-6 text-dark lg:right-[9rem] lg:top-40 lg:w-[16em] lg:text-xl">
+                        <div className="absolute -top-2 right-24 w-[11em] bg-postit-yellow px-4 py-5 font-workSans text-lg italic leading-6 text-dark">
                             Invites are sendt <b className="not-italic">privatly</b> on slack. So you can always
                             decline!
                         </div>
                         <Image
-                            className="absolute right-0 top-0 z-10 w-[150px] max-w-[250px] lg:w-full"
+                            className="absolute -top-16 right-0 z-10 w-[150px] max-w-[250px]"
                             src={PizzaBotWithFourArms}
                             alt="pizza bot with four arms"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
                         />
                     </div>
                 </div>
 
                 <div className="flex w-full max-w-[700px] flex-row flex-wrap-reverse justify-end">
                     <div className="relative min-h-[300px] min-w-[250px] flex-1">
-                        <div className="absolute left-[6rem] top-20 w-[11em] bg-postit-yellow px-4 py-5 font-workSans text-lg italic leading-6 text-dark lg:left-[9rem] lg:top-36 lg:w-[16em] lg:pl-16 lg:text-xl">
+                        <div className="absolute -top-2 left-24 w-[11em] bg-postit-yellow px-4 py-5 font-workSans text-lg italic leading-6 text-dark">
                             <b className="not-italic">After everyone accepts,</b> events gets posted on the choses
                             channel
                         </div>
                         <Image
-                            className="absolute left-0 top-0 z-10 w-[150px] max-w-[250px] lg:w-full"
+                            className="absolute -top-16 left-0 z-10 w-[150px] max-w-[250px]"
                             src={PizzaBotWithFourArms}
                             alt="pizza bot with four arms"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
                         />
                     </div>
-                    <div className="-mb-4 w-full max-w-[700px]">
-                        <Image src={PizzaAnnouncement} alt="pizza invitation in slack" />
+                    <div className="w-full max-w-[700px]">
+                        <Image
+                            src={PizzaAnnouncement}
+                            alt="pizza invitation in slack"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                 </div>
             </div>

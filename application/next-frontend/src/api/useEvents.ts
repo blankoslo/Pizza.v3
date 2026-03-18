@@ -28,7 +28,7 @@ const useEvents = () => {
         try {
             mutate(
                 async () => {
-                    const createdEvent = await post<ApiEventPost>(endpoint, newEvent)
+                    const createdEvent = await post<ApiEvent>(endpoint, newEvent)
 
                     if (data) {
                         return [...data, createdEvent]
