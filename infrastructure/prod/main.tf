@@ -15,9 +15,10 @@ module "production" {
   hostname = "www.pizzabot.app"
   prefix = var.prefix
   environment = "prod"
-  CLOUDAMQP_PLAN = "cloudamqp:tiger"
+  # TODO: Consider upgrading to cloudamqp:lemming (free) if lemur is insufficient
+  CLOUDAMQP_PLAN = "cloudamqp:lemur"
   PAPERTRAIL_PLAN = "papertrail:choklad"
-  POSTGRES_PLAN = "heroku-postgresql:standard-0"
+  POSTGRES_PLAN = "heroku-postgresql:essential-1"
   FORMATION_SIZE_FRONTEND = "Basic"
   FORMATION_SIZE_BACKEND = "Basic"
   FORMATION_SIZE_BOT_WORKER = "Basic"
@@ -74,9 +75,9 @@ resource "heroku_pipeline_coupling" "production-frontend" {
 #   hostname = "staging.pizzabot.app"
 #   prefix = var.prefix
 #   environment = "stag"
-#   CLOUDAMQP_PLAN = "cloudamqp:lemur"
+#   CLOUDAMQP_PLAN = "cloudamqp:lemming"
 #   PAPERTRAIL_PLAN = "papertrail:choklad"
-#   POSTGRES_PLAN = "heroku-postgresql:mini"
+#   POSTGRES_PLAN = "heroku-postgresql:essential-0"
 #   FORMATION_SIZE_FRONTEND = "Basic"
 #   FORMATION_SIZE_BACKEND = "Basic"
 #   FORMATION_SIZE_BOT_WORKER = "Basic"
