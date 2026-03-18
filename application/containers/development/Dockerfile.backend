@@ -2,7 +2,7 @@ FROM python:3.14-slim
 
 WORKDIR /srv/backend
 
-COPY backend/requirements.txt /tmp
+COPY backend/requirements.txt backend/requirements-test.txt /tmp/
 WORKDIR /tmp
 
 RUN apt-get update && \
@@ -10,9 +10,12 @@ RUN apt-get update && \
         gcc \
         libc6-dev \
         libpq5 \
-        libpq-dev && \
+        libpq-dev \
+        postgresql-client \
+        postgresql-contrib && \
     pip install --no-cache-dir -r requirements.txt && \
-    apt-get purge -y --auto-remove gcc libc6-dev libpq-dev && \
+    pip install --no-cache-dir -r requirements-test.txt && \
+    apt-get purge -y --auto-remove gcc libc6-dev libpq-dev postgresql-client postgresql-contrib && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv/backend

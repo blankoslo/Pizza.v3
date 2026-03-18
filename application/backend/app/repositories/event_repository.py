@@ -26,6 +26,8 @@ class EventRepository(Event, CrudMixin):
         # Add order by to the query
         if order_by:
             query = query.order_by(order_by())
+        else:
+            query = query.order_by(cls.time.desc())
         # If pagination is on, paginate the query
         if page and per_page:
             pagination = query.paginate(page=page, per_page=per_page, error_out=False)
