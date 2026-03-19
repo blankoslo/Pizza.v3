@@ -35,12 +35,21 @@ const Navbar = () => {
     return (
         <div className="flex w-full items-center gap-4 overflow-hidden bg-white py-4 font-workSans text-xl text-dark">
             <div className="ml-16 flex-1">
-                <Image priority src={PizzaBotLogo} width={150} alt="pizza bot logo" />
+                <Image
+                    priority
+                    src={PizzaBotLogo}
+                    width={150}
+                    alt="pizza bot logo"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                />
             </div>
             {navbarEntries.map((entry) => (
                 <button
                     key={entry.key}
-                    className={`marked-entry relative mr-3 inline-block w-[8rem] transition-all duration-300
+                    className={`marked-entry relative mr-3 inline-block w-32 transition-all duration-300
                     ease-in-out hover:text-green-primary
                     ${entry.key == activeIndex ? 'font-bold text-green-primary underline underline-offset-2' : ''}`}
                     onClick={() => setActiveIndex(entry.key)}

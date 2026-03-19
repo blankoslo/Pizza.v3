@@ -15,10 +15,24 @@ const MadeByBlank = () => {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
-            <Image src={hover ? BlankLogoYellow : BlankLogoWhite} alt="Blank"></Image>
+            <Image
+                src={hover ? BlankLogoYellow : BlankLogoWhite}
+                alt="Blank"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            ></Image>
             <div className="flex flex-col gap-3">
                 <span>Created by</span>
-                <Image src={hover ? BlankTextYellow : BlankTextWhite} alt="Blank"></Image>
+                <Image
+                    src={hover ? BlankTextYellow : BlankTextWhite}
+                    alt="Blank"
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                ></Image>
             </div>
         </div>
     )

@@ -60,7 +60,15 @@ const FifthSection = () => {
                         </div>
                     </div>
                     <div className="hidden items-center justify-center lg:flex">
-                        <Image src={Leaves1} className="w-full max-w-[400px]" alt="Basil leaves" />
+                        <Image
+                            src={Leaves1}
+                            className="w-full max-w-[400px]"
+                            alt="Basil leaves"
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                        />
                     </div>
                     <div className="flex min-h-[450px] items-center justify-center">
                         <ImageWithPostit

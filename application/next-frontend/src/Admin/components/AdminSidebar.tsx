@@ -7,7 +7,16 @@ const AdminSidebar = () => {
         <div>
             <div className="font-workSans text-white">
                 <div className="relative mx-auto mb-8 w-[22rem]">
-                    <Image priority src={TextBackground} width={345} alt="background" />
+                    <Image
+                        priority
+                        src={TextBackground}
+                        width={345}
+                        alt="background"
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
+                    />
                     <h1 className="absolute left-[57%] top-[54%] w-[22rem] -translate-x-1/2 -translate-y-1/2 font-queensMedium text-6xl text-green-primary">
                         Pizza control in progress..
                     </h1>
@@ -21,7 +30,17 @@ const AdminSidebar = () => {
                     </p>
                 </div>
             </div>
-            <Image priority src={Mascot} width={450} alt="mascot" className="mx-auto" />
+            <Image
+                priority
+                src={Mascot}
+                width={450}
+                alt="mascot"
+                className="mx-auto"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
         </div>
     )
 }

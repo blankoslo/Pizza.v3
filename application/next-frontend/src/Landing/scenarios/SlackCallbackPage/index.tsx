@@ -27,7 +27,16 @@ const SlackCallbackPage = ({
                 >
                     Go back
                 </Link>
-                <Image src={icon} alt="Pizzabot logo" width={400} height={400} />
+                <Image
+                    src={icon}
+                    alt="Pizzabot logo"
+                    width={400}
+                    height={400}
+                    style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                    }}
+                />
             </div>
         </div>
     )

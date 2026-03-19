@@ -9,7 +9,7 @@ import { AddToSlackButtonWhite } from '@/Landing/components/AddToSlackButtons'
 
 const SecondSection = () => {
     return (
-        <section className="flex min-h-[100vh] items-center justify-center bg-green-primary p-16 lg:px-20">
+        <section className="flex min-h-screen items-center justify-center bg-green-primary p-16 lg:px-20">
             <div className="flex w-full max-w-[1500px] flex-col italic text-white">
                 {/* Title */}
                 <div className="w-full font-queensRegular text-[60px] lg:text-[88px]">
@@ -39,7 +39,11 @@ const SecondSection = () => {
                             <Image
                                 src={HappyMascot}
                                 alt="Happy Mascot"
-                                className="w-full max-w-[20rem] lg:max-w-[30rem]"
+                                className="w-full max-w-80 lg:max-w-[30rem]"
+                                style={{
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                }}
                             />
                         </div>
                         <AddToSlackButtonWhite />

@@ -21,6 +21,10 @@ const Header = () => {
                         alt="pizza bot logo"
                         onClick={routeToRoot}
                         className="hover:cursor-pointer hover:outline-dashed hover:outline-green-secondary"
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
                     />
                 </div>
                 <LoginButton className="text-green-light" />

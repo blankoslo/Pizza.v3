@@ -18,8 +18,24 @@ const ImageWithPostit = ({ src, text, styles }: Props) => {
 
     return (
         <div className="relative flex" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-            <Image src={Tape} alt="tape" className={`absolute z-30 ${styles.tape}`} />
-            <Image src={src} alt="fun" className="z-10" />
+            <Image
+                src={Tape}
+                alt="tape"
+                className={`absolute z-30 ${styles.tape}`}
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
+            <Image
+                src={src}
+                alt="fun"
+                className="z-10"
+                style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                }}
+            />
             <div
                 className={`absolute w-[max(100%,_300px)] p-10 font-workSans text-xl lg:w-[350px] ${styles.postit} ${
                     isHovered ? styles.postitHover : styles.postitHoverAlternative
