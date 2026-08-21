@@ -171,7 +171,7 @@ def handle_rsvp_withdraw(ack, body, context):
 
 
 def handle_file_share(event, say, token, client):
-    return
+    logger = injector.get(logging.Logger)
     translator = injector.get(Translator)
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:
@@ -180,20 +180,33 @@ def handle_file_share(event, say, token, client):
             ba.send_slack_message(channel_id=channel, text=translator.translate("thanksForFile"), slack_client=client)
             headers = {u'Authorization': u'Bearer %s' % token}
             for file in files:
-                r = requests.get(
-                    file['url_private'], headers=headers)
+                if not (file.get('mimetype') or '').startswith('image/'):
+                    logger.info("skipping non-image %s (%s)", file.get('name'), file.get('mimetype'))
+                    continue
+                team_id = file.get('user_team') or event.get('team')
+                if team_id is None:
+                    logger.warning("no team for file %s, cannot attribute it", file.get('id'))
+                    continue
+
+                r = requests.get(file['url_private'], headers=headers)
+                if not r.ok:
+                    logger.error("failed to download %s from slack: %s", file.get('name'), r.status_code)
+                    continue
                 b64 = base64.b64encode(r.content).decode('utf-8')
                 payload = {
                     'file': 'data:image;base64,%s' % b64,
-                    'upload_preset': 'blank.pizza.v2', # TODO: Change to own preset based on pizzabot v3 and org
-                    'tags': ','.join(['pizza', file['user_team']])
+                    'upload_preset': 'blank.pizza.v3',
+                    'tags': ','.join(['pizza', team_id])
                 }
                 r2 = requests.post(
                     'https://api.cloudinary.com/v1_1/blank/image/upload', data=payload)
+                if not r2.ok:
+                    logger.error("cloudinary rejected %s: %s %s", file.get('name'), r2.status_code, r2.text[:200])
+                    continue
                 ba.save_image(
                     cloudinary_id=r2.json()['public_id'],
                     slack_id=file['user'],
-                    team_id=file['user_team'],
+                    team_id=team_id,
                     title=file['title'])
 
 @slack_app.command("/set-pizza-channel")
