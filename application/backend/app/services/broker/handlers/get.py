@@ -27,6 +27,7 @@ def get_unanswered_invitations():
             "event_id": invitation.event_id,
             "invited_at": invitation.invited_at.isoformat(),
             "reminded_at": invitation.reminded_at.isoformat(),
+            "event_time": invitation.event.time.isoformat(),
             'team_id': invitation.event.slack_organization.team_id,
             'bot_token': invitation.event.slack_organization.access_token
         }
@@ -52,6 +53,7 @@ def get_unanswered_invitations_on_finished_events_and_set_not_attending():
             "event_id": invitation.event_id,
             "invited_at": invitation.invited_at.isoformat(),
             "reminded_at": invitation.reminded_at.isoformat(),
+            "event_time": invitation.event.time.isoformat(),
             "team_id": invitation.event.slack_organization.team_id,
             "bot_token": invitation.event.slack_organization.access_token
         }

@@ -16,6 +16,7 @@
   "topLevelPizzaInvitation": "Pizza Invitation: $time_stamp",
   "pizzaInvitationHeader": "Pizza Invitation",
   "pizzaInvitationBody": "You're invited to have :pizza: $time_stamp. Please respond within $deadline hours :pray:. Will you join in?",
+  "pizzaInvitationUrgent": "Because it's so close to the time, we need answers quickly! ⏰",
   "inviteLoading": ":hourglass_flowing_sand: Processing your request...",
   "inviteNotAmongUsers": "Couldn't update the invitation. You were not among the invited.",
   "pizzaInvitationAttendButton": "Hells yesss!!! 🍕🍕🍕",
