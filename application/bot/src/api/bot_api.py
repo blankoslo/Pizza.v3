@@ -18,9 +18,30 @@ class BotApi:
     @inject
     def __init__(self, logger: logging.Logger):
         self.REPLY_DEADLINE_IN_HOURS = int(os.environ["REPLY_DEADLINE_IN_HOURS"])
+        self.REPLY_DEADLINE_DAY_BEFORE_IN_HOURS = 12
+        self.REPLY_DEADLINE_SOON_IN_HOURS = 4
+        self.HOURS_UNTIL_EVENT_IS_SOON = 12
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
         self.logger: logging.Logger = logger
         self.translator: Translator = injector.get(Translator)
+
+    def _to_local_time(self, timestamp):
+        # Naive timestamps from the database are in UTC
+        if timestamp.tzinfo is None:
+            timestamp = pytz.utc.localize(timestamp)
+        return timestamp.astimezone(self.translator.timezone)
+
+    def get_reply_deadline_in_hours(self, invited_at, event_time):
+        if event_time is None:
+            return self.REPLY_DEADLINE_IN_HOURS
+        event_time = self._to_local_time(event_time)
+        invited_at = self._to_local_time(invited_at)
+        if event_time - invited_at < timedelta(hours=self.HOURS_UNTIL_EVENT_IS_SOON):
+            return self.REPLY_DEADLINE_SOON_IN_HOURS
+        days_until_event = (event_time.date() - invited_at.date()).days
+        if days_until_event <= 1:
+            return self.REPLY_DEADLINE_DAY_BEFORE_IN_HOURS
+        return self.REPLY_DEADLINE_IN_HOURS
 
     def __enter__(self):
         self.client: BrokerClient = injector.get(BrokerClient)
@@ -203,13 +224,14 @@ class BotApi:
         # timestamp (timestamp) is converted to UTC timestamp by psycopg2
         # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=event_time)
+        deadline = self.get_reply_deadline_in_hours(invited_at=datetime.now(pytz.utc), event_time=event_time)
         for user_id in invited_users:
             slack_message = self.send_pizza_invite(
                 channel_id=user_id,
                 event_id=str(event_id),
                 place=restaurant_name,
                 datetime=timestamp.strftime("%A %d. %B %H:%M"),
-                deadline=self.REPLY_DEADLINE_IN_HOURS,
+                deadline=deadline,
                 slack_client = slack_client
             )
             if not slack_message['ok']:
@@ -312,7 +334,8 @@ class BotApi:
             if previous_invitation is None or previous_invitation["bot_token"] != invitation["bot_token"]:
                 slack_client = SlackApi(token=invitation["bot_token"])
             previous_invitation = invitation
-            deadline = invitation['invited_at'] + timedelta(hours=self.REPLY_DEADLINE_IN_HOURS)
+            deadline_in_hours = self.get_reply_deadline_in_hours(invited_at=invitation['invited_at'], event_time=invitation['event_time'])
+            deadline = invitation['invited_at'] + timedelta(hours=deadline_in_hours)
             if deadline < datetime.now(pytz.utc):
                 was_updated = self.update_invitation_answer(
                     slack_id=invitation['slack_id'],
@@ -487,6 +510,13 @@ class BotApi:
     def update_slack_message(self, channel_id, ts, slack_client, text=None, blocks=None):
         return slack_client.update_slack_message(channel_id, ts, text, blocks)
 
+    def _pizza_invitation_body(self, time_stamp, deadline):
+        body = self.translator.translate("pizzaInvitationBody", time_stamp=time_stamp, deadline=deadline)
+        # Shortened deadline because the event is close, so let the user know we need a quick answer
+        if deadline < self.REPLY_DEADLINE_IN_HOURS:
+            body = "%s %s" % (self.translator.translate("pizzaInvitationUrgent"), body)
+        return body
+
     def send_pizza_invite(self, channel_id, event_id, place, datetime, deadline, slack_client):
         top_level_title_text = self.translator.translate("topLevelPizzaInvitation", time_stamp=datetime)
         blocks = [
@@ -501,7 +531,7 @@ class BotApi:
                 "type": "section",
                 "text": {
                     "type": "plain_text",
-                    "text": self.translator.translate("pizzaInvitationBody", time_stamp=datetime, deadline=deadline)
+                    "text": self._pizza_invitation_body(time_stamp=datetime, deadline=deadline)
                 }
             },
             {
