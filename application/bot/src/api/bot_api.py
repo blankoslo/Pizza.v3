@@ -257,7 +257,7 @@ class BotApi:
                 else:
                     self.logger.warning("failed to update invitation")
 
-    def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):
+    def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client, is_refinalization=False):
         self.logger.info("Finalizing event %s %s", timestamp, restaurant_name)
         # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=timestamp)
@@ -268,10 +268,12 @@ class BotApi:
         booker = users[0]
         # Get the user to pay
         payer = users[1] if len(users) > 1 else users[0]
+        # The table was booked the first time the event was finalized, so don't ask for a new booking
+        message_key = "eventRefinalized" if is_refinalization else "eventFinalized"
         # Send the finalization Slack message
         slack_client.send_slack_message(
             channel_id=channel_id,
-            text=self.translator.translate("eventFinalized", user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B %H:%M"), booker=booker, payer=payer)
+            text=self.translator.translate(message_key, user_ids=ids_string, restaurant_name=restaurant_name, time_stamp=timestamp.strftime("%A %d. %B %H:%M"), booker=booker, payer=payer)
         )
 
     def send_event_unfinalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client):

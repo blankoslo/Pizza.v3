@@ -77,6 +77,7 @@ class TestEventServiceSuit:
         event_service.unfinalize_event(event1.id)
 
         assert db.session.get(Event, event1.id).finalized is False
+        assert db.session.get(Event, event1.id).previously_finalized is True
 
     def test_get(self, slack_organizations, events, event_service):
         team_id = slack_organizations[0].team_id

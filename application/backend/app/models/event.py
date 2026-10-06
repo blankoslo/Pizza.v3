@@ -11,6 +11,7 @@ class Event(db.Model):
     restaurant_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey('restaurants.id'), nullable=False)
     restaurant = relationship("Restaurant", backref = "events", uselist=False)
     finalized = sa.Column(sa.Boolean, nullable=False, server_default='f')
+    previously_finalized = sa.Column(sa.Boolean, nullable=False, server_default='f')
     invitations = relationship("Invitation", backref="event", cascade="all, delete-orphan")
     slack_organization_id = sa.Column(sa.String, sa.ForeignKey('slack_organizations.team_id'), nullable=False)
     people_per_event = sa.Column(sa.Integer, nullable=False, server_default=sa.text("5"))
