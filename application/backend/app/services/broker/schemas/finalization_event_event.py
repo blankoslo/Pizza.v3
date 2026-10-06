@@ -2,6 +2,7 @@ from marshmallow import fields, Schema
 
 class FinalizationEventEventSchema(Schema):
     is_finalized = fields.Boolean(required=True)
+    is_refinalization = fields.Boolean(load_default=False)
     event_id = fields.UUID(required=True)
     timestamp = fields.DateTime(required=True)
     restaurant_name = fields.Str(required=True)
