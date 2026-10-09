@@ -1,8 +1,11 @@
 import pytest
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.services.slack_user_service import SlackUserService
 from app.models.slack_user import SlackUser
+from app.models.event import Event
+from app.models.invitation import Invitation
+from app.models.enums import RSVP
 
 @pytest.fixture
 def slack_user_service():
@@ -66,6 +69,44 @@ class TestSlackUserServiceSuit:
         event = events.get(slack_organizations[0].team_id)[0]
         ids = slack_user_service.get_user_ids_to_invite(number_to_invite=5, event_id=event.id, number_of_user=2, people_per_event=5)
         assert len(ids) == 2
+
+    def test_get_user_ids_to_invite_ignores_short_notice_declines(self, db, slack_organizations, restaurants, slack_users, slack_user_service):
+        team_id = slack_organizations[0].team_id
+        restaurant_id = restaurants.get(team_id)[0].id
+        short_notice_decliner, regular_decliner = slack_users.get(team_id)
+        past_event = Event(
+            time=datetime.now(pytz.utc) - timedelta(days=1),
+            restaurant_id=restaurant_id,
+            people_per_event=2,
+            slack_organization_id=team_id,
+            finalized=True
+        )
+        event_to_invite_to = Event(
+            time=datetime.now(pytz.utc) + timedelta(days=3),
+            restaurant_id=restaurant_id,
+            people_per_event=2,
+            slack_organization_id=team_id
+        )
+        db.session.add(past_event)
+        db.session.add(event_to_invite_to)
+        db.session.commit()
+        db.session.add(Invitation(
+            event_id=past_event.id,
+            slack_id=short_notice_decliner.slack_id,
+            invited_at=past_event.time - timedelta(hours=2),
+            rsvp=RSVP.not_attending
+        ))
+        db.session.add(Invitation(
+            event_id=past_event.id,
+            slack_id=regular_decliner.slack_id,
+            invited_at=past_event.time - timedelta(days=5),
+            rsvp=RSVP.not_attending
+        ))
+        db.session.commit()
+
+        ids = slack_user_service.get_user_ids_to_invite(number_to_invite=1, event_id=event_to_invite_to.id, number_of_user=2, people_per_event=2)
+
+        assert ids == [short_notice_decliner.slack_id]
 
     def test_get_invited_unanswered_user_ids(self, invitations, slack_user_service):
         ids = slack_user_service.get_invited_unanswered_user_ids()
