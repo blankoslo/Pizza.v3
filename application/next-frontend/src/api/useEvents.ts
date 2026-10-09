@@ -14,7 +14,7 @@ export interface ApiEvent extends Event {
 }
 
 export interface ApiEventPost extends Event {
-    restaurant_id: string
+    restaurant_id?: string
     people_per_event: number
     group_id?: string
 }
