@@ -46,6 +46,20 @@ class TestEventsSuit:
         response = self.client.post(url_for('api.events.Events', method='post'), headers=headers, json=payload)
         assert response.status_code == 201
 
+    def test_events_post_no_restaurant(self, slack_organizations, users, restaurants):
+        user = users.get(slack_organizations[0].team_id)
+
+        token = create_access_token(identity=user)
+        headers = {"Authorization": f"Bearer {token}"}
+        payload = {
+            "time": "2023-03-28T16:23:05.420Z",
+            "people_per_event": 5
+        }
+        response = self.client.post(url_for('api.events.Events', method='post'), headers=headers, json=payload)
+        assert response.status_code == 201
+        restaurant_ids = [str(restaurant.id) for restaurant in restaurants.get(user.slack_organization_id)]
+        assert response.get_json()['restaurant']['id'] in restaurant_ids
+
     def test_events_post_not_owned_restaurant(self, slack_organizations, users, restaurants):
         user = users.get(slack_organizations[0].team_id)
 
