@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+from datetime import datetime, timedelta
 import sqlalchemy as sa
 from sqlalchemy.sql import func, exists
 from sqlalchemy.orm import aliased
@@ -11,6 +11,9 @@ from app.models.event import Event
 from app.models.invitation import Invitation
 from app.models.enums import RSVP
 from app.models.slack_user_group_association import slack_user_group_association_table
+
+# Declining an invite sent with less notice than this before the event isn't held against the user
+SHORT_NOTICE_INVITE = timedelta(hours=24)
 
 
 class SlackUserRepository(SlackUser, CrudMixin):
@@ -116,6 +119,7 @@ class SlackUserRepository(SlackUser, CrudMixin):
             sa.and_(
                 Invitation.slack_id == cls.slack_id,
                 Invitation.rsvp == RSVP.not_attending,
+                Event.time - Invitation.invited_at >= SHORT_NOTICE_INVITE,
                 considered_event_clause
             )
         ).correlate(cls).scalar_subquery()
