@@ -121,6 +121,79 @@ class TestEventServiceSuit:
         test_events = Event.query.all()
         assert len(test_events) == 1
 
+    def test_add_picks_restaurant_not_visited_this_year(self, db, slack_organizations, restaurants, event_service):
+        team_id = slack_organizations[0].team_id
+        visited, not_visited = restaurants.get(team_id)
+        db.session.add(Event(
+            time=datetime(2030, 3, 1, 12, tzinfo=pytz.utc),
+            restaurant_id=visited.id,
+            slack_organization_id=team_id
+        ))
+        db.session.commit()
+
+        event = event_service.add(data=Event(time=datetime(2030, 6, 1, 12, tzinfo=pytz.utc)), team_id=team_id)
+
+        assert event.restaurant_id == not_visited.id
+
+    def test_add_picks_least_visited_restaurant_when_all_visited(self, db, slack_organizations, restaurants, event_service):
+        team_id = slack_organizations[0].team_id
+        most_visited, least_visited = restaurants.get(team_id)
+        for restaurant, month in [(most_visited, 1), (most_visited, 2), (least_visited, 3)]:
+            db.session.add(Event(
+                time=datetime(2030, month, 1, 12, tzinfo=pytz.utc),
+                restaurant_id=restaurant.id,
+                slack_organization_id=team_id
+            ))
+        db.session.commit()
+
+        event = event_service.add(data=Event(time=datetime(2030, 6, 1, 12, tzinfo=pytz.utc)), team_id=team_id)
+
+        assert event.restaurant_id == least_visited.id
+
+    def test_add_ignores_events_from_other_years(self, db, slack_organizations, restaurants, event_service):
+        team_id = slack_organizations[0].team_id
+        visited_last_year, visited_this_year = restaurants.get(team_id)
+        db.session.add(Event(
+            time=datetime(2029, 12, 31, 12, tzinfo=pytz.utc),
+            restaurant_id=visited_last_year.id,
+            slack_organization_id=team_id
+        ))
+        db.session.add(Event(
+            time=datetime(2030, 1, 1, 12, tzinfo=pytz.utc),
+            restaurant_id=visited_this_year.id,
+            slack_organization_id=team_id
+        ))
+        db.session.commit()
+
+        event = event_service.add(data=Event(time=datetime(2030, 6, 1, 12, tzinfo=pytz.utc)), team_id=team_id)
+
+        assert event.restaurant_id == visited_last_year.id
+
+    def test_add_ignores_deleted_restaurants(self, db, slack_organizations, restaurants, event_service):
+        team_id = slack_organizations[0].team_id
+        deleted, visited = restaurants.get(team_id)
+        deleted.deleted = True
+        db.session.add(Event(
+            time=datetime(2030, 3, 1, 12, tzinfo=pytz.utc),
+            restaurant_id=visited.id,
+            slack_organization_id=team_id
+        ))
+        db.session.commit()
+
+        event = event_service.add(data=Event(time=datetime(2030, 6, 1, 12, tzinfo=pytz.utc)), team_id=team_id)
+
+        assert event.restaurant_id == visited.id
+
+    def test_add_without_restaurants(self, db, slack_organizations, restaurants, event_service):
+        team_id = slack_organizations[0].team_id
+        for restaurant in restaurants.get(team_id):
+            restaurant.deleted = True
+        db.session.commit()
+
+        event = event_service.add(data=Event(time=datetime(2030, 6, 1, 12, tzinfo=pytz.utc)), team_id=team_id)
+
+        assert event is None
+
     def test_update(self, db, slack_organizations, events, groups, restaurants, event_service, mock_broker):
         team_id = slack_organizations[0].team_id
         event = events.get(team_id)[0]

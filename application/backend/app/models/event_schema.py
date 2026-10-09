@@ -69,3 +69,6 @@ class EventCreateSchema(EventSchema):
             "id",
             "group",
         )
+
+    # Picked by the backend when not provided
+    restaurant_id = auto_field(load_only=True, required=False)

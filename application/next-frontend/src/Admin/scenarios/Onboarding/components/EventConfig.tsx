@@ -8,7 +8,6 @@ import { useRestaurants } from '@/api/useRestaurants'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useRouter } from 'next/router'
 import Button from '@/Admin/components/Button'
-import { useMemo } from 'react'
 
 const EventConfig = () => {
     const router = useRouter()
@@ -21,11 +20,6 @@ const EventConfig = () => {
     }
 
     const { data: restaurantData } = useRestaurants()
-
-    const randomRestaurant = useMemo(() => {
-        if (!restaurantData || restaurantData.length === 0) return undefined
-        return restaurantData[Math.floor(Math.random() * restaurantData.length)]
-    }, [restaurantData])
 
     const today = new Date()
 
@@ -40,13 +34,11 @@ const EventConfig = () => {
     const { addEvent } = useEvents()
 
     const onSubmit = (data: FormData) => {
-        const restaurant = randomRestaurant
-
-        if (restaurant) {
+        // The backend picks the restaurant, but there has to be at least one to pick from
+        if (restaurantData?.length) {
             const event: ApiEventPost = {
                 time: data.dateTime.toISOString(),
                 people_per_event: 5,
-                restaurant_id: restaurant.id,
             }
             addEvent(event)
         }

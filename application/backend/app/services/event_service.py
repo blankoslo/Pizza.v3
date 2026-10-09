@@ -94,10 +94,19 @@ class EventService:
         if slack_org is None or slack_org.channel_id is None:
             return None
 
-        restaurant = RestaurantRepository.get_by_id(data.restaurant_id)
+        if data.restaurant_id is None:
+            # Pick a restaurant not yet visited in the event's year. Once all have been visited, start a new round.
+            start_of_year = data.time.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+            end_of_year = start_of_year.replace(year=start_of_year.year + 1)
+            restaurant = RestaurantRepository.get_least_visited(team_id=team_id, start=start_of_year, end=end_of_year)
+            if restaurant is None:
+                return None
+            data.restaurant_id = restaurant.id
+        else:
+            restaurant = RestaurantRepository.get_by_id(data.restaurant_id)
 
-        if restaurant.slack_organization_id != team_id:
-            return None
+            if restaurant.slack_organization_id != team_id:
+                return None
 
         if data.group_id is not None:
             group = GroupRepository.get_by_id(data.group_id)

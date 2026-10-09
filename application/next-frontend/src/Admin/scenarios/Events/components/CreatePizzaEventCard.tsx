@@ -68,17 +68,12 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
     const { addEvent } = useEvents()
     const { data: restaurantData } = useRestaurants()
 
-    const findRestaurant = () => {
-        if (!restaurantData || !restaurantData.length) {
+    const onSubmit = (event: FormData) => {
+        // The backend picks the restaurant, but there has to be at least one to pick from
+        if (!restaurantData?.length) {
             return
         }
 
-        const randomIndex = Math.floor(Math.random() * restaurantData.length)
-        return restaurantData[randomIndex]
-    }
-
-    const onSubmit = (event: FormData) => {
-        const restaurant = findRestaurant()
         const newEventDate = new Date(
             currentYear,
             event.eventMonth,
@@ -87,15 +82,12 @@ const CreatePizzaEventCard = ({ selectedDate }: { selectedDate: Date }) => {
             parseInt(event.eventMinute),
         )
 
-        if (restaurant) {
-            const event: ApiEventPost = {
-                time: newEventDate.toISOString(),
-                restaurant_id: restaurant.id,
-                people_per_event: 5,
-            }
-            addEvent(event)
-            closeModal()
+        const newEvent: ApiEventPost = {
+            time: newEventDate.toISOString(),
+            people_per_event: 5,
         }
+        addEvent(newEvent)
+        closeModal()
     }
 
     return (
