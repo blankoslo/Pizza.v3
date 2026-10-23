@@ -22,6 +22,8 @@ client_secret = os.environ["SLACK_CLIENT_SECRET"]
 slack_app_token = os.environ["SLACK_APP_TOKEN"]
 frontend_uri = os.environ["FRONTEND_URI"] if "FRONTEND_URI" in os.environ else None
 
+teams_with_image_sharing = {"T0A9QSU83"}
+
 
 slack_app = App(
     signing_secret=slack_signing_secret,
@@ -176,16 +178,17 @@ def handle_file_share(event, say, token, client):
     channel = event["channel"]
     if 'files' in event and 'thread_ts' not in event:
         files = event['files']
+        team_id = event.get('team') or next((f.get('user_team') for f in files if f.get('user_team')), None)
+        if team_id not in teams_with_image_sharing:
+            logger.info("image sharing is not enabled for team %s, not storing %s file(s)", team_id, len(files))
+            return
+
         with injector.get(BotApi) as ba:
             ba.send_slack_message(channel_id=channel, text=translator.translate("thanksForFile"), slack_client=client)
             headers = {u'Authorization': u'Bearer %s' % token}
             for file in files:
                 if not (file.get('mimetype') or '').startswith('image/'):
                     logger.info("skipping non-image %s (%s)", file.get('name'), file.get('mimetype'))
-                    continue
-                team_id = file.get('user_team') or event.get('team')
-                if team_id is None:
-                    logger.warning("no team for file %s, cannot attribute it", file.get('id'))
                     continue
 
                 r = requests.get(file['url_private'], headers=headers)
