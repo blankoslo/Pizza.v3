@@ -10,6 +10,7 @@ def withdraw_invitation(event: dict):
         slack_client = SlackApi(token=event['bot_token'])
         if event['is_finalized']:
             ba.send_event_finalized(
+                is_refinalization=event['is_refinalization'],
                 timestamp=event['timestamp'],
                 restaurant_name=event['restaurant_name'],
                 slack_ids=event['slack_ids'],

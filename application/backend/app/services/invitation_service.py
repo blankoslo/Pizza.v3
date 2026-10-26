@@ -186,6 +186,7 @@ class InvitationService:
             queue_event_schema = FinalizationEventEventSchema()
             queue_event = queue_event_schema.load({
                 'is_finalized': True,
+                'is_refinalization': event.previously_finalized,
                 'event_id': event.id,
                 'timestamp': event.time.isoformat(),
                 'restaurant_name': restaurant.name,

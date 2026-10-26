@@ -6,6 +6,7 @@
   "botWelcome": "Hei! Jeg er pizzabot. Hvis dere vil endre hvilke kanal jeg bruker så kan dere gå inn i riktig kanal og bruke kommandoen '/set-pizza-channel'. Hvis kanalen er privat må dere legge meg til først.",
   "eventReminder": "Hei du! Jeg hørte ikke noe mer? Er du gira?",
   "eventFinalized": "Halloi! $user_ids! Dere skal spise 🍕 på $restaurant_name, $time_stamp. $booker booker bord!",
+  "eventRefinalized": "Halloi! $user_ids! En erstatter er funnet, og dere skal fortsatt spise 🍕 på $restaurant_name, $time_stamp.",
   "eventUnfinalized": "Halloi! $user_ids! Hvis den som meldte seg av besøket til  $restaurant_name $time_stamp skulle betale eller booke så må nesten en av dere andre sørge for det. I mellomtiden letes det etter en erstatter.",
   "userWithdrawAfterFinalization": "Halloi! <@$user_id> meldte seg nettopp av besøket til $restaurant_name $time_stamp.",
   "autoReplyNoAttending": "Neivel, da antar jeg du ikke kan/gidder. Håper du blir med neste gang! 🤞",

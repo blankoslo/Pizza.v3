@@ -37,6 +37,8 @@ class EventService:
             'finalized': False
         }
         updated_invitation = EventSchema().load(data=update_data, instance=event, partial=True)
+        # Remember that the event has been finalized before, so the table is already booked
+        updated_invitation.previously_finalized = True
         EventRepository.upsert(updated_invitation)
 
     def get(self, filters, team_id, page=None, per_page=None):
