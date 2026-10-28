@@ -28,6 +28,7 @@ class TestGetHandlerSuit:
             "event_id": invitation.event_id,
             "invited_at": invitation.invited_at,
             "reminded_at": invitation.reminded_at,
+            "event_time": invitation.event.time,
             'team_id': invitation.event.slack_organization.team_id,
             'bot_token': invitation.event.slack_organization.access_token
         } for invitation in invitations]}
@@ -59,6 +60,7 @@ class TestGetHandlerSuit:
             "event_id": invitation.event_id,
             "invited_at": invitation.invited_at,
             "reminded_at": invitation.reminded_at,
+            "event_time": invitation.event.time,
             'team_id': invitation.event.slack_organization.team_id,
             'bot_token': invitation.event.slack_organization.access_token
         }]}
