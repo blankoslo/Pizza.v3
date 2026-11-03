@@ -1,10 +1,12 @@
 import os
+import re
 from datetime import timedelta
 
 class Base(object):
     SECRET_KEY = os.environ.get("SECRET_KEY")
     # DATABASE_URL is the environment variable created by heroku during production deployment
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1) if 'DATABASE_URL' in os.environ else f'postgresql://{os.environ.get("DB_USER")}:{os.environ.get("DB_PASSWD")}@{os.environ.get("DB_HOST")}:{os.environ.get("DB_PORT")}/{os.environ.get("DB_NAME")}'
+    # The driver is named explicitly since SQLAlchemy 2.1+ defaults plain postgresql:// URLs to psycopg (v3), and we install psycopg2
+    SQLALCHEMY_DATABASE_URI = re.sub(r'^postgres(ql)?://', 'postgresql+psycopg2://', os.environ.get('DATABASE_URL')) if 'DATABASE_URL' in os.environ else f'postgresql+psycopg2://{os.environ.get("DB_USER")}:{os.environ.get("DB_PASSWD")}@{os.environ.get("DB_HOST")}:{os.environ.get("DB_PORT")}/{os.environ.get("DB_NAME")}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SLACK_DISCOVERY_URL = "https://slack.com/.well-known/openid-configuration"
     API_TITLE = "API"
