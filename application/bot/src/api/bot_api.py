@@ -270,10 +270,14 @@ class BotApi:
             # so comparing it to datetime.now in UTC is correct
             remind_timestamp = datetime.now(pytz.utc) + timedelta(hours =- self.HOURS_BETWEEN_REMINDERS)
             if invitation['reminded_at'] < remind_timestamp:
-                slack_client.send_slack_message(
-                    channel_id=invitation['slack_id'],
-                    text=self.translator.translate("eventReminder")
-                )
+                try:
+                    slack_client.send_slack_message(
+                        channel_id=invitation['slack_id'],
+                        text=self.translator.translate("eventReminder")
+                    )
+                except SlackApiError as e:
+                    self.logger.warning("Failed to remind %s: %s", invitation['slack_id'], e.response['error'])
+                    continue
                 was_updated = self.client.update_invitation(
                     slack_id=invitation['slack_id'],
                     event_id=invitation['event_id'],
