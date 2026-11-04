@@ -23,6 +23,7 @@ class BotApi:
         self.REPLY_DEADLINE_SOON_IN_HOURS = 4
         self.HOURS_UNTIL_EVENT_IS_SOON = 12
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
+        self.MINUTES_BEFORE_INVITATION_IS_MISSING = 15
         self.logger: logging.Logger = logger
         self.translator: Translator = injector.get(Translator)
 
@@ -266,6 +267,10 @@ class BotApi:
             if previous_invitation is None or previous_invitation["bot_token"] != invitation["bot_token"]:
                 slack_client = SlackApi(token=invitation["bot_token"])
             previous_invitation = invitation
+            # The invitation never reached the user, so send it instead of reminding them about it
+            if 'slack_message' not in invitation:
+                self.send_missing_invitation(invitation=invitation, slack_client=slack_client)
+                continue
             # all timestamps (such as reminded_at) gets converted to UTC
             # so comparing it to datetime.now in UTC is correct
             remind_timestamp = datetime.now(pytz.utc) + timedelta(hours =- self.HOURS_BETWEEN_REMINDERS)
@@ -289,6 +294,34 @@ class BotApi:
                     self.logger.info("%s was reminded about an event." % invitation['slack_id'])
                 else:
                     self.logger.warning("failed to update invitation")
+
+    def send_missing_invitation(self, invitation, slack_client):
+        # An invitation can be saved without its message ever being sent, e.g. if the bot
+        # stopped waiting for the backend's reply or Slack failed to deliver it
+        now = datetime.now(pytz.utc)
+        # Give invite_if_needed time to send it first
+        if invitation['invited_at'] > now - timedelta(minutes=self.MINUTES_BEFORE_INVITATION_IS_MISSING):
+            return
+        if invitation['event_time'] is None or self._to_local_time(invitation['event_time']) < now:
+            return
+        self.logger.info("Invitation to %s was never sent. Sending it now." % invitation['slack_id'])
+        was_sent = self.send_invitation(
+            slack_id=invitation['slack_id'],
+            event_id=invitation['event_id'],
+            event_time=invitation['event_time'],
+            slack_client=slack_client
+        )
+        if not was_sent:
+            return
+        # The user got the invitation just now, so the reply deadline and the next reminder start from now
+        self.client.update_invitation(
+            slack_id=invitation['slack_id'],
+            event_id=invitation['event_id'],
+            update_values={
+                "invited_at": now.isoformat(),
+                "reminded_at": now.isoformat()
+            }
+        )
 
     def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client, is_refinalization=False):
         self.logger.info("Finalizing event %s %s", timestamp, restaurant_name)
