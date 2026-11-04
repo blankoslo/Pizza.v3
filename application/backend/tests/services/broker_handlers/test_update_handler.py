@@ -63,6 +63,27 @@ class TestUpdateHandlerSuit:
         assert len(mock_broker.sync_send.call_args_list) == 1
         assert mock_broker.sync_send.call_args_list[0].kwargs['body'] == {'success': True}
 
+    def test_update_invitation_invited_at(self, db, slack_organizations, invitations, mock_broker, rpc_queue):
+        invitation = invitations.get(slack_organizations[0].team_id)[0]
+        invited_at = datetime.now().astimezone().isoformat()
+        rpc_queue(routing_key="dontCareRoutingKey", body={
+            "type": "update_invitation",
+            "payload": {
+                "slack_id": invitation.slack_id,
+                "event_id": invitation.event_id,
+                "update_data": {
+                    "invited_at": invited_at,
+                }
+            }
+        }, correlation_id="dontCareCorrelationId", reply_to="dontCareReplyTo")
+
+        test_invitation = db.session.get(Invitation, (invitation.event_id, invitation.slack_id))
+
+        mock_broker.sync_send.assert_called()
+        assert test_invitation.invited_at.isoformat() == invited_at
+        assert len(mock_broker.sync_send.call_args_list) == 1
+        assert mock_broker.sync_send.call_args_list[0].kwargs['body'] == {'success': True}
+
     def test_update_invitation_rsvp(self, db, slack_organizations, invitations, mock_broker, rpc_queue):
         invitation = invitations.get(slack_organizations[0].team_id)[0]
         rpc_queue(routing_key="dontCareRoutingKey", body={
