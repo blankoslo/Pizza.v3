@@ -103,6 +103,20 @@ class InvitationService:
             self.logger.error(e)
             return None
 
+    def update_invited_at(self, event_id, slack_id, date):
+        invitation = InvitationRepository.get_by_id(event_id, slack_id)
+
+        if invitation is None:
+            return None
+
+        try:
+            return self._update_invitation(
+                {'invited_at': date},
+                invitation
+            )
+        except:
+            return None
+
     def update_reminded_at(self, event_id, slack_id, date):
         invitation = InvitationRepository.get_by_id(event_id, slack_id)
 

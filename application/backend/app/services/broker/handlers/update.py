@@ -20,6 +20,11 @@ def update_invitation(request: dict):
     # TODO: Refactor this into one update so that it is transactional
 
     result = False
+    if "invited_at" in update_data:
+        response = invitation_service.update_invited_at(event_id, slack_id, update_data["invited_at"].isoformat())
+        result = True if response is not None else False
+        logger.info("Updated invited_at for (%s,%s)", event_id, slack_id)
+
     if "reminded_at" in update_data:
         response = invitation_service.update_reminded_at(event_id, slack_id, update_data["reminded_at"].isoformat())
         result = True if response is not None else False

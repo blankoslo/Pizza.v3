@@ -3,6 +3,7 @@
 import pytz
 import os
 from injector import inject
+from slack_sdk.errors import SlackApiError
 
 from src.api.slack_api import SlackApi
 from datetime import datetime, timedelta
@@ -22,6 +23,7 @@ class BotApi:
         self.REPLY_DEADLINE_SOON_IN_HOURS = 4
         self.HOURS_UNTIL_EVENT_IS_SOON = 12
         self.HOURS_BETWEEN_REMINDERS = int(os.environ["HOURS_BETWEEN_REMINDERS"])
+        self.MINUTES_BEFORE_INVITATION_IS_MISSING = 15
         self.logger: logging.Logger = logger
         self.translator: Translator = injector.get(Translator)
 
@@ -216,38 +218,44 @@ class BotApi:
 
     def invite_if_needed(self, event, slack_client):
         self.logger.info("Inviting users for %s", event['event_id'])
-        invited_users = event['invited_users']
-        event_time = event['event_time']
-        event_id = event['event_id']
-        restaurant_name = event['restaurant_name']
+        for user_id in event['invited_users']:
+            self.send_invitation(
+                slack_id=user_id,
+                event_id=event['event_id'],
+                event_time=event['event_time'],
+                slack_client=slack_client
+            )
 
+    def send_invitation(self, slack_id, event_id, event_time, slack_client):
         # timestamp (timestamp) is converted to UTC timestamp by psycopg2
         # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=event_time)
         deadline = self.get_reply_deadline_in_hours(invited_at=datetime.now(pytz.utc), event_time=event_time)
-        for user_id in invited_users:
+        # The Slack client raises instead of returning ok: False. Catch it so one
+        # failed invitation doesn't stop the rest of the users from being invited
+        try:
             slack_message = self.send_pizza_invite(
-                channel_id=user_id,
+                channel_id=slack_id,
                 event_id=str(event_id),
-                place=restaurant_name,
                 datetime=timestamp.strftime("%A %d. %B %H:%M"),
                 deadline=deadline,
                 slack_client = slack_client
             )
-            if not slack_message['ok']:
-                self.logger.warn("Failed to send invitation to %s", user_id)
-                continue
-            self.logger.info("%s was invited to event on %s" % (user_id, timestamp))
-            self.client.update_invitation(
-                slack_id=user_id,
-                event_id=event_id,
-                update_values={
-                    'slack_message': {
-                        'ts': slack_message['ts'],
-                        'channel_id': slack_message['channel']
-                    }
+        except SlackApiError as e:
+            self.logger.warning("Failed to send invitation to %s: %s", slack_id, e.response['error'])
+            return False
+        self.logger.info("%s was invited to event on %s" % (slack_id, timestamp))
+        self.client.update_invitation(
+            slack_id=slack_id,
+            event_id=event_id,
+            update_values={
+                'slack_message': {
+                    'ts': slack_message['ts'],
+                    'channel_id': slack_message['channel']
                 }
-            )
+            }
+        )
+        return True
 
     def send_reminders(self):
         invitations = self.client.get_unanswered_invitations()
@@ -259,14 +267,22 @@ class BotApi:
             if previous_invitation is None or previous_invitation["bot_token"] != invitation["bot_token"]:
                 slack_client = SlackApi(token=invitation["bot_token"])
             previous_invitation = invitation
+            # The invitation never reached the user, so send it instead of reminding them about it
+            if 'slack_message' not in invitation:
+                self.send_missing_invitation(invitation=invitation, slack_client=slack_client)
+                continue
             # all timestamps (such as reminded_at) gets converted to UTC
             # so comparing it to datetime.now in UTC is correct
             remind_timestamp = datetime.now(pytz.utc) + timedelta(hours =- self.HOURS_BETWEEN_REMINDERS)
             if invitation['reminded_at'] < remind_timestamp:
-                slack_client.send_slack_message(
-                    channel_id=invitation['slack_id'],
-                    text=self.translator.translate("eventReminder")
-                )
+                try:
+                    slack_client.send_slack_message(
+                        channel_id=invitation['slack_id'],
+                        text=self.translator.translate("eventReminder")
+                    )
+                except SlackApiError as e:
+                    self.logger.warning("Failed to remind %s: %s", invitation['slack_id'], e.response['error'])
+                    continue
                 was_updated = self.client.update_invitation(
                     slack_id=invitation['slack_id'],
                     event_id=invitation['event_id'],
@@ -278,6 +294,34 @@ class BotApi:
                     self.logger.info("%s was reminded about an event." % invitation['slack_id'])
                 else:
                     self.logger.warning("failed to update invitation")
+
+    def send_missing_invitation(self, invitation, slack_client):
+        # An invitation can be saved without its message ever being sent, e.g. if the bot
+        # stopped waiting for the backend's reply or Slack failed to deliver it
+        now = datetime.now(pytz.utc)
+        # Give invite_if_needed time to send it first
+        if invitation['invited_at'] > now - timedelta(minutes=self.MINUTES_BEFORE_INVITATION_IS_MISSING):
+            return
+        if invitation['event_time'] is None or self._to_local_time(invitation['event_time']) < now:
+            return
+        self.logger.info("Invitation to %s was never sent. Sending it now." % invitation['slack_id'])
+        was_sent = self.send_invitation(
+            slack_id=invitation['slack_id'],
+            event_id=invitation['event_id'],
+            event_time=invitation['event_time'],
+            slack_client=slack_client
+        )
+        if not was_sent:
+            return
+        # The user got the invitation just now, so the reply deadline and the next reminder start from now
+        self.client.update_invitation(
+            slack_id=invitation['slack_id'],
+            event_id=invitation['event_id'],
+            update_values={
+                "invited_at": now.isoformat(),
+                "reminded_at": now.isoformat()
+            }
+        )
 
     def send_event_finalized(self, timestamp, restaurant_name, slack_ids, channel_id, slack_client, is_refinalization=False):
         self.logger.info("Finalizing event %s %s", timestamp, restaurant_name)
@@ -519,7 +563,7 @@ class BotApi:
             body = "%s %s" % (self.translator.translate("pizzaInvitationUrgent"), body)
         return body
 
-    def send_pizza_invite(self, channel_id, event_id, place, datetime, deadline, slack_client):
+    def send_pizza_invite(self, channel_id, event_id, datetime, deadline, slack_client):
         top_level_title_text = self.translator.translate("topLevelPizzaInvitation", time_stamp=datetime)
         blocks = [
             {

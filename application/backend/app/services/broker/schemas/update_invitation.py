@@ -4,6 +4,7 @@ from app.models.enums import RSVP
 from app.services.broker.schemas.slack_message import SlackMessage
 
 class InvitationUpdate(Schema):
+    invited_at = fields.DateTime()
     reminded_at = fields.DateTime()
     rsvp = EnumField(RSVP, by_value=True)
     slack_message = fields.Nested(SlackMessage)
