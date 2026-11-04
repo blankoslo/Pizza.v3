@@ -217,41 +217,44 @@ class BotApi:
 
     def invite_if_needed(self, event, slack_client):
         self.logger.info("Inviting users for %s", event['event_id'])
-        invited_users = event['invited_users']
-        event_time = event['event_time']
-        event_id = event['event_id']
-        restaurant_name = event['restaurant_name']
+        for user_id in event['invited_users']:
+            self.send_invitation(
+                slack_id=user_id,
+                event_id=event['event_id'],
+                event_time=event['event_time'],
+                slack_client=slack_client
+            )
 
+    def send_invitation(self, slack_id, event_id, event_time, slack_client):
         # timestamp (timestamp) is converted to UTC timestamp by psycopg2
         # Convert timestamp to appropriate timestamp
         timestamp = self.translator.format_timestamp(timestamp=event_time)
         deadline = self.get_reply_deadline_in_hours(invited_at=datetime.now(pytz.utc), event_time=event_time)
-        for user_id in invited_users:
-            # The Slack client raises instead of returning ok: False. Catch it so one
-            # failed invitation doesn't stop the rest of the users from being invited
-            try:
-                slack_message = self.send_pizza_invite(
-                    channel_id=user_id,
-                    event_id=str(event_id),
-                    place=restaurant_name,
-                    datetime=timestamp.strftime("%A %d. %B %H:%M"),
-                    deadline=deadline,
-                    slack_client = slack_client
-                )
-            except SlackApiError as e:
-                self.logger.warning("Failed to send invitation to %s: %s", user_id, e.response['error'])
-                continue
-            self.logger.info("%s was invited to event on %s" % (user_id, timestamp))
-            self.client.update_invitation(
-                slack_id=user_id,
-                event_id=event_id,
-                update_values={
-                    'slack_message': {
-                        'ts': slack_message['ts'],
-                        'channel_id': slack_message['channel']
-                    }
-                }
+        # The Slack client raises instead of returning ok: False. Catch it so one
+        # failed invitation doesn't stop the rest of the users from being invited
+        try:
+            slack_message = self.send_pizza_invite(
+                channel_id=slack_id,
+                event_id=str(event_id),
+                datetime=timestamp.strftime("%A %d. %B %H:%M"),
+                deadline=deadline,
+                slack_client = slack_client
             )
+        except SlackApiError as e:
+            self.logger.warning("Failed to send invitation to %s: %s", slack_id, e.response['error'])
+            return False
+        self.logger.info("%s was invited to event on %s" % (slack_id, timestamp))
+        self.client.update_invitation(
+            slack_id=slack_id,
+            event_id=event_id,
+            update_values={
+                'slack_message': {
+                    'ts': slack_message['ts'],
+                    'channel_id': slack_message['channel']
+                }
+            }
+        )
+        return True
 
     def send_reminders(self):
         invitations = self.client.get_unanswered_invitations()
@@ -523,7 +526,7 @@ class BotApi:
             body = "%s %s" % (self.translator.translate("pizzaInvitationUrgent"), body)
         return body
 
-    def send_pizza_invite(self, channel_id, event_id, place, datetime, deadline, slack_client):
+    def send_pizza_invite(self, channel_id, event_id, datetime, deadline, slack_client):
         top_level_title_text = self.translator.translate("topLevelPizzaInvitation", time_stamp=datetime)
         blocks = [
             {
