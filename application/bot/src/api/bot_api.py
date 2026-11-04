@@ -3,6 +3,7 @@
 import pytz
 import os
 from injector import inject
+from slack_sdk.errors import SlackApiError
 
 from src.api.slack_api import SlackApi
 from datetime import datetime, timedelta
@@ -226,16 +227,19 @@ class BotApi:
         timestamp = self.translator.format_timestamp(timestamp=event_time)
         deadline = self.get_reply_deadline_in_hours(invited_at=datetime.now(pytz.utc), event_time=event_time)
         for user_id in invited_users:
-            slack_message = self.send_pizza_invite(
-                channel_id=user_id,
-                event_id=str(event_id),
-                place=restaurant_name,
-                datetime=timestamp.strftime("%A %d. %B %H:%M"),
-                deadline=deadline,
-                slack_client = slack_client
-            )
-            if not slack_message['ok']:
-                self.logger.warn("Failed to send invitation to %s", user_id)
+            # The Slack client raises instead of returning ok: False. Catch it so one
+            # failed invitation doesn't stop the rest of the users from being invited
+            try:
+                slack_message = self.send_pizza_invite(
+                    channel_id=user_id,
+                    event_id=str(event_id),
+                    place=restaurant_name,
+                    datetime=timestamp.strftime("%A %d. %B %H:%M"),
+                    deadline=deadline,
+                    slack_client = slack_client
+                )
+            except SlackApiError as e:
+                self.logger.warning("Failed to send invitation to %s: %s", user_id, e.response['error'])
                 continue
             self.logger.info("%s was invited to event on %s" % (user_id, timestamp))
             self.client.update_invitation(
